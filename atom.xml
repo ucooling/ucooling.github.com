@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-03-30T00:06:31+08:00</updated>
+  <updated>2015-03-30T00:15:35+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -18,9 +18,7 @@
     <link href="http://ucooling.github.io/blog/2015/03/29/markdown-sync/"/>
     <updated>2015-03-29T23:56:46+08:00</updated>
     <id>http://ucooling.github.io/blog/2015/03/29/markdown-sync</id>
-    <content type="html"><![CDATA[<h1>Markdown</h1>
-
-<hr />
+    <content type="html"><![CDATA[<hr />
 
 <blockquote><p>Markdown是一种轻量的标记语言，它的优势是使用方便，而且学习的成本非常低，常用的标签就10种左右，语法非常简单，一旦熟悉这种Mackdown的语法，会有一种一劳永逸的赶脚。</p></blockquote>
 
