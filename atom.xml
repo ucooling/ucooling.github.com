@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-03-29T23:54:03+08:00</updated>
+  <updated>2015-03-30T00:01:55+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown Sync]]></title>
+    <link href="http://ucooling.github.io/blog/2015/03/29/markdown-sync/"/>
+    <updated>2015-03-29T23:56:46+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/03/29/markdown-sync</id>
+    <content type="html"><![CDATA[<h1>Markdown</h1>
+
+<hr />
+
+<blockquote><p>Markdown是一种轻量的标记语言，它的优势是使用方便，而且学习的成本非常低，常用的标签就10种左右，语法非常简单，一旦熟悉这种Mackdown的语法，会有一种一劳永逸的赶脚。</p></blockquote>
+
+<h2>对Markdown的简单认识</h2>
+
+<blockquote><p>刚才提到，Makdown是一种用来写作的轻量级【标记语言】，它使用简单地语法代替排版，不像我们平常使用的Word等文字处理的软件，需要做大量的排版工作，他让我们在写文章是可以专注于内容，甚至对插图，使用键盘都可以搞定，现在支持Markdown编辑的网站很多，例如像<a href="http://jianshu.io">简书</a>等。</p></blockquote>
+
+<h2>使用Markdown的优点</h2>
+
+<ul>
+<li>专注于内容，不用太关注格式。</li>
+<li>可以轻松的导出HTML、PDF、或者本身的.md文件。</li>
+<li>可读性好，直观。适合几乎所有人得写作语言。</li>
+</ul>
+
+
+<h2>Markdown语法的规则</h2>
+
+<h4>简记表</h4>
+
+<p>  <img src="http://www.onethink.cn/Uploads/Editor/2013-12-13/52aaabb4e7486.png" alt="速记表" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My First Blog]]></title>
