@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-03-29T23:30:23+08:00</updated>
+  <updated>2015-03-29T23:54:03+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,5 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[My First Blog]]></title>
+    <link href="http://ucooling.github.io/blog/2015/03/29/my-first-blog/"/>
+    <updated>2015-03-29T23:48:51+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/03/29/my-first-blog</id>
+    <content type="html"><![CDATA[<h1>my first github blog</h1>
+
+<blockquote><p>this is a test file
+hello octopress</p></blockquote>
+]]></content>
+  </entry>
   
 </feed>
