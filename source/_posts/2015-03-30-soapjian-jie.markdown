@@ -1,3 +1,11 @@
+---
+layout: post
+title: "SOAP jian jie"
+don'tate: 2015-03-30 23:48:51 +0800
+comments: true
+categories: 
+---
+
 #SOAP简介
 > SOAP是基于XML的简单协议，可使应用程序在HTTP之上进行信息交换。
 > 对于应用程序开发来说，不同程序之间通过英特网通信非常重要。
