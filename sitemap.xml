@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/</loc>
+    <lastmod>2015-04-02T21:11:27+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://ucooling.github.io/blog/2015/03/31/ren-shi-node-%5B%3F%5D/</loc>
+    <lastmod>2015-03-31T17:46:32+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://ucooling.github.io/blog/2015/03/30/soapjian-jie/</loc>
     <lastmod>2015-03-30T00:00:00+08:00</lastmod>
   </url>

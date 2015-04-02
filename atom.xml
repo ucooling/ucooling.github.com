@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-03-30T16:50:21+08:00</updated>
+  <updated>2015-04-02T22:17:19+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby-aws-sqs]]></title>
+    <link href="http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/"/>
+    <updated>2015-04-02T21:11:27+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs</id>
+    <content type="html"><![CDATA[<h2>如何在Ruby中使用AWS的SQS</h2>
+
+<blockquote><p>SQS(Simple Queue Service)是一个伸缩且可靠的消息传递框架，可以使用SQS简单地创建、存储和获取信息，可以使用它构建基于AWS的应用程序。使用SQS是构建松耦合的Web应用程序的好方法，只需要根据使用量付费，整个队列框架在Amazon数据中心的安全环境中运行。</p></blockquote>
+
+<h2>SQS提供以下的特性：</h2>
+
+<ul>
+<li><p>可靠性
+SQS能够跨多个数据中心冗余地存储消息，保证他们随时可用。</p></li>
+<li><p>简单性
+访问和使用SQS的编程模型非常的简单，而且可以可以通过多种编程语言使用SQS。</p></li>
+<li><p>安全性
+SQS提供很高的安全水平，只允许授权的用户消费消息。</p></li>
+<li><p>可伸缩性
+可以使用SQS创建基于队列的应用程序，这些程序可以读写数量不限的消息。</p></li>
+<li><p>低成本
+SQS以非常低廉的费率满足您的消息传递需求。</p></li>
+</ul>
+
+
+<h2>设计考虑因素</h2>
+
+<ul>
+<li>SQS不保证队列中消息的次序</li>
+<li>SQS不保证删除队列中的消息</li>
+<li>SQS不保证在查询是返回队列中的所有消息</li>
+</ul>
+
+
+<h2>用Ruby使用SQS的简单Demo</h2>
+
+<ul>
+<li>设置环境变量(sqs_config.rb)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
+</span><span class='line'>
+</span><span class='line'>module Sqs
+</span><span class='line'>  include App::Config
+</span><span class='line'>  credential = Aws::Credentials.new(config.sqs_access_key, config.sqs_secret_access_key)
+</span><span class='line'>  Aws.config.update({
+</span><span class='line'>                     credentials: credential,
+</span><span class='line'>                     region: config.sqs_region })
+</span><span class='line'>  
+</span><span class='line'>  SQS = Aws::SQS::Client.new
+</span><span class='line'>  def send_message(msg)
+</span><span class='line'>    SQS.send_message(queue_url: config.sqs_endpoint, message_body: msg)
+</span><span class='line'>  end
+</span><span class='line'>end </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>将环境变量提取出来，单独设置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module App
+</span><span class='line'>   module Config
+</span><span class='line'>    def sqs_access_key
+</span><span class='line'>      'xxxxx'
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def sqs_secret_access_key
+</span><span class='line'>      'xxxxx'
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def sqs_region
+</span><span class='line'>      'xxxxxxxx'
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def sqs_endpoint
+</span><span class='line'>      'https://sqs.xxxxxxxxx.amazonaws.com/xxxxxxxx/contacts-info'
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+<ul>
+<li>发送消息</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>include 'sqs_config'
+</span><span class='line'> send_message(msg)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考资料</h2>
+
+<p> <a href="http://blog.csdn.net/menxu_work/article/details/38296043">AWS Ruby Demo</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[认识Node(一)]]></title>
+    <link href="http://ucooling.github.io/blog/2015/03/31/ren-shi-node-%5B%3F%5D/"/>
+    <updated>2015-03-31T17:46:32+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/03/31/ren-shi-node-[?]</id>
+    <content type="html"><![CDATA[<h2>为啥学习Node</h2>
+
+<blockquote></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SOAP Jian Jie]]></title>
