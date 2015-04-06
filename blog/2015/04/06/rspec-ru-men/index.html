@@ -10,9 +10,9 @@
 
   
   <meta name="description" content="Rspec介绍 Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试 关于TDD 很多人对于写测试的第一印象可能是： 写测试很无聊
-写测试很烂费时间
+写测试很浪费时间
 测试很难写
-测试对于开发的帮组不大 但是我现在想说， &hellip;">
+测试对于开发的帮助不大 但是我现在想说， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,7 +92,7 @@
 
 <div class="entry-content"><h2>Rspec介绍</h2>
 
-<blockquote><p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p></blockquote>
+<p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p>
 
 <h2>关于TDD</h2>
 
@@ -100,13 +100,13 @@
 
 <ul>
 <li>写测试很无聊</li>
-<li>写测试很烂费时间</li>
+<li>写测试很浪费时间</li>
 <li>测试很难写</li>
-<li>测试对于开发的帮组不大</li>
+<li>测试对于开发的帮助不大</li>
 </ul>
 
 
-<p>但是我现在想说，其实一开始接触写测试的时候也同样觉得这种方式很浪费时间，而且有的测试很难写，增了学习的成本，且收效甚微，但是当我慢慢在工作中发现他的好处的时候，我的这种想法慢慢的发生的改变，写测试其实是有很多的好处的</p>
+<p>但是我现在想说，其实一开始接触写测试的时候我也同样觉得这种方式很浪费时间，而且有的测试确实很难写，增加了学习的成本，且收效甚微，但是当我慢慢在工作中发现他的好处的时候，我的这种想法慢慢的发生了改变，写测试其实是有很多的好处的</p>
 
 <ul>
 <li>开发之前写测试可以保证你的代码的正确性，保证你做的事情是正确的。</li>
@@ -115,7 +115,7 @@
 </ul>
 
 
-<p>而且现在很多公司的开发也开始越来越重视测试，足以说明测试的重要性，也是作为一个ITer必须去学习和研究的知识。</p>
+<p>而且现在很多公司的开发也开始越来越重视测试，足以说明测试的重要性，也是作为一个码农必须去学习和研究的知识。</p>
 
 <h2>Rspec安装</h2>
 
@@ -126,7 +126,7 @@
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :test do
 </span><span class='line'>  gem 'rspec'
-</span><span class='line'> end</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
 <p>执行一下命令来安装gem包</p>
@@ -189,8 +189,12 @@
 
 <h2>开始写测试</h2>
 
-<p>还是在spec目录下，你可以只是简单地定义一个XX.rb的测试文件，如果项目比较大，你也可以用目录的结构进行组织。
-* 测试的简单结构如下：</p>
+<p>还是在spec目录下，你可以只是简单地定义一个XX.rb的测试文件，如果项目比较大，你也可以用目录的结构进行组织。</p>
+
+<ul>
+<li>测试的简单结构如下：</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
