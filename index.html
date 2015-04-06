@@ -9,7 +9,10 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="如何在Ruby中使用AWS的SQS SQS(Simple Queue Service)是一个伸缩且可靠的消息传递框架，可以使用SQS简单地创建、存储和获取信息，可以使用它构建基于AWS的应用程序。使用SQS是构建松耦合的Web应用程序的好方法，只需要根据使用量付费， &hellip;">
+  <meta name="description" content="Rspec介绍 Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试 关于TDD 很多人对于写测试的第一印象可能是： 写测试很无聊
+写测试很烂费时间
+测试很难写
+测试对于开发的帮组不大 但是我现在想说， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +68,172 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
+        
+           | <a href="/blog/2015/04/06/rspec-ru-men/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Rspec介绍</h2>
+
+<blockquote><p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p></blockquote>
+
+<h2>关于TDD</h2>
+
+<p>很多人对于写测试的第一印象可能是：</p>
+
+<ul>
+<li>写测试很无聊</li>
+<li>写测试很烂费时间</li>
+<li>测试很难写</li>
+<li>测试对于开发的帮组不大</li>
+</ul>
+
+
+<p>但是我现在想说，其实一开始接触写测试的时候也同样觉得这种方式很浪费时间，而且有的测试很难写，增了学习的成本，且收效甚微，但是当我慢慢在工作中发现他的好处的时候，我的这种想法慢慢的发生的改变，写测试其实是有很多的好处的</p>
+
+<ul>
+<li>开发之前写测试可以保证你的代码的正确性，保证你做的事情是正确的。</li>
+<li>当之后再对代码进行重构或者添加新的功能的时候，测试可以保证你新加的代码不会影响以前的功能</li>
+<li>可以采用TDD的开发方式，在写测试的过程中可以提前对你的代码进行设计，在以后测试可以当成你代码的文档，不用再去写一些注释或者其他的一些文档。</li>
+</ul>
+
+
+<p>而且现在很多公司的开发也开始越来越重视测试，足以说明测试的重要性，也是作为一个ITer必须去学习和研究的知识。</p>
+
+<h2>Rspec安装</h2>
+
+<p>在Gemfile配置文件中，按照下面的代码进行配置</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :test do
+</span><span class='line'>  gem 'rspec'
+</span><span class='line'> end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行一下命令来安装gem包</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>测试的目录结构</h2>
+
+<p>在你的项目目录下新建一个spec文件夹，然后你可以在你的spec目录下新建&#8217;spec_helper.rb&#8217;文件，该文件可以定义一些你在测试中的配置，以及定义一些你的整个工程的每个测试在测之前需要执行的代码，例如下图是一个简单地目录结构，以及&#8217;spec_helper.rb&#8217;的简单定义
+* 目录结构</p>
+
+<p><img src="/images/spec_1.png" alt="spec目录结构" /></p>
+
+<ul>
+<li>spec_helper.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ENV['RACK_ENV'] = 'test'
+</span><span class='line'>require 'support/*.rb'
+</span><span class='line'>require 'app/config'
+</span><span class='line'>require 'app'
+</span><span class='line'>require 'database_cleaner'
+</span><span class='line'>
+</span><span class='line'>Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
+</span><span class='line'>
+</span><span class='line'>RSpec.configure do | config |
+</span><span class='line'>  config.before(:suite) do
+</span><span class='line'>      DatabaseCleaner.strategy = :truncation
+</span><span class='line'>  end
+</span><span class='line'>  config.before(:each) do
+</span><span class='line'>      DatabaseCleaner.start
+</span><span class='line'>  end
+</span><span class='line'>  config.after(:each) do
+</span><span class='line'>      DatabaseCleaner.clean
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>开始写测试</h2>
+
+<p>还是在spec目录下，你可以只是简单地定义一个XX.rb的测试文件，如果项目比较大，你也可以用目录的结构进行组织。
+* 测试的简单结构如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
+</span><span class='line'>
+</span><span class='line'>before do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>after do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe XXX do
+</span><span class='line'>  it XXX do
+</span><span class='line'>      ......
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>下一节我会开始介绍如何编写自己的测试。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -531,6 +700,10 @@ hello octopress</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs</a>
       </li>
     
@@ -544,10 +717,6 @@ hello octopress</p></blockquote>
     
       <li class="post">
         <a href="/blog/2015/03/29/markdown-sync/">Markdown Sync</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/29/my-first-blog/">My First Blog</a>
       </li>
     
   </ul>

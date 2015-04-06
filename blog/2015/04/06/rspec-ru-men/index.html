@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rspec 入门 - MaLibin Blog</title>
+  <meta name="author" content="MaLibin">
+
+  
+  <meta name="description" content="Rspec介绍 Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试 关于TDD 很多人对于写测试的第一印象可能是： 写测试很无聊
+写测试很烂费时间
+测试很难写
+测试对于开发的帮组不大 但是我现在想说， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">MaLibin Blog</a></h1>
+  
+    <h2>学会蹲下才会跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li> 
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rspec 入门</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Rspec介绍</h2>
+
+<blockquote><p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p></blockquote>
+
+<h2>关于TDD</h2>
+
+<p>很多人对于写测试的第一印象可能是：</p>
+
+<ul>
+<li>写测试很无聊</li>
+<li>写测试很烂费时间</li>
+<li>测试很难写</li>
+<li>测试对于开发的帮组不大</li>
+</ul>
+
+
+<p>但是我现在想说，其实一开始接触写测试的时候也同样觉得这种方式很浪费时间，而且有的测试很难写，增了学习的成本，且收效甚微，但是当我慢慢在工作中发现他的好处的时候，我的这种想法慢慢的发生的改变，写测试其实是有很多的好处的</p>
+
+<ul>
+<li>开发之前写测试可以保证你的代码的正确性，保证你做的事情是正确的。</li>
+<li>当之后再对代码进行重构或者添加新的功能的时候，测试可以保证你新加的代码不会影响以前的功能</li>
+<li>可以采用TDD的开发方式，在写测试的过程中可以提前对你的代码进行设计，在以后测试可以当成你代码的文档，不用再去写一些注释或者其他的一些文档。</li>
+</ul>
+
+
+<p>而且现在很多公司的开发也开始越来越重视测试，足以说明测试的重要性，也是作为一个ITer必须去学习和研究的知识。</p>
+
+<h2>Rspec安装</h2>
+
+<p>在Gemfile配置文件中，按照下面的代码进行配置</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :test do
+</span><span class='line'>  gem 'rspec'
+</span><span class='line'> end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行一下命令来安装gem包</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>测试的目录结构</h2>
+
+<p>在你的项目目录下新建一个spec文件夹，然后你可以在你的spec目录下新建&#8217;spec_helper.rb&#8217;文件，该文件可以定义一些你在测试中的配置，以及定义一些你的整个工程的每个测试在测之前需要执行的代码，例如下图是一个简单地目录结构，以及&#8217;spec_helper.rb&#8217;的简单定义
+* 目录结构</p>
+
+<p><img src="/images/spec_1.png" alt="spec目录结构" /></p>
+
+<ul>
+<li>spec_helper.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ENV['RACK_ENV'] = 'test'
+</span><span class='line'>require 'support/*.rb'
+</span><span class='line'>require 'app/config'
+</span><span class='line'>require 'app'
+</span><span class='line'>require 'database_cleaner'
+</span><span class='line'>
+</span><span class='line'>Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
+</span><span class='line'>
+</span><span class='line'>RSpec.configure do | config |
+</span><span class='line'>  config.before(:suite) do
+</span><span class='line'>      DatabaseCleaner.strategy = :truncation
+</span><span class='line'>  end
+</span><span class='line'>  config.before(:each) do
+</span><span class='line'>      DatabaseCleaner.start
+</span><span class='line'>  end
+</span><span class='line'>  config.after(:each) do
+</span><span class='line'>      DatabaseCleaner.clean
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>开始写测试</h2>
+
+<p>还是在spec目录下，你可以只是简单地定义一个XX.rb的测试文件，如果项目比较大，你也可以用目录的结构进行组织。
+* 测试的简单结构如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
+</span><span class='line'>
+</span><span class='line'>before do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>after do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe XXX do
+</span><span class='line'>  it XXX do
+</span><span class='line'>      ......
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>下一节我会开始介绍如何编写自己的测试。</p></blockquote>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">MaLibin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/02/ruby-aws-sqs/" title="Previous Post: ruby-aws-sqs">&laquo; ruby-aws-sqs</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/31/ren-shi-node-%5B%3F%5D/">认识Node(一)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/30/soapjian-jie/">SOAP Jian Jie</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/29/markdown-sync/">Markdown Sync</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - MaLibin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucooling';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
