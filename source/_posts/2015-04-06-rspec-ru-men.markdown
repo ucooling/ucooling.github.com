@@ -37,7 +37,13 @@ end
 bundle install
 ```
 ##测试的目录结构
-在你的项目目录下新建一个spec文件夹，然后你可以在你的spec目录下新建'spec_helper.rb'文件，该文件可以定义一些你在测试中的配置，以及定义一些你的整个工程的每个测试在测之前需要执行的代码，例如下图是一个简单地目录结构，以及'spec_helper.rb'的简单定义
+通过执行
+
+```
+rspec --init
+```
+它将会生成spec路径和spec_helper.rb文件，下图中的spec下的其他路劲均为手动添加。
+
 * 目录结构
 
 ![spec目录结构](/images/spec_1.png)
@@ -45,24 +51,13 @@ bundle install
 * spec_helper.rb
 
 ```
-ENV['RACK_ENV'] = 'test'
-require 'support/*.rb'
-require 'app/config'
-require 'app'
-require 'database_cleaner'
-
-Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
-
-RSpec.configure do | config |
-	config.before(:suite) do
-		DatabaseCleaner.strategy = :truncation
-	end
-	config.before(:each) do
-		DatabaseCleaner.start
-	end
-	config.after(:each) do
-		DatabaseCleaner.clean
-	end
+RSpec.configure do |config|
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
 end
 ```
 ##开始写测试
