@@ -290,8 +290,18 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
 
 <h2>测试的目录结构</h2>
 
-<p>在你的项目目录下新建一个spec文件夹，然后你可以在你的spec目录下新建&#8217;spec_helper.rb&#8217;文件，该文件可以定义一些你在测试中的配置，以及定义一些你的整个工程的每个测试在测之前需要执行的代码，例如下图是一个简单地目录结构，以及&#8217;spec_helper.rb&#8217;的简单定义
-* 目录结构</p>
+<p>通过执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rspec --init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它将会生成spec路径和spec_helper.rb文件，下图中的spec下的其他路劲均为手动添加。</p>
+
+<ul>
+<li>目录结构</li>
+</ul>
+
 
 <p><img src="/images/spec_1.png" alt="spec目录结构" /></p>
 
@@ -308,34 +318,12 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ENV['RACK_ENV'] = 'test'
-</span><span class='line'>require 'support/*.rb'
-</span><span class='line'>require 'app/config'
-</span><span class='line'>require 'app'
-</span><span class='line'>require 'database_cleaner'
-</span><span class='line'>
-</span><span class='line'>Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each { |f| require f }
-</span><span class='line'>
-</span><span class='line'>RSpec.configure do | config |
-</span><span class='line'>  config.before(:suite) do
-</span><span class='line'>      DatabaseCleaner.strategy = :truncation
+</pre></td><td class='code'><pre><code class=''><span class='line'>RSpec.configure do |config|
+</span><span class='line'>  config.expect_with :rspec do |expectations|
+</span><span class='line'>    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
 </span><span class='line'>  end
-</span><span class='line'>  config.before(:each) do
-</span><span class='line'>      DatabaseCleaner.start
-</span><span class='line'>  end
-</span><span class='line'>  config.after(:each) do
-</span><span class='line'>      DatabaseCleaner.clean
+</span><span class='line'>  config.mock_with :rspec do |mocks|
+</span><span class='line'>    mocks.verify_partial_doubles = true
 </span><span class='line'>  end
 </span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
