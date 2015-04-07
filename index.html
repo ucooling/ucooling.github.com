@@ -9,9 +9,17 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="关键字 describe 和 context 以上两个关键字是帮助你组织分类的，都是可以任意套叠的.
-使用一个字符串作为他们的参数，以及使用一个block来定义其上下文的范围。
-写model的spec或者其他的unit test时，可以传一个Ruby的类作为describe的第一个参数，例如 1 &hellip;">
+  <meta name="description" content="读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。 Received message 从SQS读取消息 1
+2
+3
+4
+5
+6
+7
+8
+9
+require 'aws-sdk'
+require 'json' credential = Aws::Credentials. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +75,98 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/08/ruby-aws-sqs-received-message/">Ruby-aws-sqs(received Message)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-08T00:05:51+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 am</span></time>
+        
+           | <a href="/blog/2015/04/08/ruby-aws-sqs-received-message/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。</p>
+
+<h2>Received message</h2>
+
+<p>从SQS读取消息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
+</span><span class='line'>require 'json'
+</span><span class='line'>
+</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
+</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
+</span><span class='line'>
+</span><span class='line'>queue = Aws::SQS::Client.new()
+</span><span class='line'>
+</span><span class='line'>message = queue.receive_message('queue_url')</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>poller message</h2>
+
+<p>订阅SQS的消息，当SQS获取消息，订阅者就可以或得更新的消息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
+</span><span class='line'>require 'json'
+</span><span class='line'>
+</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
+</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
+</span><span class='line'>
+</span><span class='line'>queue = Aws::SQS::QueuePoller.new('queue_url')
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>puts "enter the queue"
+</span><span class='line'>queue.poll do |msg|
+</span><span class='line'>  puts msg.body
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考文档</h2>
+
+<p><a href="http://docs.aws.amazon.com/sdkforruby/api/Aws/SQS/Client.html">aws-sdk docs</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -382,7 +482,7 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs(send_message)</a></h1>
     
     
       <p class="meta">
@@ -842,6 +942,10 @@ hello octopress</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/08/ruby-aws-sqs-received-message/">Ruby-aws-sqs(received Message)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/04/06/rspec-yu-fa-jie-shao/">Rspec 语法介绍</a>
       </li>
     
@@ -850,15 +954,11 @@ hello octopress</p></blockquote>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs</a>
+        <a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs(send_message)</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/03/31/ren-shi-node-%5B%3F%5D/">认识Node(一)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/30/soapjian-jie/">SOAP Jian Jie</a>
       </li>
     
   </ul>

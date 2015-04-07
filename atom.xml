@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-04-07T23:59:19+08:00</updated>
+  <updated>2015-04-08T00:26:39+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,6 +12,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby-aws-sqs(received Message)]]></title>
+    <link href="http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/"/>
+    <updated>2015-04-08T00:05:51+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message</id>
+    <content type="html"><![CDATA[<p>读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。</p>
+
+<h2>Received message</h2>
+
+<p>从SQS读取消息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
+</span><span class='line'>require 'json'
+</span><span class='line'>
+</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
+</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
+</span><span class='line'>
+</span><span class='line'>queue = Aws::SQS::Client.new()
+</span><span class='line'>
+</span><span class='line'>message = queue.receive_message('queue_url')</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>poller message</h2>
+
+<p>订阅SQS的消息，当SQS获取消息，订阅者就可以或得更新的消息</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
+</span><span class='line'>require 'json'
+</span><span class='line'>
+</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
+</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
+</span><span class='line'>
+</span><span class='line'>queue = Aws::SQS::QueuePoller.new('queue_url')
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>puts "enter the queue"
+</span><span class='line'>queue.poll do |msg|
+</span><span class='line'>  puts msg.body
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考文档</h2>
+
+<p><a href="http://docs.aws.amazon.com/sdkforruby/api/Aws/SQS/Client.html">aws-sdk docs</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rspec 语法介绍]]></title>
@@ -277,7 +346,7 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ruby-aws-sqs]]></title>
+    <title type="html"><![CDATA[Ruby-aws-sqs(send_message)]]></title>
     <link href="http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/"/>
     <updated>2015-04-02T21:11:27+08:00</updated>
     <id>http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs</id>
