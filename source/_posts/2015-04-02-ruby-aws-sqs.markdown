@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ruby-aws-sqs"
+title: "ruby-aws-sqs(send_message)"
 date: 2015-04-02 21:11:27 +0800
 comments: true
 categories: 
