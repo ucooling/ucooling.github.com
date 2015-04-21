@@ -52,8 +52,9 @@ def perform(*args)
       user.name = "atpking#{index}"
       user.save
     end
-  end
-  ```
+  end  
+```
+  
  改后台程序可以在任何的地方调用，下面是一个简单的调用，在加载用户首页的时候去执行改后台程序
  
  ```
@@ -68,6 +69,7 @@ def perform(*args)
   end
 end
 ```
+
 
 
 
