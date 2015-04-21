@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ruby-aws-sqs(send_message) - MaLibin Blog</title>
+  <title>Active-job - MaLibin Blog</title>
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="如何在Ruby中使用AWS的SQS SQS(Simple Queue Service)是一个伸缩且可靠的消息传递框架，可以使用SQS简单地创建、存储和获取信息，可以使用它构建基于AWS的应用程序。使用SQS是构建松耦合的Web应用程序的好方法，只需要根据使用量付费， &hellip;">
+  <meta name="description" content="初探ActiveJob ActiveJob 是 Rails 4.2 新加入的功能。这个东西在beta阶段rubyChina就已经有很多高手关注了 简介 ActiveJob 是Rails自己开发运行后台程序的模块，常用于执行运行时间可能很长的工作（比如发送注册邮件）。 当然这种需求实际上非常普遍， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/">
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/21/active-job/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Ruby-aws-sqs(send_message)</h1>
+      <h1 class="entry-title">Active-job</h1>
     
     
       <p class="meta">
@@ -77,7 +77,7 @@
 
 
 
-<time class='entry-date' datetime='2015-04-02T21:11:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:11 pm</span></time>
+<time class='entry-date' datetime='2015-04-21T23:11:02+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:11 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://ucooling.github.io">Comments</a>
@@ -87,41 +87,41 @@
   </header>
 
 
-<div class="entry-content"><h2>如何在Ruby中使用AWS的SQS</h2>
+<div class="entry-content"><h2>初探ActiveJob</h2>
 
-<blockquote><p>SQS(Simple Queue Service)是一个伸缩且可靠的消息传递框架，可以使用SQS简单地创建、存储和获取信息，可以使用它构建基于AWS的应用程序。使用SQS是构建松耦合的Web应用程序的好方法，只需要根据使用量付费，整个队列框架在Amazon数据中心的安全环境中运行。</p></blockquote>
+<p>ActiveJob 是 Rails 4.2 新加入的功能。这个东西在beta阶段rubyChina就已经有很多高手关注了</p>
 
-<h2>SQS提供以下的特性：</h2>
+<h3>简介</h3>
+
+<p>ActiveJob 是Rails自己开发运行后台程序的模块，常用于执行运行时间可能很长的工作（比如发送注册邮件）。</p>
+
+<p>当然这种需求实际上非常普遍，所以rails 也有相应的第三方gem来解决这个需求，比如著名的Sidekiq和Resque等。<strong>ActiveJob的出现不是为了代替他们</strong>，而是统一了原来Resque、Sidekiq 等其他gem对后台运行程序的各种千奇百怪的写法。</p>
+
+<p>本文使用的后台程序gem包是‘delayed_job_active_record’</p>
 
 <ul>
-<li><p>可靠性
-SQS能够跨多个数据中心冗余地存储消息，保证他们随时可用。</p></li>
-<li><p>简单性
-访问和使用SQS的编程模型非常的简单，而且可以可以通过多种编程语言使用SQS。</p></li>
-<li><p>安全性
-SQS提供很高的安全水平，只允许授权的用户消费消息。</p></li>
-<li><p>可伸缩性
-可以使用SQS创建基于队列的应用程序，这些程序可以读写数量不限的消息。</p></li>
-<li><p>低成本
-SQS以非常低廉的费率满足您的消息传递需求。</p></li>
+<li>使用以下的命令创建deplayed_job table</li>
 </ul>
 
 
-<h2>设计考虑因素</h2>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails g delayed_job:active_record
+</span><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
-<li>SQS不保证队列中消息的次序</li>
-<li>SQS不保证删除队列中的消息</li>
-<li>SQS不保证在查询是返回队列中的所有消息</li>
+<li>要想使用ActiveJob官方文档给出了示例
+首先在命令行中执行如下的命令(add_lots_of_users是需要创建的job的名字)：</li>
 </ul>
 
 
-<h2>用Ruby使用SQS的简单Demo</h2>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails g job add_lots_of_users</span></code></pre></td></tr></table></div></figure>
 
-<ul>
-<li>设置环境变量(sqs_config.rb)</li>
-</ul>
 
+<p>打开app/jobs里边会多出一个ruby文件，该文件就是我们的active job 文件
+文件内容类似下边</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -130,33 +130,16 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
+</pre></td><td class='code'><pre><code class=''><span class='line'>class AddLotsOfUsersJob &lt; ActiveJob::Base
+</span><span class='line'>  queue_as :default
 </span><span class='line'>
-</span><span class='line'>module Sqs
-</span><span class='line'>  include App::Config
-</span><span class='line'>  credential = Aws::Credentials.new(config.sqs_access_key, config.sqs_secret_access_key)
-</span><span class='line'>  Aws.config.update({
-</span><span class='line'>                     credentials: credential,
-</span><span class='line'>                     region: config.sqs_region })
-</span><span class='line'>  
-</span><span class='line'>  SQS = Aws::SQS::Client.new
-</span><span class='line'>  def send_message(msg)
-</span><span class='line'>    SQS.send_message(queue_url: config.sqs_endpoint, message_body: msg)
+</span><span class='line'>  def perform(*args)
+</span><span class='line'>    # Do something later
 </span><span class='line'>  end
-</span><span class='line'>end </span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
-<ul>
-<li>将环境变量提取出来，单独设置</li>
-</ul>
-
+<p>我们可以将需要跑的后台程序写到perform文件中，如：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -177,43 +160,36 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module App
-</span><span class='line'>   module Config
-</span><span class='line'>    def sqs_access_key
-</span><span class='line'>      'xxxxx'
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def perform(*args)
+</span><span class='line'>    # Do something later
+</span><span class='line'>    sleep 10
+</span><span class='line'>    1000.times do |index|
+</span><span class='line'>      user = User.new
+</span><span class='line'>      user.name = "atpking#{index}"
+</span><span class='line'>      user.save
 </span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>  ```
+</span><span class='line'> 改后台程序可以在任何的地方调用，下面是一个简单的调用，在加载用户首页的时候去执行改后台程序
+</span><span class='line'> 
+</span><span class='line'> ```
+</span><span class='line'> class UsersController &lt; ApplicationController
+</span><span class='line'>  before_action :set_user, only: [:show, :edit, :update, :destroy]
 </span><span class='line'>
-</span><span class='line'>    def sqs_secret_access_key
-</span><span class='line'>      'xxxxx'
-</span><span class='line'>    end
-</span><span class='line'>
-</span><span class='line'>    def sqs_region
-</span><span class='line'>      'xxxxxxxx'
-</span><span class='line'>    end
-</span><span class='line'>
-</span><span class='line'>    def sqs_endpoint
-</span><span class='line'>      'https://sqs.xxxxxxxxx.amazonaws.com/xxxxxxxx/contacts-info'
-</span><span class='line'>    end
+</span><span class='line'>  # GET /users
+</span><span class='line'>  # GET /users.json
+</span><span class='line'>  def index
+</span><span class='line'>    AddLotsOfUsersJob.perform_later
+</span><span class='line'>    @users = User.all
 </span><span class='line'>  end
 </span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
-<p>`</p>
 
-<ul>
-<li>发送消息</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>include 'sqs_config'
-</span><span class='line'> send_message(msg)</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>参考资料</h2>
-
-<p> <a href="http://blog.csdn.net/menxu_work/article/details/38296043">AWS Ruby Demo</a></p>
 </div>
 
 
@@ -229,7 +205,7 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
 
 
 
-<time class='entry-date' datetime='2015-04-02T21:11:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:11 pm</span></time>
+<time class='entry-date' datetime='2015-04-21T23:11:02+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:11 pm</span></time>
       
 
 
@@ -244,10 +220,8 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/03/31/ren-shi-node-%5B%3F%5D/" title="Previous Post: 认识Node(一)">&laquo; 认识Node(一)</a>
+        <a class="basic-alignment left" href="/blog/2015/04/08/ruby-aws-sqs-received-message/" title="Previous Post: ruby-aws-sqs(received message)">&laquo; ruby-aws-sqs(received message)</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/04/06/rspec-ru-men/" title="Next Post: Rspec 入门">Rspec 入门 &raquo;</a>
       
     </p>
   </footer>
@@ -313,8 +287,8 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/';
-        var disqus_url = 'http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/';
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/04/21/active-job/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/04/21/active-job/';
         var disqus_script = 'embed.js';
       
     (function () {
