@@ -1,0 +1,940 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine - MaLibin Blog</title>
+  <meta name="author" content="MaLibin">
+
+  
+  <meta name="description" content="简介 Jasmine是一个很有名的JavaScript单元测试，它是独立的行为驱动开发框架，语法清晰易懂。 BDD BDD是一种敏捷软件开发技术，它鼓励软件项目开发中的开发者、测试人员和非技术参与者之间的协作，BDD最初是由Dan North在2003年命名的，它包括验收和客户驱动等得极限编程时间 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/22/jasmine/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">MaLibin Blog</a></h1>
+  
+    <h2>学会蹲下才会跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li> 
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Jasmine</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-22T21:53:43+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>简介</h2>
+
+<p>Jasmine是一个很有名的JavaScript单元测试，它是独立的行为驱动开发框架，语法清晰易懂。</p>
+
+<h2>BDD</h2>
+
+<p>BDD是一种敏捷软件开发技术，它鼓励软件项目开发中的开发者、测试人员和非技术参与者之间的协作，BDD最初是由Dan North在2003年命名的，它包括验收和客户驱动等得极限编程时间，作为一种软件开发的实践方式，在这几年当中得到了极大的发展。
+BDD的重点是通过与利益相关者的讨论取得对预期的软件行为的清醒认识。它通过用自然语言书写非程序员可读的测试用例扩展了测试驱动开发方法。行为驱动开发人员使用混合了领域中统一的语言的母语语言来描述他们的代码的目的。这让开发者得以把精力集中在代码应该怎么写，而不是技术细节上，而且也最大程度的减少了将代码编写者的技术语言与商业客户、用户、利益相关者、项目管理者等的领域语言之间来回翻译的代价。</p>
+
+<h2>常见API</h2>
+
+<ul>
+<li>describe</li>
+</ul>
+
+
+<p>一个测试开始于全局函数describe, 一个describe是一个it的集合，当然它也可以包含describe.</p>
+
+<p>语法格式：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe(string, function)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>string: 测试组名称(一般是一个动作，当做某一个动作是会发生……)
+function: 测试组函数</p>
+
+<ul>
+<li>it</li>
+</ul>
+
+
+<p>它是对一个具体测试的描述</p>
+
+<p>语法格式：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>it(string function)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>string: 测试名称（当做某个动作的时候会触发的状态）
+function: 测试函数</p>
+
+<ul>
+<li>spyOn</li>
+</ul>
+
+
+<p>存储函数被调用情况和参数（函数监视器，记录被调用情况，但是被监视的函数并不会真正的执行）。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe('spy sync', function() {
+</span><span class='line'>  var foo, bar = null;
+</span><span class='line'>  
+</span><span class='line'>  beforeEach(function() {
+</span><span class='line'>    foo={
+</span><span class='line'>     setValue: function(value) {
+</span><span class='line'>       bar = value;
+</span><span class='line'>     }
+</span><span class='line'>    };
+</span><span class='line'>    spyOn(foo, 'setValue');
+</span><span class='line'>    foo.setValue(123);
+</span><span class='line'>  });
+</span><span class='line'>  it("tracks all the spy was called", function() {
+</span><span class='line'>    expect(foo.setValue).toHaveBeenCalledWithed();
+</span><span class='line'>  });
+</span><span class='line'>  it("tracks all the arguments of its calls", function() {
+</span><span class='line'>    expect(foo.setBar).toHaveBeenCalledWith(123);
+</span><span class='line'>  });
+</span><span class='line'>  it("stops all execution on a function", function() {
+</span><span class='line'>    expect(bar).toBeNull();
+</span><span class='line'>  });  
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>createSpy</li>
+</ul>
+
+
+<p>有这样一种需求，就是说你想监视一个对象，但是又没有办法获得这个对象，这个时候该怎么办呢，createSpy就为我们提供了这样的功能，可以自己create一个被监视的函数。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe("CloseButton", function () {
+</span><span class='line'>  "use strict";
+</span><span class='line'>
+</span><span class='line'>  var component;
+</span><span class='line'>  beforeEach(function () {
+</span><span class='line'>    var CloseIcon = require('components/close_button.jsx');
+</span><span class='line'>    component = fixture.renderComponent(CloseButton, {
+</span><span class='line'>      closeWindow: jasmine.createSpy('closeWindow')
+</span><span class='line'>    });
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>  describe("clicking on close button", function () {
+</span><span class='line'>    it("closes the window", function () {
+</span><span class='line'>      $j(component.getDOMNode()).simulateClick();
+</span><span class='line'>      expect(component.props.closeWindow).toHaveBeenCalled();
+</span><span class='line'>    });
+</span><span class='line'>  });
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>createSpyObj</li>
+</ul>
+
+
+<p>有时监视一个对象的很多方法，这个时候用createSpyObi添加方法数组，来完成
+比如说现在有这样的一个需求：想要监视一个输入框的获得鼠标焦点和失去鼠标焦点这个一个需求。我们可以按照以下的方法来写这个测试。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe("test input stuff", function() {
+</span><span class='line'>  var input;
+</span><span class='line'>  
+</span><span class='line'>  beforeeEach(function() {
+</span><span class='line'>    input = jasmine.createSpyObj('input', ['GainFocus', 'LostFocus']);
+</span><span class='line'>    input.GainFocus();
+</span><span class='line'>    input.LostFocus();
+</span><span class='line'>  });
+</span><span class='line'>  it('input methods have been defined', function() {
+</span><span class='line'>    expect(input.GainFocus).toBeDefined();
+</span><span class='line'>    expect(input.LostFocus).toBeDefined();
+</span><span class='line'>  });
+</span><span class='line'>  it('input methods have been called', function() {
+</span><span class='line'>    expect(input.GainFocus).toHaveBeenCalled();
+</span><span class='line'>    expect(input.LostFocus).toHaveBeenCalled();
+</span><span class='line'>  })
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>and.returnValue</li>
+</ul>
+
+
+<p>给被监视的函数定义一个返回值。
+比如说现在有这样一个场景，前端通过js给某个组件添加一个toggle, 如果isOn函数返回是true就显示component，否则不显示。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe('Component body', function() {
+</span><span class='line'>  var component;
+</span><span class='line'>  
+</span><span class='line'>  beforeEach(function() {
+</span><span class='line'>    component = {
+</span><span class='line'>      isOn: function() {
+</span><span class='line'>        return false;
+</span><span class='line'>      };
+</span><span class='line'>    };
+</span><span class='line'>  });
+</span><span class='line'>  spyOn(component, "isOn").and.returnValue(true);
+</span><span class='line'>  
+</span><span class='line'>  it("isOn return true", function() {
+</span><span class='line'>    expect(component.getDOMNode().getAttribute('class')).toContain('xxx');
+</span><span class='line'>  })
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>and.callFake</li>
+</ul>
+
+
+<p>add.callFake替代被监视的函数，原函数并不执行。
+比如说现在的Ajax的测试，我们在测试它的时候并不需要真正的去请求一个Ajax，这个时候我们就可以使用改测试方法。
+下面是一个项目中的测试：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe('callFake example', function() {
+</span><span class='line'>  var stubPriceResults = [{"priceResult": 10000}];
+</span><span class='line'>  
+</span><span class='line'>  beforeEach(function () {
+</span><span class='line'>    spyOn($, 'ajax').and.callFake(function (o) {
+</span><span class='line'>      o.success(stubPriceResults);
+</span><span class='line'>    });
+</span><span class='line'>    PriceCallback = jasmine.createSpy("my-function");
+</span><span class='line'>  });
+</span><span class='line'>  
+</span><span class='line'>  it("triggers ajax request with correct url", () =&gt; {
+</span><span class='line'>      Project.ExecAjax.Price("VIC", "6010", "someplace", "house", 2, PriceCallback);
+</span><span class='line'>      expect($.ajax).toHaveBeenCalledWith({
+</span><span class='line'>        type: 'get',
+</span><span class='line'>        dataType: 'json',
+</span><span class='line'>        url: 'http:xxx.xx.xxx.json',
+</span><span class='line'>        success: jasmine.any(Function),
+</span><span class='line'>        error: jasmine.any(Function)
+</span><span class='line'>      });
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>and.callThrough</li>
+</ul>
+
+
+<p>add.CallThrough同样也是一个函数监视器，但函数真的执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe("对spy函数的测试，函数真的执行", function() {
+</span><span class='line'>    var foo, bar, fetchedBar;
+</span><span class='line'> 
+</span><span class='line'>    beforeEach(function() {
+</span><span class='line'>        foo = {
+</span><span class='line'>            setBar: function(value) {
+</span><span class='line'>                bar = value;
+</span><span class='line'>            },
+</span><span class='line'>            getBar: function() {
+</span><span class='line'>                return bar;
+</span><span class='line'>            }
+</span><span class='line'>        };
+</span><span class='line'> 
+</span><span class='line'>        //spyOn(foo, "setBar");    //如果加上这句，setBar不真的执行，后两个spec不通过
+</span><span class='line'>        spyOn(foo, 'getBar').andCallThrough();
+</span><span class='line'> 
+</span><span class='line'>        foo.setBar(123);
+</span><span class='line'>        fetchedBar = foo.getBar();
+</span><span class='line'>    });
+</span><span class='line'> 
+</span><span class='line'>    it("测试foo中getBar函数是否被调用过", function() {
+</span><span class='line'>        expect(foo.getBar).toHaveBeenCalled();
+</span><span class='line'>    });
+</span><span class='line'> 
+</span><span class='line'>    it("foo中setBar函数真的执行了", function() {
+</span><span class='line'>        expect(bar).toEqual(123);
+</span><span class='line'>    });
+</span><span class='line'> 
+</span><span class='line'>    it("foo中getBar函数真的执行了", function() {
+</span><span class='line'>        expect(fetchedBar).toEqual(123);
+</span><span class='line'>    });
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>and.throwError</li>
+</ul>
+
+
+<p>定义当调用一个函数的时候，返回一个异常</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe("throwError, when configured to throw an error", function() {
+</span><span class='line'>  var foo, bar;
+</span><span class='line'>  
+</span><span class='line'>  deforeEach(function(){
+</span><span class='line'>    foo = {
+</span><span class='line'>      setBar: function(value) {
+</span><span class='line'>        bar = value;
+</span><span class='line'>      }
+</span><span class='line'>    };
+</span><span class='line'>    spyOn(foo, "setBar").and.throwError("exception");
+</span><span class='line'>  });
+</span><span class='line'>  it("throws the value", function() {
+</span><span class='line'>    except(function(){
+</span><span class='line'>      foo.setBar(123)
+</span><span class='line'>    }).toThrowError("exception");
+</span><span class='line'>  });
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>and.stub</li>
+</ul>
+
+
+<p>我是这样来理解stub函数的，我们可能需要同时需要测试一个函数被执行和不被执行时某个参数的值.这个时候可以先测试被执行是某个参数的值，然后将函数stub起来，再将需要测试的参数设置为原来的值，然后再执行该函数，来测试需要测试的参数。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe("A spy", function() {
+</span><span class='line'>  var foo, bar = null;
+</span><span class='line'>
+</span><span class='line'>  beforeEach(function() {
+</span><span class='line'>    foo = {
+</span><span class='line'>      setBar: function(value) {
+</span><span class='line'>        bar = value;
+</span><span class='line'>      }
+</span><span class='line'>    };
+</span><span class='line'>
+</span><span class='line'>    spyOn(foo, 'setBar').and.callThrough();
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>  it("can call through and then stub in the same spec", function() {
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>    expect(bar).toEqual(123);
+</span><span class='line'>
+</span><span class='line'>    foo.setBar.and.stub();
+</span><span class='line'>    bar = null;
+</span><span class='line'>
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>    expect(bar).toBe(null);
+</span><span class='line'>  });
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>calls</li>
+</ul>
+
+
+<p>calls.any():测试函数是否被调用过。</p>
+
+<p>calls.count():测试函数被调用的次数。</p>
+
+<p>calls.argsFor(n):测试函数第n次调用时候所使用的参数。</p>
+
+<p>calls.allArgs():测试函数所有被调用过得参数</p>
+
+<p>calls.all():测试调用函数的对象，被调用时的参数，调用函数后的返回值。</p>
+
+<p>calls.mostRecent():函数最近一次被调用的情况，包括调用函数的对象，调用函数时的参数，以及调用函数后的返回值。</p>
+
+<p>calls.first():类似于上边，只是他反应的是第一次调用的情况。
+下边的例子来自于官网：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>describe("A spy", function() {
+</span><span class='line'>  var foo, bar = null;
+</span><span class='line'>
+</span><span class='line'>  beforeEach(function() {
+</span><span class='line'>    foo = {
+</span><span class='line'>      setBar: function(value) {
+</span><span class='line'>        bar = value;
+</span><span class='line'>      }
+</span><span class='line'>    };
+</span><span class='line'>
+</span><span class='line'>    spyOn(foo, 'setBar');
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.any(): returns false if the spy has not been called at all, and then true once at least one call happens.
+</span><span class='line'>
+</span><span class='line'>  it("tracks if it was called at all", function() {
+</span><span class='line'>    expect(foo.setBar.calls.any()).toEqual(false);
+</span><span class='line'>
+</span><span class='line'>    foo.setBar();
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.any()).toEqual(true);
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.count(): returns the number of times the spy was called
+</span><span class='line'>
+</span><span class='line'>  it("tracks the number of times it was called", function() {
+</span><span class='line'>    expect(foo.setBar.calls.count()).toEqual(0);
+</span><span class='line'>
+</span><span class='line'>    foo.setBar();
+</span><span class='line'>    foo.setBar();
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.count()).toEqual(2);
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.argsFor(index): returns the arguments passed to call number index
+</span><span class='line'>
+</span><span class='line'>  it("tracks the arguments of each call", function() {
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>    foo.setBar(456, "baz");
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.argsFor(0)).toEqual([123]);
+</span><span class='line'>    expect(foo.setBar.calls.argsFor(1)).toEqual([456, "baz"]);
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.allArgs(): returns the arguments to all calls
+</span><span class='line'>
+</span><span class='line'>  it("tracks the arguments of all calls", function() {
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>    foo.setBar(456, "baz");
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.allArgs()).toEqual([[123],[456, "baz"]]);
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.all(): returns the context (the this) and arguments passed all calls
+</span><span class='line'>
+</span><span class='line'>  it("can provide the context and arguments to all calls", function() {
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.all()).toEqual([{object: foo, args: [123], returnValue: undefined}]);
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.mostRecent(): returns the context (the this) and arguments for the most recent call
+</span><span class='line'>
+</span><span class='line'>  it("has a shortcut to the most recent call", function() {
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>    foo.setBar(456, "baz");
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.mostRecent()).toEqual({object: foo, args: [456, "baz"], returnValue: undefined});
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.first(): returns the context (the this) and arguments for the first call
+</span><span class='line'>
+</span><span class='line'>  it("has a shortcut to the first call", function() {
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>    foo.setBar(456, "baz");
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.first()).toEqual({object: foo, args: [123], returnValue: undefined});
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>When inspecting the return from all(), mostRecent() and first(), the object property is set to the value of this when the spy was called.
+</span><span class='line'>
+</span><span class='line'>  it("tracks the context", function() {
+</span><span class='line'>    var spy = jasmine.createSpy('spy');
+</span><span class='line'>    var baz = {
+</span><span class='line'>      fn: spy
+</span><span class='line'>    };
+</span><span class='line'>    var quux = {
+</span><span class='line'>      fn: spy
+</span><span class='line'>    };
+</span><span class='line'>    baz.fn(123);
+</span><span class='line'>    quux.fn(456);
+</span><span class='line'>
+</span><span class='line'>    expect(spy.calls.first().object).toBe(baz);
+</span><span class='line'>    expect(spy.calls.mostRecent().object).toBe(quux);
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>.calls.reset(): clears all tracking for a spy
+</span><span class='line'>
+</span><span class='line'>  it("can be reset", function() {
+</span><span class='line'>    foo.setBar(123);
+</span><span class='line'>    foo.setBar(456, "baz");
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.any()).toBe(true);
+</span><span class='line'>
+</span><span class='line'>    foo.setBar.calls.reset();
+</span><span class='line'>
+</span><span class='line'>    expect(foo.setBar.calls.any()).toBe(false);
+</span><span class='line'>  });
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>toHaveBeenCalled</li>
+</ul>
+
+
+<p>测试函数是否被调用</p>
+
+<ul>
+<li>toHaveBeenCalledWith</li>
+</ul>
+
+
+<p>测试函数被固定的参数调用</p>
+
+<ul>
+<li>matcher</li>
+</ul>
+
+
+<p>toBeDefined: 是否被定义；</p>
+
+<p>toBeUndefined: 是否没有被定义；</p>
+
+<p>toBeNull: 值是否为Null;</p>
+
+<p>toBeTruthy: 是否被赋值；</p>
+
+<p>toBeFalsy: 是否没有被赋值；</p>
+
+<p>toContain: 是否包含某个字符串；</p>
+
+<p>toBeLessThan: 是否小于某个值；</p>
+
+<p>toBeGreaterThan:是否打印某个值；</p>
+
+<p>toBeCloseTo:</p>
+
+<p>toThrow: 测试一个函数执行是否会异常；</p>
+
+<p>toThrowError:</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">MaLibin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-04-22T21:53:43+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/21/active-job/" title="Previous Post: active-job">&laquo; active-job</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/jasmine/">Jasmine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/21/active-job/">Active-job</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/08/ruby-aws-sqs-received-message/">Ruby-aws-sqs(received Message)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/06/rspec-yu-fa-jie-shao/">Rspec 语法介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - MaLibin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucooling';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/04/22/jasmine/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/04/22/jasmine/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
