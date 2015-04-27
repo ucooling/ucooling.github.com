@@ -9,7 +9,7 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="简介 Jasmine是一个很有名的JavaScript单元测试，它是独立的行为驱动开发框架，语法清晰易懂。 BDD BDD是一种敏捷软件开发技术，它鼓励软件项目开发中的开发者、测试人员和非技术参与者之间的协作，BDD最初是由Dan North在2003年命名的，它包括验收和客户驱动等得极限编程时间 &hellip;">
+  <meta name="description" content="简介 页面前端逻辑复杂度与日俱增，前端工程师写出来的javascript变得庞大甚至臃肿，维护的难度不断加大，你需要一个javascript单元测试框架，用于降低维护javascript代码时的出错风险，保证重构后的代码的兼容性，最重要的是减少人肉测试的过程，降低js代码维护成本。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,7 +92,7 @@
 
   <div class="entry-content"><h2>简介</h2>
 
-<p>Jasmine是一个很有名的JavaScript单元测试，它是独立的行为驱动开发框架，语法清晰易懂。</p>
+<p>页面前端逻辑复杂度与日俱增，前端工程师写出来的javascript变得庞大甚至臃肿，维护的难度不断加大，你需要一个javascript单元测试框架，用于降低维护javascript代码时的出错风险，保证重构后的代码的兼容性，最重要的是减少人肉测试的过程，降低js代码维护成本。jasmine无疑是目前最优秀的javascript单元测试框架之一，目前淘宝UED正在使用，在易用性和质量上都非常不错。</p>
 
 <h2>BDD</h2>
 
@@ -114,7 +114,7 @@ BDD的重点是通过与利益相关者的讨论取得对预期的软件行为�
 </pre></td><td class='code'><pre><code class=''><span class='line'>describe(string, function)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>string: 测试组名称(一般是一个动作，当做某一个动作是会发生……)
+<p>string: 测试组名称(测试描述)
 function: 测试组函数</p>
 
 <ul>
@@ -130,7 +130,7 @@ function: 测试组函数</p>
 </pre></td><td class='code'><pre><code class=''><span class='line'>it(string function)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>string: 测试名称（当做某个动作的时候会触发的状态）
+<p>string: 测试逻辑函数（具体干活的主)
 function: 测试函数</p>
 
 <ul>
