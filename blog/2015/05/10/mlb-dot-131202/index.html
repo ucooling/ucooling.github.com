@@ -5,21 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ruby-aws-sqs(received Message) - MaLibin Blog</title>
+  <title>Mlb.131202 - MaLibin Blog</title>
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。 Received message 从SQS读取消息 1
-2
-3
-4
-5
-6
-7
-8
-9
-require 'aws-sdk'
-require 'json' credential = Aws::Credentials. &hellip;">
+  <meta name="description" content="
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,7 +19,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/">
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/05/10/mlb-dot-131202/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
@@ -78,7 +69,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Ruby-aws-sqs(received Message)</h1>
+      <h1 class="entry-title">Mlb.131202</h1>
     
     
       <p class="meta">
@@ -87,7 +78,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
 
 
 
-<time class='entry-date' datetime='2015-04-08T00:05:51+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 am</span></time>
+<time class='entry-date' datetime='2015-05-10T11:46:42+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:46 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://ucooling.github.io">Comments</a>
@@ -97,67 +88,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
   </header>
 
 
-<div class="entry-content"><p>读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。</p>
-
-<h2>Received message</h2>
-
-<p>从SQS读取消息</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
-</span><span class='line'>require 'json'
-</span><span class='line'>
-</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
-</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
-</span><span class='line'>
-</span><span class='line'>queue = Aws::SQS::Client.new()
-</span><span class='line'>
-</span><span class='line'>message = queue.receive_message('queue_url')</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>poller message</h2>
-
-<p>订阅SQS的消息，当SQS获取消息，订阅者就可以或得更新的消息</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
-</span><span class='line'>require 'json'
-</span><span class='line'>
-</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
-</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
-</span><span class='line'>
-</span><span class='line'>queue = Aws::SQS::QueuePoller.new('queue_url')
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>puts "enter the queue"
-</span><span class='line'>queue.poll do |msg|
-</span><span class='line'>  puts msg.body
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>参考文档</h2>
-
-<p><a href="http://docs.aws.amazon.com/sdkforruby/api/Aws/SQS/Client.html">aws-sdk docs</a></p>
+<div class="entry-content">
 </div>
 
 
@@ -173,7 +104,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
 
 
 
-<time class='entry-date' datetime='2015-04-08T00:05:51+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 am</span></time>
+<time class='entry-date' datetime='2015-05-10T11:46:42+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:46 am</span></time>
       
 
 
@@ -188,10 +119,10 @@ require 'json' credential = Aws::Credentials. &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/04/06/rspec-yu-fa-jie-shao/" title="Previous Post: Rspec 语法介绍">&laquo; Rspec 语法介绍</a>
+        <a class="basic-alignment left" href="/blog/2015/04/22/jasmine/" title="Previous Post: Jasmine">&laquo; Jasmine</a>
       
       
-        <a class="basic-alignment right" href="/blog/2015/04/21/active-job/" title="Next Post: active-job">active-job &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2015/05/10/git-introduction/" title="Next Post: Git introduction">Git introduction &raquo;</a>
       
     </p>
   </footer>
@@ -257,8 +188,8 @@ require 'json' credential = Aws::Credentials. &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/';
-        var disqus_url = 'http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/';
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/05/10/mlb-dot-131202/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/05/10/mlb-dot-131202/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -9,7 +9,7 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="简介 页面前端逻辑复杂度与日俱增，前端工程师写出来的javascript变得庞大甚至臃肿，维护的难度不断加大，你需要一个javascript单元测试框架，用于降低维护javascript代码时的出错风险，保证重构后的代码的兼容性，最重要的是减少人肉测试的过程，降低js代码维护成本。 &hellip;">
+  <meta name="description" content="背景介绍 参加工作的两年时间里，刚开始工作的时候是一家日企，使用的版本管理工具是SVN，对于一个初涉职场的新手来说学习这个不是很困难，并且有很多的工具可以使用，但是这种工具有很多的局限性，而且很不方便，对于公司层面来讲确实是一个很好的选择， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,455 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/10/git-introduction/">Git Introduction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-10T11:51:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:51 am</span></time>
+        
+           | <a href="/blog/2015/05/10/git-introduction/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/05/10/git-introduction/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>背景介绍</h2>
+
+<p>参加工作的两年时间里，刚开始工作的时候是一家日企，使用的版本管理工具是SVN，对于一个初涉职场的新手来说学习这个不是很困难，并且有很多的工具可以使用，但是这种工具有很多的局限性，而且很不方便，对于公司层面来讲确实是一个很好的选择，但是对于个人来讲使用SVN来管理自己的代码确实不是一个很好的选择，而且很不方面。从我准备开始换工作的时候我开始注意到了Git，开始的时候对它有一种敬畏的心态，总觉的这个东西很难学会，事实上确实很难学会，他的学习曲线是比较长，但是当你真正的掌握他的精髓的时候你就会开始觉得这会是一个很好的工具，下面的内容我会介绍一些我自己对于Git的一些使用的理解。</p>
+
+<h2>什么是版本控制</h2>
+
+<p>下面这段是从Git的官网教程中摘抄来的，“版本控制是一种记录一个或者若干文件内容变化，以便将来查阅特定版本修改情况的系统”。采用版本控制是一个明智的选择，有了它你可以将某个文件回溯到之前的状态，甚至将整个项目回退到之前某个时间点的状态。你可以比较文件的细节变化，查出最后是谁修改了那个地方，从而找出问题的原因，有是谁在什么时间提交修改了什么文件。使用版本控制系统还意味着，就算你把整个项目中的文件搞的乱七八糟，你也照样可以轻松恢复到原来的样子，但是额外增加的工作量却微乎其微。</p>
+
+<h2>集中式和分布式的比较</h2>
+
+<p>先说集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候用的都是自己的电脑，所以每次干活之前都需要从中央服务器取得最新的版本，然后开始自己的工作，干完活之后，再把自己的东西提交到中央服务器。
+集中式最大的痛点就是必须联网才能工作，如果中央服务器在局域网还好，但是如果在互联网，如果网速慢那就悲剧了，如果你是一个急性子的人，你会被气的得精神病的。
+和集中式版本控制系统相比，分布式版本控制系统的安全性要高很多，因为每个人的电脑里都有一个完整的版本库，某一个人得电脑坏了不要紧，随时从其他人呢那里复制一个就可以了，而集中式版本控制系统的中央服务器出了问题，所有的人就都没有办法干活了。</p>
+
+<h2>Git基础</h2>
+
+<ul>
+<li>直接记录快照，而非进行差异比较</li>
+</ul>
+
+
+<p><img src="images/git.png" alt="Git版本控制" /></p>
+
+<ul>
+<li>几乎所有的操作都在本地进行</li>
+</ul>
+
+
+<p>Git不用跑到外边的服务器上拿数据，而直接是从本地的数据库中获取数据，所以在任何的时候你都可以马上的翻阅自己的历史记录，无需等待，如果想要看当前版本的文件和一个月前的版本的差异，Git会取出当前一个月的快照，不用到远程的服务器来查看快照。</p>
+
+<ul>
+<li><p>时刻保持数据的完整性
+在保存Git之前，所有的数据都要进行内容的检验和计算，并将此结果作为数据标识和缩引，Git使用SHA-1算法计算数据的校验和，通过对文件的内容和目录的结构做出一个SHA-1哈希值，作为指纹字符串，Git的工作完全依赖于这类指纹字符串。</p></li>
+<li><p>文件的三种状态</p></li>
+</ul>
+
+
+<p>对于Git管理的任何一个文件，在Git的内部都只有三种状态：已经提交（committed）,已经修改（modified）和已经暂存（staged），已经提交表示已经提交到本地的数据库中，已经修改表示修改了某个文件但是还没有提交保存，已经暂存表示已经被被修改的文件保存到了下次提交的保存清单中git
+<img src="images/git_status.png" alt="Git文件状态" /></p>
+
+<p>Git的基本工作流程是，
+1 从master分支上新建一个分支，记住永远不要再master分支上直接工作，这样做有很多的弊端
+2 切换到新建的分支，在该分支上对某些文件进行修改
+3 对修改后的文件进行快照，然后保存到暂存区域
+4 提交更新，将保存在暂存区域的文件快照永久存储到Git目录中。</p>
+
+<h2>Mac上安装Git</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install git</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>第一次使用Git时的简单配置</h2>
+
+<p>Git提供了一个叫做git config的工具，改工具专门用来配置或者读取响应的工作环境变量，这些变量会被存储在三个地方
+* /etc/gitconfig 对系统中的所有用户都普遍适用的配置
+* ~/.gitconfig 用户目录下的配置文件只适用于改用户
+* 当前项目的Git配置文件（.git/config）</p>
+
+<p>常用命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global user.name "Username"
+</span><span class='line'>git config --global user.email Username@example.com
+</span><span class='line'>git config --global merge.tool vimdiff
+</span><span class='line'>git config --list</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Git项目初始化</h2>
+
+<ul>
+<li>在本地初始化一个Git项目</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git init .</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>从远程克隆一个现有项目</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/username/project.git
+</span><span class='line'>git clone git://github.com/username/project.git</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Git常使用命令解析</h2>
+
+<ul>
+<li>查看文件状态</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git status</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看尚未暂存的文件更新了那部分</li>
+</ul>
+
+
+<p>此命令查看的是工作目录中当前文件和暂存区域快照之间的差异，也就是修改之后还没有暂存起来的变化内容</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git diff</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看已经暂存起来的文件和上次提交时的快照之间的差异</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git diff --cached
+</span><span class='line'>#more than 1.6.1 version
+</span><span class='line'>git diff --staged</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>提交更新</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -m "comments"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>跳过使用暂存区域</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit -a -m "comments"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>移动文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git mv file_from file_to</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行上边的命令相当于执行了下边的三条命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mv test test.rb
+</span><span class='line'>git rm test
+</span><span class='line'>gir add test.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看提交历史</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git log
+</span><span class='line'>#查看最近两次提交的内容差异
+</span><span class='line'>git log -p -2
+</span><span class='line'>#每次提交增改行数的统计
+</span><span class='line'>git log --stat
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改最后一次提交</li>
+</ul>
+
+
+<p>有时候我们提交完了之后发现漏掉了一些文件没有提交，或者是提交信息写错了，想要撤销刚才的提交操作，可以使用 &ndash;amend选项重新提交</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git commit --amend</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>取消已经暂存的文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset .
+</span><span class='line'>git reset HEAD file_name</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>取消对文件的修改</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout file_name</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看当前远程库信息</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote -v</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>添加远程仓库</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote add [shortname] [url]
+</span><span class='line'>git remote add upstream git://github.com/paulboone/ticgit.git</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>从远程仓库抓取数据</li>
+</ul>
+
+
+<p>要抓取本次仓库没有的信息可以运行下面的命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git fetch [remote-name]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>推送数据到远程仓库</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin master</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>修改、删除远程分支</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git remote rename upstream origin
+</span><span class='line'>git remote rm upstream</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>标签相关</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git tag  //显示所有的标签
+</span><span class='line'>git tag -l 'v1.4.2.*'  //只显示1.4.2系列的标签
+</span><span class='line'>git tag -a v1.1 -m 'my first version 1.1'  //添加标签</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>添加并切换分支</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch -b [branch-name]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>切换分支</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout [branch-name]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>合并分支</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout -b test-branch //新建了一个分支
+</span><span class='line'>git merge master //将master分支合并到该分支</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>删除分支</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch -d [branch-name]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>遇到冲突是的分支合并</li>
+</ul>
+
+
+<p>可以看到 ======= 隔开的上半部分，是 HEAD中的内容，下半部分是分支中的内容，二者自选其一手动整合</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git mergetool //使用图形界面来解决冲突</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看个分支最后一次提交的信息</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch -v</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>查看已经合并/没有合并的分支</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git branch --merged
+</span><span class='line'>git branch --no-merged</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>分支的衍合</li>
+</ul>
+
+
+<p>把一个分支中的修改整合到另一个分支的办法有两种：merge和rebase
+对于merge理解非常的简单，就是合并两个分支，合并两个分支的另一种方法就是衍合，简单地来讲，就是把另一个分支产生的变化补丁在需要衍合的分支中重新打一遍，这种操作就叫做衍合</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git checkout [branch-name]
+</span><span class='line'>git rebase master  //衍合master分支的内容到现在的分支</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>生成SSH公钥</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh-keygen</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>储藏你的工作</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git stash
+</span><span class='line'>git stash pop
+</span><span class='line'>git stash list
+</span><span class='line'>git stash apply stash@{2}</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/10/mlb-dot-131202/">Mlb.131202</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-10T11:46:42+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:46 am</span></time>
+        
+           | <a href="/blog/2015/05/10/mlb-dot-131202/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/05/10/mlb-dot-131202/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1711,95 +2160,9 @@ Content-Length: 250</code></p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/29/markdown-sync/">Markdown Sync</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-29T23:56:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:56 pm</span></time>
-        
-           | <a href="/blog/2015/03/29/markdown-sync/#disqus_thread"
-             data-disqus-identifier="http://ucooling.github.io/blog/2015/03/29/markdown-sync/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><hr />
-
-<blockquote><p>Markdown是一种轻量的标记语言，它的优势是使用方便，而且学习的成本非常低，常用的标签就10种左右，语法非常简单，一旦熟悉这种Mackdown的语法，会有一种一劳永逸的赶脚。</p></blockquote>
-
-<h2>对Markdown的简单认识</h2>
-
-<blockquote><p>刚才提到，Makdown是一种用来写作的轻量级【标记语言】，它使用简单地语法代替排版，不像我们平常使用的Word等文字处理的软件，需要做大量的排版工作，他让我们在写文章是可以专注于内容，甚至对插图，使用键盘都可以搞定，现在支持Markdown编辑的网站很多，例如像<a href="http://jianshu.io">简书</a>等。</p></blockquote>
-
-<h2>使用Markdown的优点</h2>
-
-<ul>
-<li>专注于内容，不用太关注格式。</li>
-<li>可以轻松的导出HTML、PDF、或者本身的.md文件。</li>
-<li>可读性好，直观。适合几乎所有人得写作语言。</li>
-</ul>
-
-
-<h2>Markdown语法的规则</h2>
-
-<h4>简记表</h4>
-
-<p>  <img src="http://www.onethink.cn/Uploads/Editor/2013-12-13/52aaabb4e7486.png" alt="速记表" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/29/my-first-blog/">My First Blog</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-29T23:48:51+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:48 pm</span></time>
-        
-           | <a href="/blog/2015/03/29/my-first-blog/#disqus_thread"
-             data-disqus-identifier="http://ucooling.github.io/blog/2015/03/29/my-first-blog/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>my first github blog</h1>
-
-<blockquote><p>this is a test file
-hello octopress</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/2">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1812,6 +2175,14 @@ hello octopress</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/05/10/git-introduction/">Git Introduction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/10/mlb-dot-131202/">Mlb.131202</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/04/22/jasmine/">Jasmine</a>
       </li>
     
@@ -1821,14 +2192,6 @@ hello octopress</p></blockquote>
     
       <li class="post">
         <a href="/blog/2015/04/08/ruby-aws-sqs-received-message/">Ruby-aws-sqs(received Message)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/06/rspec-yu-fa-jie-shao/">Rspec 语法介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a>
       </li>
     
   </ul>
