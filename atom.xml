@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-05-10T15:55:04+08:00</updated>
+  <updated>2015-05-18T15:42:18+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -404,15 +404,6 @@
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mlb.131202]]></title>
-    <link href="http://ucooling.github.io/blog/2015/05/10/mlb-dot-131202/"/>
-    <updated>2015-05-10T11:46:42+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/05/10/mlb-dot-131202</id>
-    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
@@ -1904,18 +1895,6 @@ Content-Length: 250</code></p>
 <h4>简记表</h4>
 
 <p>  <img src="http://www.onethink.cn/Uploads/Editor/2013-12-13/52aaabb4e7486.png" alt="速记表" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My First Blog]]></title>
-    <link href="http://ucooling.github.io/blog/2015/03/29/my-first-blog/"/>
-    <updated>2015-03-29T23:48:51+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/03/29/my-first-blog</id>
-    <content type="html"><![CDATA[<h1>my first github blog</h1>
-
-<blockquote><p>this is a test file
-hello octopress</p></blockquote>
 ]]></content>
   </entry>
   
