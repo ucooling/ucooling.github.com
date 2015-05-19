@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-05-18T15:42:18+08:00</updated>
+  <updated>2015-05-19T23:21:49+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,6 +12,176 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OOCSS]]></title>
+    <link href="http://ucooling.github.io/blog/2015/05/19/oocss/"/>
+    <updated>2015-05-19T16:18:35+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/05/19/oocss</id>
+    <content type="html"><![CDATA[<p>近几天一直在看OOCSS,以前从没有对CSS有什么特殊的情怀，认为它就是一个样式表，就是为我们的网页内容服务的，一直认为内容才是王道，但是真的是这样吗，可能不然。
+到底是什么来吸引用户来到你的网站呢，在现在这个网络快速发展的今天，不能说内容不重要，但是速度和用户体验也是不能被我们忽视的，快速响应和一个漂亮的页面设计显得尤为重要。
+这篇博客是我对最近学习OOCSS的一些总结，一个方面是对自己近几天的学习做个总结，另一方面也是跟大家交流自己学习的一个机会。</p>
+
+<h2>OOCSS的的原则</h2>
+
+<p>OOCSS显然已经不是一个简单地设计理念了，它更是一种思考方式，带着这种思考来写自己项目中的CSS结构，它会为我们带来很多的好处
+* 他可以让你写更快的、更具有可维护性的，标准的前端代码
+* 它使你的代码结构更加的可读性，便于后期的维护
+* 它是你的程序更具有可扩展性</p>
+
+<p>OOCSS主要用两大原则：
+* 结构和样式分离
+* 容器和内容分离</p>
+
+<h2>结构和样式分类</h2>
+
+<p>我是这样来理解这句话的，对于页面上的每个DOM元素，或许只是简单地用来布局，或许会添加一些特效。
+但是对于很多源总是会有很多的相似之处，这些相似之处一般都会表现在结构和样式上，如果我们能够做到将结构和样式分离，这样我们就能够在其他的更多地页面来使用这些结构和样式，不用再去重复你自己（DRY），这样是软件开发的一个基本的原则。
+对于常见的定义DOM结构的CSS，比如：width、height、border、position、top、left、right、bottom、margin、padding等。
+还有一些常见的定义样式的CSS，比如：background、font、color、link、visited、hover、active等
+下面是一个例子
+在使用OOCSS之前的代码的结构：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.div1 {
+</span><span class='line'>  width: 100%;
+</span><span class='line'>  height:100px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}
+</span><span class='line'>.div2 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}
+</span><span class='line'>.div3 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用OOCSS思想之后的代码结构</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.div1 {
+</span><span class='line'>  width: 100%;
+</span><span class='line'>  height:100px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}
+</span><span class='line'>.div2 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}
+</span><span class='line'>.div3 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}
+</span><span class='line'>.box {
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样写的好处是显而易见的，一方面是代码更加的简洁，另一方面代码的可用性更高。</p>
+
+<h2>容器和内容分离</h2>
+
+<p>我们来举一个简单地例子，比如像下面的这段代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#container .div1{
+</span><span class='line'>  width:100px;
+</span><span class='line'>  height:100px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在来解释上面这段代码，我们将class为div1的样式定义在container的容器里边，这样当我们想复用这段代码的时候就会意识到这么写是多么的傻，自己给自己找不痛快。div1依赖于一个单一的容器。这个错误可能很多人都犯过，包括我自己以前也经常犯，但是犯错误没什么，关键是犯了以后我们需要思考，方式以后不再犯同样的错误。</p>
+
+<h2>CSS目录结构组织</h2>
+
+<p>其实对于CSS文件结构的组织也是非常重要的一件事情，一个好的文件组织形式有很多的好处：
+* 可以防止其中的某个文件过大
+* 是代码的结构更加的清晰
+* 便于查找
+* 便于和他人协作开发</p>
+
+<p>下面说一个我最近项目中的例子，我们项目在开始的时候是只有一个CSS文件的，当大家写CSS样式的时候都往这个文件里边去添加，这样过了两个月之后发现这个文件已经快超过1000行了，为后来的开发带来很大的不便，而且现在拆起来也很困难，因为是不同的人添加的，而且又同时有好几个平台的代码。后来没办法只能用单独的story做这个事情，我记得当时是我和一个同事一起去拆的，我们用了好几天时间才理出了一个大概的结构。
+我们后来组织CSS的一个结构是，我们先创建一个base文件，这个里边放的是一些公共的css文件，然后按照不同的页面进行划分，每个页面对应不同的CSS文件，然后这里的每个CSS文件都是继承自base文件，然后将其中的变量还有mixin也拆出来存在单独的文件，这样代码的结构就非常的清晰。</p>
+
+<p>总之在开始使用OOCSS肯定需要一定时间和实践，我现在也在慢慢地学习中，但是在写CSS的时候必须遵循一些基本的思想，养成一个好的习惯：</p>
+
+<ul>
+<li>避免使用id选择器</li>
+<li>避免使用!important</li>
+<li>避免给类名附属一个元素名(div.title/div.header)</li>
+<li>使用css网格（可以借鉴bootstrap的网格）</li>
+<li>嵌套一般不要超过三层</li>
+<li>在定义一个CSS时先定义结构css再定义样式css</li>
+<li>尽量能够做到代码复用，不要做太多的重复工作</li>
+<li>一个CSS文件不要过大</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git Introduction]]></title>

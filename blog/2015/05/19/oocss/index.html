@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OOCSS - MaLibin Blog</title>
+  <meta name="author" content="MaLibin">
+
+  
+  <meta name="description" content="近几天一直在看OOCSS,以前从没有对CSS有什么特殊的情怀，认为它就是一个样式表，就是为我们的网页内容服务的，一直认为内容才是王道，但是真的是这样吗，可能不然。
+到底是什么来吸引用户来到你的网站呢，在现在这个网络快速发展的今天，不能说内容不重要，但是速度和用户体验也是不能被我们忽视的， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/05/19/oocss/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">MaLibin Blog</a></h1>
+  
+    <h2>学会蹲下才会跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li> 
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">OOCSS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-19T16:18:35+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:18 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>近几天一直在看OOCSS,以前从没有对CSS有什么特殊的情怀，认为它就是一个样式表，就是为我们的网页内容服务的，一直认为内容才是王道，但是真的是这样吗，可能不然。
+到底是什么来吸引用户来到你的网站呢，在现在这个网络快速发展的今天，不能说内容不重要，但是速度和用户体验也是不能被我们忽视的，快速响应和一个漂亮的页面设计显得尤为重要。
+这篇博客是我对最近学习OOCSS的一些总结，一个方面是对自己近几天的学习做个总结，另一方面也是跟大家交流自己学习的一个机会。</p>
+
+<h2>OOCSS的的原则</h2>
+
+<p>OOCSS显然已经不是一个简单地设计理念了，它更是一种思考方式，带着这种思考来写自己项目中的CSS结构，它会为我们带来很多的好处
+* 他可以让你写更快的、更具有可维护性的，标准的前端代码
+* 它使你的代码结构更加的可读性，便于后期的维护
+* 它是你的程序更具有可扩展性</p>
+
+<p>OOCSS主要用两大原则：
+* 结构和样式分离
+* 容器和内容分离</p>
+
+<h2>结构和样式分类</h2>
+
+<p>我是这样来理解这句话的，对于页面上的每个DOM元素，或许只是简单地用来布局，或许会添加一些特效。
+但是对于很多源总是会有很多的相似之处，这些相似之处一般都会表现在结构和样式上，如果我们能够做到将结构和样式分离，这样我们就能够在其他的更多地页面来使用这些结构和样式，不用再去重复你自己（DRY），这样是软件开发的一个基本的原则。
+对于常见的定义DOM结构的CSS，比如：width、height、border、position、top、left、right、bottom、margin、padding等。
+还有一些常见的定义样式的CSS，比如：background、font、color、link、visited、hover、active等
+下面是一个例子
+在使用OOCSS之前的代码的结构：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.div1 {
+</span><span class='line'>  width: 100%;
+</span><span class='line'>  height:100px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}
+</span><span class='line'>.div2 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}
+</span><span class='line'>.div3 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用OOCSS思想之后的代码结构</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.div1 {
+</span><span class='line'>  width: 100%;
+</span><span class='line'>  height:100px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}
+</span><span class='line'>.div2 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}
+</span><span class='line'>.div3 {
+</span><span class='line'>  width: 49%;
+</span><span class='line'>  height:500px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}
+</span><span class='line'>.box {
+</span><span class='line'>  background:green;
+</span><span class='line'>  border-radius:25px;
+</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样写的好处是显而易见的，一方面是代码更加的简洁，另一方面代码的可用性更高。</p>
+
+<h2>容器和内容分离</h2>
+
+<p>我们来举一个简单地例子，比如像下面的这段代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#container .div1{
+</span><span class='line'>  width:100px;
+</span><span class='line'>  height:100px;
+</span><span class='line'>  border:1px solid #CCC;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在来解释上面这段代码，我们将class为div1的样式定义在container的容器里边，这样当我们想复用这段代码的时候就会意识到这么写是多么的傻，自己给自己找不痛快。div1依赖于一个单一的容器。这个错误可能很多人都犯过，包括我自己以前也经常犯，但是犯错误没什么，关键是犯了以后我们需要思考，方式以后不再犯同样的错误。</p>
+
+<h2>CSS目录结构组织</h2>
+
+<p>其实对于CSS文件结构的组织也是非常重要的一件事情，一个好的文件组织形式有很多的好处：
+* 可以防止其中的某个文件过大
+* 是代码的结构更加的清晰
+* 便于查找
+* 便于和他人协作开发</p>
+
+<p>下面说一个我最近项目中的例子，我们项目在开始的时候是只有一个CSS文件的，当大家写CSS样式的时候都往这个文件里边去添加，这样过了两个月之后发现这个文件已经快超过1000行了，为后来的开发带来很大的不便，而且现在拆起来也很困难，因为是不同的人添加的，而且又同时有好几个平台的代码。后来没办法只能用单独的story做这个事情，我记得当时是我和一个同事一起去拆的，我们用了好几天时间才理出了一个大概的结构。
+我们后来组织CSS的一个结构是，我们先创建一个base文件，这个里边放的是一些公共的css文件，然后按照不同的页面进行划分，每个页面对应不同的CSS文件，然后这里的每个CSS文件都是继承自base文件，然后将其中的变量还有mixin也拆出来存在单独的文件，这样代码的结构就非常的清晰。</p>
+
+<p>总之在开始使用OOCSS肯定需要一定时间和实践，我现在也在慢慢地学习中，但是在写CSS的时候必须遵循一些基本的思想，养成一个好的习惯：</p>
+
+<ul>
+<li>避免使用id选择器</li>
+<li>避免使用!important</li>
+<li>避免给类名附属一个元素名(div.title/div.header)</li>
+<li>使用css网格（可以借鉴bootstrap的网格）</li>
+<li>嵌套一般不要超过三层</li>
+<li>在定义一个CSS时先定义结构css再定义样式css</li>
+<li>尽量能够做到代码复用，不要做太多的重复工作</li>
+<li>一个CSS文件不要过大</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">MaLibin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-19T16:18:35+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:18 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/10/git-introduction/" title="Previous Post: Git introduction">&laquo; Git introduction</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/05/19/oocss/">OOCSS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/10/git-introduction/">Git Introduction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/jasmine/">Jasmine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/21/active-job/">Active-job</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/08/ruby-aws-sqs-received-message/">Ruby-aws-sqs(received Message)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - MaLibin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucooling';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/05/19/oocss/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/05/19/oocss/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
