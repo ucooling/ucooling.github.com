@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby 中的钩子方法 - MaLibin Blog</title>
+  <meta name="author" content="MaLibin">
+
+  
+  <meta name="description" content="以前从未对Ruby中的钩子方法有一个很深刻的认识，只是知道在使用的时候该去怎么引用，从看到了这篇文章之后我开始有了一个新的认识，也意识到自己对Ruby中的钩子方法的认识只是停留在一个很片面的层次，今天正好抽空总结一下。 什么是钩子方法 下面这段是对原文的翻译： &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">MaLibin Blog</a></h1>
+  
+    <h2>学会蹲下才会跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li> 
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby 中的钩子方法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-20T21:56:59+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>以前从未对Ruby中的钩子方法有一个很深刻的认识，只是知道在使用的时候该去怎么引用，从看到了<a href="http://www.sitepoint.com/rubys-important-hook-methods/">这篇</a>文章之后我开始有了一个新的认识，也意识到自己对Ruby中的钩子方法的认识只是停留在一个很片面的层次，今天正好抽空总结一下。</p>
+
+<h2>什么是钩子方法</h2>
+
+<p>下面这段是对原文的翻译：
+钩子方法提供当应用程序在运行时扩展应用程序的行为，假设有这样一种场景，当子类继承父类时父类能够接受到通知，或者是优雅地处理一个对象上的不可调用的方法而不是让编译器抛出异常。所有这些情况都是引用钩子方法的实例，但是他们的引用又不仅限于此，不同的框架或者库使用不同的钩子方法来实现他们的功能。</p>
+
+<p>这篇文章中我们将讨论下面列表中的钩子方法：</p>
+
+<ul>
+<li>included</li>
+<li>extended</li>
+<li>prepended</li>
+<li>inherited</li>
+<li>method_missing</li>
+</ul>
+
+
+<h2>included</h2>
+
+<p>Ruby提供了一种方法来使用定义在模块中的方法（模块在其他语言中被称作mixins）,模块的概念非常的简单，它是一种可以在其它地方使用的代码的集合。
+例如我想写一个方法，当它被调用时能够返回一个静态的字符串，我们现在将这个方法叫做name,你可能在其它的地方同样也想使用这个那么方法，对于这样的场景，我们最后新建一个moudle,所以我们有了下面的代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>moudle Person
+</span><span class='line'>  def name 
+</span><span class='line'>    puts "My name is Person"
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同时我们还有这样的一个类想要使用上面的moudle，我们可能会这样做</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class User
+</span><span class='line'>  include Person
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在我们来执行上边的代码，看看我们会得到什么</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>User.new.name
+</span><span class='line'>=&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是现在我们对moudle稍微做些修改，看看这其中的included钩子方法是如何被调用的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>moudle Person
+</span><span class='line'>  def self.included(base)
+</span><span class='line'>    puts "#{base} included #{self}"
+</span><span class='line'>  end
+</span><span class='line'>  
+</span><span class='line'>  def name 
+</span><span class='line'>    puts "My name is Person"
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在我们再来执行上边的代码，看看我们会得到什么</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>User.new.name
+</span><span class='line'>=&gt; User included Person
+</span><span class='line'>=&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
+
+
+<p>是的，正如我们所见，当我们在调用moudle中的方法的时候base返回的时包含改moudle得类名，当我们在调用moudle中的方法的时候会触发这里的included钩子方法。</p>
+
+<h2>extended</h2>
+
+<p>如果你经常写Ruby程序的话，有时候你可能会使用extend来引用一个moudle，使用这种方式跟使用include有很大的不同，当使用extend来引用moudle的时候，其实是将moudle中的方法作为类方法类引入，而使用include是作为实例方法来引入，这也就是为什么我们看到上边会使用User.new.name来调用name方法
+下面同样是来自于原文的一个例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
+</span><span class='line'>  def name
+</span><span class='line'>    "My name is Person"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>class User
+</span><span class='line'>  extend Person
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>puts User.name # =&gt; My name is Person
+</span><span class='line'>
+</span><span class='line'>u1 = User.new
+</span><span class='line'>u2 = User.new
+</span><span class='line'>
+</span><span class='line'>u1.extend Person
+</span><span class='line'>
+</span><span class='line'>puts u1.name # =&gt; My name is Person
+</span><span class='line'>puts u2.name # =&gt; undefined method `name' for #&lt;User:0x007fb8aaa2ab38&gt; (NoMethodError)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>跟included类似，和extend对应的也有一个钩子方法extended.
+当一个模块被其他模块或者类执行了extend操作的时候，就会触发该方法的调用。</p>
+
+<h2>prepended</h2>
+
+<p>另一种使用moudle内部方法的方式是prepend.这种方式被定义在ruby2.0中，它跟include和extend有很大的不同，使用include或者extend引入的方法可以在base类中重新覆盖，但是如果使用的是prepend方法引入moudle中的方法，那么它会覆盖base类中的同名方法，这样正好和include、extend相反。
+下面是原文中的一个例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
+</span><span class='line'>  def name
+</span><span class='line'>    "My name belongs to Person"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>class User
+</span><span class='line'>  include Person
+</span><span class='line'>  def name
+</span><span class='line'>    "My name belongs to User"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>puts User.new.name 
+</span><span class='line'>=&gt; My name belongs to User</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再来看一下使用prepend的方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
+</span><span class='line'>  def name
+</span><span class='line'>    "My name belongs to Person"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>class User
+</span><span class='line'>  prepend Person
+</span><span class='line'>  def name
+</span><span class='line'>    "My name belongs to User"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>puts User.new.name 
+</span><span class='line'>=&gt; My name belongs to Person</span></code></pre></td></tr></table></div></figure>
+
+
+<p>于prepend对应的也有一个钩子方法prepended方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
+</span><span class='line'>  def self.prepended(base)
+</span><span class='line'>    puts "#{self} prepended to #{base}"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def name
+</span><span class='line'>    "My name belongs to Person"
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当上边一段代码执行时，会看到下面的结果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person prepended to User
+</span><span class='line'>My name belongs to Person</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>inherited</h2>
+
+<p>继承是面向对象中一个非常重要的概念，Ruby是一个面向对象的编程语言，提供了从base/parent继承一个子类的方法，下面是一个例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
+</span><span class='line'>  def name
+</span><span class='line'>     "My name is Person"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'> 
+</span><span class='line'>class User &lt; Person
+</span><span class='line'>end
+</span><span class='line'> 
+</span><span class='line'>puts User.new.name # =&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上边是一个非常简单地继承，你可能会很好奇，是什么时候会得到通知，当一个类继承另外一个类时，Ruby提供了一个叫做inherited的钩子方法，下面是一个例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
+</span><span class='line'>  def self.inherited(child_class)
+</span><span class='line'>    puts "#{child_class} inherits #{self}"
+</span><span class='line'>  end
+</span><span class='line'> 
+</span><span class='line'>  def name
+</span><span class='line'>    "My name is Person"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'> 
+</span><span class='line'>class User &lt; Person
+</span><span class='line'>end
+</span><span class='line'> 
+</span><span class='line'>puts User.new.name</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行上边这段代码会得到下面的输出</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>User inherits Person
+</span><span class='line'>My name is Person</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>method_missing</h2>
+
+<p>method_missing 可能是Ruby中使用最广的钩子。当我们试图去访问一个对象上不存在的方法时则会调用这个钩子方法。下面是一个简单地例子</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
+</span><span class='line'>  def method_missing(sym, *args)
+</span><span class='line'>     "#{sym} not defined on #{self}"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def name
+</span><span class='line'>    "My name is Person"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>p = Person.new
+</span><span class='line'>
+</span><span class='line'>puts p.name     # =&gt; My name is Person
+</span><span class='line'>puts p.address  # =&gt; address not defined on #&lt;Person:0x007fb2bb022fe0&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>method_missing 接收两个参数：被调用的方法名和传递给该方法的参数。
+首先Ruby会寻找我们试图调用的方法，如果方法没找到则会寻找 method_missing 方法。</p>
+
+<p><em>声明：本文只是对原文做了部分的翻译，想看访问原文请看文章开始的链接。</em></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">MaLibin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-20T21:56:59+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/19/oocss/" title="Previous Post: OOCSS">&laquo; OOCSS</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/">Ruby 中的钩子方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/19/oocss/">OOCSS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/10/git-introduction/">Git Introduction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/jasmine/">Jasmine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/21/active-job/">Active-job</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - MaLibin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucooling';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

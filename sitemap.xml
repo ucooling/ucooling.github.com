@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/</loc>
+    <lastmod>2015-05-20T21:56:59+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://ucooling.github.io/blog/2015/05/19/oocss/</loc>
     <lastmod>2015-05-19T16:18:35+08:00</lastmod>
   </url>
