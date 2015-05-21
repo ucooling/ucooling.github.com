@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Use Sinatra - MaLibin Blog</title>
+  <meta name="author" content="MaLibin">
+
+  
+  <meta name="description" content="这两天是公司的Hack Day,非常有意义的活动，对于本次的idea不做赘述，这篇博客记录一下在整个的Hack过程中如何使用sinatra来搭建一个后台的服务。 什么是sinatra Sinatra是一款非常轻量的Web框架，基于Ruby语言来开发的， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/05/21/how-to-use-sinatra/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">MaLibin Blog</a></h1>
+  
+    <h2>学会蹲下才会跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li> 
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Use Sinatra</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T22:16:31+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:16 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>这两天是公司的Hack Day,非常有意义的活动，对于本次的idea不做赘述，这篇博客记录一下在整个的Hack过程中如何使用sinatra来搭建一个后台的服务。</p>
+
+<h2>什么是sinatra</h2>
+
+<p>Sinatra是一款非常轻量的Web框架，基于Ruby语言来开发的，其目的是以最小的精力为代价快速创建Web应用为目的的DSL（领域专属语言）。
+Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行稍微多点。</p>
+
+<h2>How to use Sinatra</h2>
+
+<ul>
+<li>首先需要保证你的系统已经安装了Ruby，至于怎么搭建Ruby环境，其实很简单，如果你使用的是Mac的话，首先你需要安装RVM，使用Rvm来管理你的Ruby，然后再安装Ruby，具体不做细说。</li>
+<li>创建项目的的目录结构</li>
+</ul>
+
+
+<p><img src="/images/sinatra_1.png" alt="目录结构" /></p>
+
+<ul>
+<li>在Gemfile文件中引入需要使用的Gem包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake'
+</span><span class='line'>gem 'rack', '~&gt;1.5.2'
+</span><span class='line'>gem 'json'
+</span><span class='line'>gem 'rack-hal_browser'
+</span><span class='line'>gem 'mysql2' # STENCIL_OPTIONAL: Database
+</span><span class='line'>gem 'sinatra'
+</span><span class='line'>gem 'sinatra-activerecord'
+</span><span class='line'>gem 'sinatra-contrib'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>运行bundle install</li>
+<li>创建Rakefile文件
+里边引入下面这段代码：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require "sinatra/activerecord/rake"
+</span><span class='line'>
+</span><span class='line'>namespace :db do
+</span><span class='line'>  task :load_config do
+</span><span class='line'>    require "./app"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>task :default =&gt; ['migrate']</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上边这段代码的目的是引入sinatra自己的rake任务，方便我们去做数据库迁移，如果还想自己去定义其他的rake任务可以继续往改文件里边添加
+* 连接数据库，创建config/database.yml文件
+在该文件中做如下的配置：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>development:
+</span><span class='line'>  adapter: mysql2
+</span><span class='line'>  host: 127.0.0.1
+</span><span class='line'>  username: root
+</span><span class='line'>  password:
+</span><span class='line'>  database: developer-SEC-server</span></code></pre></td></tr></table></div></figure>
+
+
+<p>本设置比较简单，只是创建了一个开发的数据库，你也可以创建你自己的test环境和产品环境
+* 创建db/migrate目录结构
+* 创建自己models目录结构
+在该文件中你可以新建models，可以跟数据库表一一对应，看自己的需求
+* 新建app.rb文件
+这个文件是sinatra中的关键文件，在该文件中你可以定义自己对外提供的接口。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'sinatra'
+</span><span class='line'>require 'sinatra/json'
+</span><span class='line'>require "sinatra/activerecord"
+</span><span class='line'>require "./models/user"
+</span><span class='line'>
+</span><span class='line'>class DeveloperSECApp &lt; Sinatra::Base
+</span><span class='line'>
+</span><span class='line'>  register Sinatra::ActiveRecordExtension
+</span><span class='line'>
+</span><span class='line'>  post '/:login' do
+</span><span class='line'>      response.headers['Access-Control-Allow-Origin'] = '*'
+</span><span class='line'>      response.headers['Access-Control-Allow-Methods'] = 'POST'
+</span><span class='line'>      user = User.find_by("developer_key=?", params['developer_key'])
+</span><span class='line'>      @developer_key = params['developer_key']
+</span><span class='line'>      if user.password == params['password']
+</span><span class='line'>          puts params['password']
+</span><span class='line'>          status 200
+</span><span class='line'>
+</span><span class='line'>      else
+</span><span class='line'>          puts params['password']
+</span><span class='line'>          status 400
+</span><span class='line'>      end
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上边的这段代码实现了一个简单地登录认证。</p>
+
+<p>整个上边的过程，只是对sinatra的一个简单地demo，如果要在实际的项目中使用的话可以写出很复杂的应用，跟使用rails没有太大的区别，只是这个gem包更加的轻量，开发更快。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">MaLibin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T22:16:31+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:16 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/" title="Previous Post: ruby 中的钩子方法">&laquo; ruby 中的钩子方法</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/05/21/how-to-use-sinatra/">How to Use Sinatra</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/">Ruby 中的钩子方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/19/oocss/">OOCSS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/05/10/git-introduction/">Git Introduction</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/22/jasmine/">Jasmine</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - MaLibin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ucooling';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/05/21/how-to-use-sinatra/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/05/21/how-to-use-sinatra/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
