@@ -5,21 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ruby-aws-sqs(received Message) - MaLibin Blog</title>
+  <title>Heatmap - MaLibin Blog</title>
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。 Received message 从SQS读取消息 1
-2
-3
-4
-5
-6
-7
-8
-9
-require 'aws-sdk'
-require 'json' credential = Aws::Credentials. &hellip;">
+  <meta name="description" content="list all options we have investgated below options: 1 Visual Website Optimizer 2 inspectlet 3 luckyorange 4 heatmap.me 5 mouseflow
+why use heatmap. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,7 +19,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/">
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/09/23/heatmap/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="MaLibin Blog" type="application/atom+xml">
@@ -78,7 +69,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Ruby-aws-sqs(received Message)</h1>
+      <h1 class="entry-title">Heatmap</h1>
     
     
       <p class="meta">
@@ -87,7 +78,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
 
 
 
-<time class='entry-date' datetime='2015-04-08T00:05:51+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 am</span></time>
+<time class='entry-date' datetime='2015-09-23T21:23:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://ucooling.github.io">Comments</a>
@@ -97,67 +88,85 @@ require 'json' credential = Aws::Credentials. &hellip;">
   </header>
 
 
-<div class="entry-content"><p>读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。</p>
+<div class="entry-content"><ul>
+<li><p>list all options</p>
 
-<h2>Received message</h2>
+<p>we have investgated below options:</p>
 
-<p>从SQS读取消息</p>
+<p>1 Visual Website Optimizer</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
-</span><span class='line'>require 'json'
-</span><span class='line'>
-</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
-</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
-</span><span class='line'>
-</span><span class='line'>queue = Aws::SQS::Client.new()
-</span><span class='line'>
-</span><span class='line'>message = queue.receive_message('queue_url')</span></code></pre></td></tr></table></div></figure>
+<p>2 inspectlet</p>
+
+<p>3 luckyorange</p>
+
+<p>4 heatmap.me</p>
+
+<p>5 mouseflow</p></li>
+<li><p>why use heatmap.me</p>
+
+<p>For the Visual Website Optimizer, it use canvas draw a page and record user heatmap. For inspectlet and luckyorange, they use a static image record user heatmap, but need record user&rsquo;s operations in our widget. So Thvm</p></li>
+<li><p>how to use</p></li>
+<li>disadvantaged</li>
+</ul>
 
 
-<h2>poller message</h2>
+<h2>Heat Map Spike</h2>
 
-<p>订阅SQS的消息，当SQS获取消息，订阅者就可以或得更新的消息</p>
+<h3>Problem:</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
-</span><span class='line'>require 'json'
-</span><span class='line'>
-</span><span class='line'>credential = Aws::Credentials.new('access_key_id', 'secret_access_key')
-</span><span class='line'>Aws.config.update(credentials: credential, region: 'region')
-</span><span class='line'>
-</span><span class='line'>queue = Aws::SQS::QueuePoller.new('queue_url')
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>puts "enter the queue"
-</span><span class='line'>queue.poll do |msg|
-</span><span class='line'>  puts msg.body
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+<p> Most of the heatmap tool is a url based tool, that means it will provide us a snapshot of the page and show the heatmap on the snapshot. They all have less support to dynamic elements such as our HLT, none of them can show the HLT on the snapshot and the click events is shown as a PDP click.</p>
 
+<p> We&rsquo;ve tried vwo, openheatmap, inspectlet, mouseflow, luckyorange, crazyegg, none of them can be used for our HLT.</p>
 
-<h2>参考文档</h2>
+<h3>Options:</h3>
 
-<p><a href="http://docs.aws.amazon.com/sdkforruby/api/Aws/SQS/Client.html">aws-sdk docs</a></p>
+<ol>
+<li><p>Heatmap.me</p>
+
+<ul>
+<li><p>This tool provide good support for dynamic elements, also provide a way to prevent count in the events on PDP page.</p></li>
+<li><p>The feature is less than other tools, it only collect click events.</p></li>
+<li>Don&rsquo;t have a dashboard show results.</li>
+</ul>
+</li>
+<li><p>vwo</p>
+
+<ul>
+<li>This tool does not support for dynamic elements</li>
+<li>Just apply click events.</li>
+<li>Have a good dashboard show results.</li>
+<li>use canvas draw result page.</li>
+</ul>
+</li>
+<li><p>inspectlet</p>
+
+<ul>
+<li>This tool provide a lot of features, such as Eye-tracking Heatmap/Click Heatmap/scroll Heatmap.</li>
+<li>Have a good dashboard show results.</li>
+<li>use static image record results.
+This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>luckyorange</p>
+
+<ul>
+<li>This tool support move/click/scroll/precise heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>use static image record results</li>
+<li>This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>mouseflow</p>
+
+<ul>
+<li>This tool support move/click/scroll heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>support dynamic elements</li>
+<li>Can&rsquo;t load our widget</li>
+</ul>
+</li>
+</ol>
+
 </div>
 
 
@@ -173,7 +182,7 @@ require 'json' credential = Aws::Credentials. &hellip;">
 
 
 
-<time class='entry-date' datetime='2015-04-08T00:05:51+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 am</span></time>
+<time class='entry-date' datetime='2015-09-23T21:23:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 pm</span></time>
       
 
 
@@ -188,10 +197,8 @@ require 'json' credential = Aws::Credentials. &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/04/06/rspec-yu-fa-jie-shao/" title="Previous Post: Rspec 语法介绍">&laquo; Rspec 语法介绍</a>
+        <a class="basic-alignment left" href="/blog/2015/09/23/brightcove/" title="Previous Post: brightcove">&laquo; brightcove</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/04/21/active-job/" title="Next Post: active-job">active-job &raquo;</a>
       
     </p>
   </footer>
@@ -257,8 +264,8 @@ require 'json' credential = Aws::Credentials. &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/';
-        var disqus_url = 'http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/';
+        var disqus_identifier = 'http://ucooling.github.io/blog/2015/09/23/heatmap/';
+        var disqus_url = 'http://ucooling.github.io/blog/2015/09/23/heatmap/';
         var disqus_script = 'embed.js';
       
     (function () {

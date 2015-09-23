@@ -9,7 +9,8 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="这两天是公司的Hack Day,非常有意义的活动，对于本次的idea不做赘述，这篇博客记录一下在整个的Hack过程中如何使用sinatra来搭建一个后台的服务。 什么是sinatra Sinatra是一款非常轻量的Web框架，基于Ruby语言来开发的， &hellip;">
+  <meta name="description" content="list all options we have investgated below options: 1 Visual Website Optimizer 2 inspectlet 3 luckyorange 4 heatmap.me 5 mouseflow
+why use heatmap. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,291 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/23/heatmap/">Heatmap</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-23T21:23:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 pm</span></time>
+        
+           | <a href="/blog/2015/09/23/heatmap/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/09/23/heatmap/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li><p>list all options</p>
+
+<p>we have investgated below options:</p>
+
+<p>1 Visual Website Optimizer</p>
+
+<p>2 inspectlet</p>
+
+<p>3 luckyorange</p>
+
+<p>4 heatmap.me</p>
+
+<p>5 mouseflow</p></li>
+<li><p>why use heatmap.me</p>
+
+<p>For the Visual Website Optimizer, it use canvas draw a page and record user heatmap. For inspectlet and luckyorange, they use a static image record user heatmap, but need record user&rsquo;s operations in our widget. So Thvm</p></li>
+<li><p>how to use</p></li>
+<li>disadvantaged</li>
+</ul>
+
+
+<h2>Heat Map Spike</h2>
+
+<h3>Problem:</h3>
+
+<p> Most of the heatmap tool is a url based tool, that means it will provide us a snapshot of the page and show the heatmap on the snapshot. They all have less support to dynamic elements such as our HLT, none of them can show the HLT on the snapshot and the click events is shown as a PDP click.</p>
+
+<p> We&rsquo;ve tried vwo, openheatmap, inspectlet, mouseflow, luckyorange, crazyegg, none of them can be used for our HLT.</p>
+
+<h3>Options:</h3>
+
+<ol>
+<li><p>Heatmap.me</p>
+
+<ul>
+<li><p>This tool provide good support for dynamic elements, also provide a way to prevent count in the events on PDP page.</p></li>
+<li><p>The feature is less than other tools, it only collect click events.</p></li>
+<li>Don&rsquo;t have a dashboard show results.</li>
+</ul>
+</li>
+<li><p>vwo</p>
+
+<ul>
+<li>This tool does not support for dynamic elements</li>
+<li>Just apply click events.</li>
+<li>Have a good dashboard show results.</li>
+<li>use canvas draw result page.</li>
+</ul>
+</li>
+<li><p>inspectlet</p>
+
+<ul>
+<li>This tool provide a lot of features, such as Eye-tracking Heatmap/Click Heatmap/scroll Heatmap.</li>
+<li>Have a good dashboard show results.</li>
+<li>use static image record results.
+This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>luckyorange</p>
+
+<ul>
+<li>This tool support move/click/scroll/precise heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>use static image record results</li>
+<li>This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>mouseflow</p>
+
+<ul>
+<li>This tool support move/click/scroll heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>support dynamic elements</li>
+<li>Can&rsquo;t load our widget</li>
+</ul>
+</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/23/brightcove/">Brightcove</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-23T21:20:52+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 pm</span></time>
+        
+           | <a href="/blog/2015/09/23/brightcove/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/09/23/brightcove/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>What is brightcove</h2>
+
+<p>  Brightcove revolutionizes the way organizations deliver video experiences. it change the video transmission ways. It is different the YouTube video, YouTube focus on the video of users homemade. The brightcove hope build a chance, there is everyone can build the video, meantime share the video and get revenue. Brightcove is position itself as an online video paltform, the main work is to provide video and other digital media and publish paltform to manufacturers of video content, totally that is cloud video</p>
+
+<p> ## How to use brightcove</p>
+
+<p> you need to sign up a account of brightcove
+ * you can upload a video to media, chose the video that is updated, and click publish button and publish your video</p>
+
+<ul>
+<li><p>you also can create a player, when you pushlish your video, you can chose <br/>
+you player</p></li>
+<li><p>you also create a playlist, and add some video to the playlist, besides you can publish the playlist.</p></li>
+</ul>
+
+
+<p> ## Demo</p>
+
+<ul>
+<li>publish a video</li>
+</ul>
+
+
+<p> Use iframe tag</p>
+
+<pre><code class="```">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Dynamically Load Player&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;iframe src='http://players.brightcove.net/4446402108001/ee7a42d1-6d38-46f1-a79e-738e08b6ef36_default/index.html?videoId=4446806003001' allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;
+&lt;/body&gt;
+&lt;/html&gt;  
+</code></pre>
+
+<p>  Use video tag</p>
+
+<p>  &#8220;`
+&lt;!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamically Load Player</title>
+</head>
+<body>
+  <video
+  data-video-id="4448133659001"
+  data-account="4446402108001"
+  data-player="default"
+  data-embed="default"
+  class="video-js" controls></video></p>
+
+<script src="http://players.brightcove.net/1719543778001/vttjs/dist/vtt.min.js"></script>
+
+
+<script src="http://players.brightcove.net/4446402108001/default_default/index.min.js"></script>
+
+
+<p></body>
+</html>
+&#8220;`</p>
+
+<ul>
+<li>publish a playlist</li>
+</ul>
+
+
+<pre><code class="`"> &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Media API Sample&lt;/title&gt;
+        &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;!-- Javascript Media API wrapper from http://docs.brightcove.com/en/video-cloud/open-source/index.html --&gt;
+    &lt;script type="text/javascript" src="http://files.brightcove.com/bc-mapi.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Media API Sample&lt;/h1&gt;
+    &lt;!-- Start of Brightcove Player --&gt;
+    &lt;script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"&gt;&lt;/script&gt;
+    &lt;object id="myExperience" class="BrightcoveExperience"&gt;
+      &lt;param name="bgcolor" value="#FFFFFF" /&gt;
+      &lt;param name="width" value="480" /&gt;
+      &lt;param name="height" value="270" /&gt;
+      &lt;param name="playerID" value="921267190001" /&gt;
+      &lt;param name="playerKey" value="AQ~~,AAAA1oy1bvE~,ALl2ezBj3WG3MLvDx9F9zkV06cNK00ey" /&gt;
+      &lt;param name="isVid" value="true" /&gt;
+      &lt;param name="isUI" value="true" /&gt;
+      &lt;param name="dynamicStreaming" value="true" /&gt;
+      &lt;!-- params for Universal Player API --&gt;
+      &lt;param name="includeAPI" value="true" /&gt;
+      &lt;param name="templateReadyHandler" value="BCL.onTemplateReady" /&gt;
+    &lt;/object&gt;
+    &lt;script type="text/javascript"&gt;brightcove.createExperiences();&lt;/script&gt;
+    &lt;!-- End of Brightcove Player --&gt;
+    &lt;fieldset&gt;
+      &lt;legend&gt;Videos&lt;/legend&gt;
+      &lt;div id="results"&gt;&lt;/div&gt;
+    &lt;/fieldset&gt;&lt;br&gt;
+    &lt;!-- This is the script to modify for the exercise --&gt;
+    &lt;script type="text/javascript"&gt;
+      // BCL Media API search maker -- adapted from JS-MAPI on http://docs.brightcove.com/en/video-cloud/open-source/index.html
+      // namespace to keep all the "global" vars together
+      var BCL = {};
+      // placeholder - params for API call
+      BCL.params = {};
+      // Media API read token
+      BCMAPI.token = "WDGO_XdKqXVJRVGtrNuGLxCYDNoR-SvA5yUqX2eE6KjgefOxRzQilw..";
+      // set the callback for Media API calls
+      BCMAPI.callback = "BCL.onSearchResponse";
+      // set the filter
+      BCL.params.any = "tag:nature";
+      BCMAPI.search(BCL.params);
+      BCL.onSearchResponse = function(jsonData) {
+        var str = "";
+        for (var index in jsonData.items) {
+          str += "&lt;a onclick=\"BCL.playVideo(" + jsonData.items[index].id + ")\" style=\"cursor:pointer\"&gt;&lt;img src=\"" + jsonData.items[index].thumbnailURL + "\"/&gt;&lt;br/&gt;&lt;small&gt;" + jsonData.items[index].name + "&lt;/&lt;small&gt;&lt;/a&gt;&lt;hr/&gt;";
+        }
+        document.getElementById("results").innerHTML = str;
+      }
+      // Player API scripting
+      // event listener for the player being ready
+      BCL.onTemplateReady = function (event) {
+        BCL.player = brightcove.api.getExperience("myExperience");
+        // get a reference to the video player
+        BCL.videoPlayer = BCL.player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
+      }
+      // play video function
+      BCL.playVideo = function(videoID) {
+        BCL.videoPlayer.loadVideoByID(videoID);
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p> ## reference material</p>
+
+<ul>
+<li><a href="http://docs.brightcove.com/en/index.html">http://docs.brightcove.com/en/index.html</a></li>
+<li><a href="https://studio.brightcove.com/products/videocloud/home">https://studio.brightcove.com/products/videocloud/home</a></li>
+<li><a href="https://docs.brightcove.com/en/video-cloud/cms-api/getting-started/overview-cms.html#generalInfo">https://docs.brightcove.com/en/video-cloud/cms-api/getting-started/overview-cms.html#generalInfo</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2358,322 +2644,6 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
-        
-           | <a href="/blog/2015/04/06/rspec-ru-men/#disqus_thread"
-             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Rspec介绍</h2>
-
-<p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p>
-
-<h2>关于TDD</h2>
-
-<p>很多人对于写测试的第一印象可能是：</p>
-
-<ul>
-<li>写测试很无聊</li>
-<li>写测试很浪费时间</li>
-<li>测试很难写</li>
-<li>测试对于开发的帮助不大</li>
-</ul>
-
-
-<p>但是我现在想说，其实一开始接触写测试的时候我也同样觉得这种方式很浪费时间，而且有的测试确实很难写，增加了学习的成本，且收效甚微，但是当我慢慢在工作中发现他的好处的时候，我的这种想法慢慢的发生了改变，写测试其实是有很多的好处的</p>
-
-<ul>
-<li>开发之前写测试可以保证你的代码的正确性，保证你做的事情是正确的。</li>
-<li>当之后再对代码进行重构或者添加新的功能的时候，测试可以保证你新加的代码不会影响以前的功能</li>
-<li>可以采用TDD的开发方式，在写测试的过程中可以提前对你的代码进行设计，在以后测试可以当成你代码的文档，不用再去写一些注释或者其他的一些文档。</li>
-</ul>
-
-
-<p>而且现在很多公司的开发也开始越来越重视测试，足以说明测试的重要性，也是作为一个码农必须去学习和研究的知识。</p>
-
-<h2>Rspec安装</h2>
-
-<p>在Gemfile配置文件中，按照下面的代码进行配置</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :test do
-</span><span class='line'>  gem 'rspec'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>执行一下命令来安装gem包</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>测试的目录结构</h2>
-
-<p>通过执行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rspec --init</span></code></pre></td></tr></table></div></figure>
-
-
-<p>它将会生成spec路径和spec_helper.rb文件，下图中的spec下的其他路劲均为手动添加。</p>
-
-<ul>
-<li>目录结构</li>
-</ul>
-
-
-<p><img src="/images/spec_1.png" alt="spec目录结构" /></p>
-
-<ul>
-<li>spec_helper.rb</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RSpec.configure do |config|
-</span><span class='line'>  config.expect_with :rspec do |expectations|
-</span><span class='line'>    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
-</span><span class='line'>  end
-</span><span class='line'>  config.mock_with :rspec do |mocks|
-</span><span class='line'>    mocks.verify_partial_doubles = true
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>开始写测试</h2>
-
-<p>还是在spec目录下，你可以只是简单地定义一个XX.rb的测试文件，如果项目比较大，你也可以用目录的结构进行组织。</p>
-
-<ul>
-<li>测试的简单结构如下：</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
-</span><span class='line'>
-</span><span class='line'>before do
-</span><span class='line'>  ......
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>after do
-</span><span class='line'>  ......
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>describe XXX do
-</span><span class='line'>  it XXX do
-</span><span class='line'>      ......
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>下一节我会开始介绍如何编写自己的测试。</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs(send_message)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-02T21:11:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:11 pm</span></time>
-        
-           | <a href="/blog/2015/04/02/ruby-aws-sqs/#disqus_thread"
-             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>如何在Ruby中使用AWS的SQS</h2>
-
-<blockquote><p>SQS(Simple Queue Service)是一个伸缩且可靠的消息传递框架，可以使用SQS简单地创建、存储和获取信息，可以使用它构建基于AWS的应用程序。使用SQS是构建松耦合的Web应用程序的好方法，只需要根据使用量付费，整个队列框架在Amazon数据中心的安全环境中运行。</p></blockquote>
-
-<h2>SQS提供以下的特性：</h2>
-
-<ul>
-<li><p>可靠性
-SQS能够跨多个数据中心冗余地存储消息，保证他们随时可用。</p></li>
-<li><p>简单性
-访问和使用SQS的编程模型非常的简单，而且可以可以通过多种编程语言使用SQS。</p></li>
-<li><p>安全性
-SQS提供很高的安全水平，只允许授权的用户消费消息。</p></li>
-<li><p>可伸缩性
-可以使用SQS创建基于队列的应用程序，这些程序可以读写数量不限的消息。</p></li>
-<li><p>低成本
-SQS以非常低廉的费率满足您的消息传递需求。</p></li>
-</ul>
-
-
-<h2>设计考虑因素</h2>
-
-<ul>
-<li>SQS不保证队列中消息的次序</li>
-<li>SQS不保证删除队列中的消息</li>
-<li>SQS不保证在查询是返回队列中的所有消息</li>
-</ul>
-
-
-<h2>用Ruby使用SQS的简单Demo</h2>
-
-<ul>
-<li>设置环境变量(sqs_config.rb)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
-</span><span class='line'>
-</span><span class='line'>module Sqs
-</span><span class='line'>  include App::Config
-</span><span class='line'>  credential = Aws::Credentials.new(config.sqs_access_key, config.sqs_secret_access_key)
-</span><span class='line'>  Aws.config.update({
-</span><span class='line'>                     credentials: credential,
-</span><span class='line'>                     region: config.sqs_region })
-</span><span class='line'>  
-</span><span class='line'>  SQS = Aws::SQS::Client.new
-</span><span class='line'>  def send_message(msg)
-</span><span class='line'>    SQS.send_message(queue_url: config.sqs_endpoint, message_body: msg)
-</span><span class='line'>  end
-</span><span class='line'>end </span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>将环境变量提取出来，单独设置</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module App
-</span><span class='line'>   module Config
-</span><span class='line'>    def sqs_access_key
-</span><span class='line'>      'xxxxx'
-</span><span class='line'>    end
-</span><span class='line'>
-</span><span class='line'>    def sqs_secret_access_key
-</span><span class='line'>      'xxxxx'
-</span><span class='line'>    end
-</span><span class='line'>
-</span><span class='line'>    def sqs_region
-</span><span class='line'>      'xxxxxxxx'
-</span><span class='line'>    end
-</span><span class='line'>
-</span><span class='line'>    def sqs_endpoint
-</span><span class='line'>      'https://sqs.xxxxxxxxx.amazonaws.com/xxxxxxxx/contacts-info'
-</span><span class='line'>    end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
-
-<ul>
-<li>发送消息</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>include 'sqs_config'
-</span><span class='line'> send_message(msg)</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>参考资料</h2>
-
-<p> <a href="http://blog.csdn.net/menxu_work/article/details/38296043">AWS Ruby Demo</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -2689,6 +2659,14 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/23/heatmap/">Heatmap</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/brightcove/">Brightcove</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/05/21/how-to-use-sinatra/">How to Use Sinatra</a>
       </li>
     
@@ -2698,14 +2676,6 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
     
       <li class="post">
         <a href="/blog/2015/05/19/oocss/">OOCSS</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/10/git-introduction/">Git Introduction</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/22/jasmine/">Jasmine</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-05-21T22:54:55+08:00</updated>
+  <updated>2015-09-23T21:25:19+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,6 +12,245 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Heatmap]]></title>
+    <link href="http://ucooling.github.io/blog/2015/09/23/heatmap/"/>
+    <updated>2015-09-23T21:23:34+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/09/23/heatmap</id>
+    <content type="html"><![CDATA[<ul>
+<li><p>list all options</p>
+
+<p>we have investgated below options:</p>
+
+<p>1 Visual Website Optimizer</p>
+
+<p>2 inspectlet</p>
+
+<p>3 luckyorange</p>
+
+<p>4 heatmap.me</p>
+
+<p>5 mouseflow</p></li>
+<li><p>why use heatmap.me</p>
+
+<p>For the Visual Website Optimizer, it use canvas draw a page and record user heatmap. For inspectlet and luckyorange, they use a static image record user heatmap, but need record user&rsquo;s operations in our widget. So Thvm</p></li>
+<li><p>how to use</p></li>
+<li>disadvantaged</li>
+</ul>
+
+
+<h2>Heat Map Spike</h2>
+
+<h3>Problem:</h3>
+
+<p> Most of the heatmap tool is a url based tool, that means it will provide us a snapshot of the page and show the heatmap on the snapshot. They all have less support to dynamic elements such as our HLT, none of them can show the HLT on the snapshot and the click events is shown as a PDP click.</p>
+
+<p> We&rsquo;ve tried vwo, openheatmap, inspectlet, mouseflow, luckyorange, crazyegg, none of them can be used for our HLT.</p>
+
+<h3>Options:</h3>
+
+<ol>
+<li><p>Heatmap.me</p>
+
+<ul>
+<li><p>This tool provide good support for dynamic elements, also provide a way to prevent count in the events on PDP page.</p></li>
+<li><p>The feature is less than other tools, it only collect click events.</p></li>
+<li>Don&rsquo;t have a dashboard show results.</li>
+</ul>
+</li>
+<li><p>vwo</p>
+
+<ul>
+<li>This tool does not support for dynamic elements</li>
+<li>Just apply click events.</li>
+<li>Have a good dashboard show results.</li>
+<li>use canvas draw result page.</li>
+</ul>
+</li>
+<li><p>inspectlet</p>
+
+<ul>
+<li>This tool provide a lot of features, such as Eye-tracking Heatmap/Click Heatmap/scroll Heatmap.</li>
+<li>Have a good dashboard show results.</li>
+<li>use static image record results.
+This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>luckyorange</p>
+
+<ul>
+<li>This tool support move/click/scroll/precise heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>use static image record results</li>
+<li>This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>mouseflow</p>
+
+<ul>
+<li>This tool support move/click/scroll heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>support dynamic elements</li>
+<li>Can&rsquo;t load our widget</li>
+</ul>
+</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Brightcove]]></title>
+    <link href="http://ucooling.github.io/blog/2015/09/23/brightcove/"/>
+    <updated>2015-09-23T21:20:52+08:00</updated>
+    <id>http://ucooling.github.io/blog/2015/09/23/brightcove</id>
+    <content type="html"><![CDATA[<h2>What is brightcove</h2>
+
+<p>  Brightcove revolutionizes the way organizations deliver video experiences. it change the video transmission ways. It is different the YouTube video, YouTube focus on the video of users homemade. The brightcove hope build a chance, there is everyone can build the video, meantime share the video and get revenue. Brightcove is position itself as an online video paltform, the main work is to provide video and other digital media and publish paltform to manufacturers of video content, totally that is cloud video</p>
+
+<p> ## How to use brightcove</p>
+
+<p> you need to sign up a account of brightcove
+ * you can upload a video to media, chose the video that is updated, and click publish button and publish your video</p>
+
+<ul>
+<li><p>you also can create a player, when you pushlish your video, you can chose <br/>
+you player</p></li>
+<li><p>you also create a playlist, and add some video to the playlist, besides you can publish the playlist.</p></li>
+</ul>
+
+
+<p> ## Demo</p>
+
+<ul>
+<li>publish a video</li>
+</ul>
+
+
+<p> Use iframe tag</p>
+
+<pre><code class="```">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Dynamically Load Player&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;iframe src='http://players.brightcove.net/4446402108001/ee7a42d1-6d38-46f1-a79e-738e08b6ef36_default/index.html?videoId=4446806003001' allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;
+&lt;/body&gt;
+&lt;/html&gt;  
+</code></pre>
+
+<p>  Use video tag</p>
+
+<p>  &#8220;`
+&lt;!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamically Load Player</title>
+</head>
+<body>
+  <video
+  data-video-id="4448133659001"
+  data-account="4446402108001"
+  data-player="default"
+  data-embed="default"
+  class="video-js" controls></video></p>
+
+<script src="http://players.brightcove.net/1719543778001/vttjs/dist/vtt.min.js"></script>
+
+
+<script src="http://players.brightcove.net/4446402108001/default_default/index.min.js"></script>
+
+
+<p></body>
+</html>
+&#8220;`</p>
+
+<ul>
+<li>publish a playlist</li>
+</ul>
+
+
+<pre><code class="`"> &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Media API Sample&lt;/title&gt;
+        &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;!-- Javascript Media API wrapper from http://docs.brightcove.com/en/video-cloud/open-source/index.html --&gt;
+    &lt;script type="text/javascript" src="http://files.brightcove.com/bc-mapi.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Media API Sample&lt;/h1&gt;
+    &lt;!-- Start of Brightcove Player --&gt;
+    &lt;script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"&gt;&lt;/script&gt;
+    &lt;object id="myExperience" class="BrightcoveExperience"&gt;
+      &lt;param name="bgcolor" value="#FFFFFF" /&gt;
+      &lt;param name="width" value="480" /&gt;
+      &lt;param name="height" value="270" /&gt;
+      &lt;param name="playerID" value="921267190001" /&gt;
+      &lt;param name="playerKey" value="AQ~~,AAAA1oy1bvE~,ALl2ezBj3WG3MLvDx9F9zkV06cNK00ey" /&gt;
+      &lt;param name="isVid" value="true" /&gt;
+      &lt;param name="isUI" value="true" /&gt;
+      &lt;param name="dynamicStreaming" value="true" /&gt;
+      &lt;!-- params for Universal Player API --&gt;
+      &lt;param name="includeAPI" value="true" /&gt;
+      &lt;param name="templateReadyHandler" value="BCL.onTemplateReady" /&gt;
+    &lt;/object&gt;
+    &lt;script type="text/javascript"&gt;brightcove.createExperiences();&lt;/script&gt;
+    &lt;!-- End of Brightcove Player --&gt;
+    &lt;fieldset&gt;
+      &lt;legend&gt;Videos&lt;/legend&gt;
+      &lt;div id="results"&gt;&lt;/div&gt;
+    &lt;/fieldset&gt;&lt;br&gt;
+    &lt;!-- This is the script to modify for the exercise --&gt;
+    &lt;script type="text/javascript"&gt;
+      // BCL Media API search maker -- adapted from JS-MAPI on http://docs.brightcove.com/en/video-cloud/open-source/index.html
+      // namespace to keep all the "global" vars together
+      var BCL = {};
+      // placeholder - params for API call
+      BCL.params = {};
+      // Media API read token
+      BCMAPI.token = "WDGO_XdKqXVJRVGtrNuGLxCYDNoR-SvA5yUqX2eE6KjgefOxRzQilw..";
+      // set the callback for Media API calls
+      BCMAPI.callback = "BCL.onSearchResponse";
+      // set the filter
+      BCL.params.any = "tag:nature";
+      BCMAPI.search(BCL.params);
+      BCL.onSearchResponse = function(jsonData) {
+        var str = "";
+        for (var index in jsonData.items) {
+          str += "&lt;a onclick=\"BCL.playVideo(" + jsonData.items[index].id + ")\" style=\"cursor:pointer\"&gt;&lt;img src=\"" + jsonData.items[index].thumbnailURL + "\"/&gt;&lt;br/&gt;&lt;small&gt;" + jsonData.items[index].name + "&lt;/&lt;small&gt;&lt;/a&gt;&lt;hr/&gt;";
+        }
+        document.getElementById("results").innerHTML = str;
+      }
+      // Player API scripting
+      // event listener for the player being ready
+      BCL.onTemplateReady = function (event) {
+        BCL.player = brightcove.api.getExperience("myExperience");
+        // get a reference to the video player
+        BCL.videoPlayer = BCL.player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
+      }
+      // play video function
+      BCL.playVideo = function(videoID) {
+        BCL.videoPlayer.loadVideoByID(videoID);
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p> ## reference material</p>
+
+<ul>
+<li><a href="http://docs.brightcove.com/en/index.html">http://docs.brightcove.com/en/index.html</a></li>
+<li><a href="https://studio.brightcove.com/products/videocloud/home">https://studio.brightcove.com/products/videocloud/home</a></li>
+<li><a href="https://docs.brightcove.com/en/video-cloud/cms-api/getting-started/overview-cms.html#generalInfo">https://docs.brightcove.com/en/video-cloud/cms-api/getting-started/overview-cms.html#generalInfo</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Use Sinatra]]></title>

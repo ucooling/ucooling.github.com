@@ -9,7 +9,10 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="为啥学习Node ">
+  <meta name="description" content="Rspec介绍 Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试 关于TDD 很多人对于写测试的第一印象可能是： 写测试很无聊
+写测试很浪费时间
+测试很难写
+测试对于开发的帮助不大 但是我现在想说， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +68,322 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
+        
+           | <a href="/blog/2015/04/06/rspec-ru-men/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Rspec介绍</h2>
+
+<p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p>
+
+<h2>关于TDD</h2>
+
+<p>很多人对于写测试的第一印象可能是：</p>
+
+<ul>
+<li>写测试很无聊</li>
+<li>写测试很浪费时间</li>
+<li>测试很难写</li>
+<li>测试对于开发的帮助不大</li>
+</ul>
+
+
+<p>但是我现在想说，其实一开始接触写测试的时候我也同样觉得这种方式很浪费时间，而且有的测试确实很难写，增加了学习的成本，且收效甚微，但是当我慢慢在工作中发现他的好处的时候，我的这种想法慢慢的发生了改变，写测试其实是有很多的好处的</p>
+
+<ul>
+<li>开发之前写测试可以保证你的代码的正确性，保证你做的事情是正确的。</li>
+<li>当之后再对代码进行重构或者添加新的功能的时候，测试可以保证你新加的代码不会影响以前的功能</li>
+<li>可以采用TDD的开发方式，在写测试的过程中可以提前对你的代码进行设计，在以后测试可以当成你代码的文档，不用再去写一些注释或者其他的一些文档。</li>
+</ul>
+
+
+<p>而且现在很多公司的开发也开始越来越重视测试，足以说明测试的重要性，也是作为一个码农必须去学习和研究的知识。</p>
+
+<h2>Rspec安装</h2>
+
+<p>在Gemfile配置文件中，按照下面的代码进行配置</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :test do
+</span><span class='line'>  gem 'rspec'
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行一下命令来安装gem包</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>测试的目录结构</h2>
+
+<p>通过执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rspec --init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它将会生成spec路径和spec_helper.rb文件，下图中的spec下的其他路劲均为手动添加。</p>
+
+<ul>
+<li>目录结构</li>
+</ul>
+
+
+<p><img src="/images/spec_1.png" alt="spec目录结构" /></p>
+
+<ul>
+<li>spec_helper.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RSpec.configure do |config|
+</span><span class='line'>  config.expect_with :rspec do |expectations|
+</span><span class='line'>    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+</span><span class='line'>  end
+</span><span class='line'>  config.mock_with :rspec do |mocks|
+</span><span class='line'>    mocks.verify_partial_doubles = true
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>开始写测试</h2>
+
+<p>还是在spec目录下，你可以只是简单地定义一个XX.rb的测试文件，如果项目比较大，你也可以用目录的结构进行组织。</p>
+
+<ul>
+<li>测试的简单结构如下：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
+</span><span class='line'>
+</span><span class='line'>before do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>after do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe XXX do
+</span><span class='line'>  it XXX do
+</span><span class='line'>      ......
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>下一节我会开始介绍如何编写自己的测试。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs(send_message)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-02T21:11:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:11 pm</span></time>
+        
+           | <a href="/blog/2015/04/02/ruby-aws-sqs/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>如何在Ruby中使用AWS的SQS</h2>
+
+<blockquote><p>SQS(Simple Queue Service)是一个伸缩且可靠的消息传递框架，可以使用SQS简单地创建、存储和获取信息，可以使用它构建基于AWS的应用程序。使用SQS是构建松耦合的Web应用程序的好方法，只需要根据使用量付费，整个队列框架在Amazon数据中心的安全环境中运行。</p></blockquote>
+
+<h2>SQS提供以下的特性：</h2>
+
+<ul>
+<li><p>可靠性
+SQS能够跨多个数据中心冗余地存储消息，保证他们随时可用。</p></li>
+<li><p>简单性
+访问和使用SQS的编程模型非常的简单，而且可以可以通过多种编程语言使用SQS。</p></li>
+<li><p>安全性
+SQS提供很高的安全水平，只允许授权的用户消费消息。</p></li>
+<li><p>可伸缩性
+可以使用SQS创建基于队列的应用程序，这些程序可以读写数量不限的消息。</p></li>
+<li><p>低成本
+SQS以非常低廉的费率满足您的消息传递需求。</p></li>
+</ul>
+
+
+<h2>设计考虑因素</h2>
+
+<ul>
+<li>SQS不保证队列中消息的次序</li>
+<li>SQS不保证删除队列中的消息</li>
+<li>SQS不保证在查询是返回队列中的所有消息</li>
+</ul>
+
+
+<h2>用Ruby使用SQS的简单Demo</h2>
+
+<ul>
+<li>设置环境变量(sqs_config.rb)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'aws-sdk'
+</span><span class='line'>
+</span><span class='line'>module Sqs
+</span><span class='line'>  include App::Config
+</span><span class='line'>  credential = Aws::Credentials.new(config.sqs_access_key, config.sqs_secret_access_key)
+</span><span class='line'>  Aws.config.update({
+</span><span class='line'>                     credentials: credential,
+</span><span class='line'>                     region: config.sqs_region })
+</span><span class='line'>  
+</span><span class='line'>  SQS = Aws::SQS::Client.new
+</span><span class='line'>  def send_message(msg)
+</span><span class='line'>    SQS.send_message(queue_url: config.sqs_endpoint, message_body: msg)
+</span><span class='line'>  end
+</span><span class='line'>end </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>将环境变量提取出来，单独设置</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module App
+</span><span class='line'>   module Config
+</span><span class='line'>    def sqs_access_key
+</span><span class='line'>      'xxxxx'
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def sqs_secret_access_key
+</span><span class='line'>      'xxxxx'
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def sqs_region
+</span><span class='line'>      'xxxxxxxx'
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def sqs_endpoint
+</span><span class='line'>      'https://sqs.xxxxxxxxx.amazonaws.com/xxxxxxxx/contacts-info'
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+
+<ul>
+<li>发送消息</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>include 'sqs_config'
+</span><span class='line'> send_message(msg)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考资料</h2>
+
+<p> <a href="http://blog.csdn.net/menxu_work/article/details/38296043">AWS Ruby Demo</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -340,6 +659,14 @@ Content-Length: 250</code></p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/09/23/heatmap/">Heatmap</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/brightcove/">Brightcove</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/05/21/how-to-use-sinatra/">How to Use Sinatra</a>
       </li>
     
@@ -349,14 +676,6 @@ Content-Length: 250</code></p>
     
       <li class="post">
         <a href="/blog/2015/05/19/oocss/">OOCSS</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/10/git-introduction/">Git Introduction</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/22/jasmine/">Jasmine</a>
       </li>
     
   </ul>
