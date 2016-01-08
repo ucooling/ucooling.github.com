@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2015-09-23T21:25:19+08:00</updated>
+  <updated>2016-01-08T13:57:04+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,6 +12,129 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Use Elasticsearch to Rails]]></title>
+    <link href="http://ucooling.github.io/blog/2016/01/08/use-elasticsearch-to-rails/"/>
+    <updated>2016-01-08T13:49:51+08:00</updated>
+    <id>http://ucooling.github.io/blog/2016/01/08/use-elasticsearch-to-rails</id>
+    <content type="html"><![CDATA[<h3>Elasticsearch introduce</h3>
+
+<p>If you build a website, maybe you want to add search to your application, but it is different to run a search function, you must solve a lot of questions, for example search speed, real-time. so elasticsearch is a cool tool, it can solve all questions of above, it have a advertise, let to search sample.</p>
+
+<p>This is a sample demo, it will build a rails application that will use elasticsearch</p>
+
+<h3>Install Elasticsearch</h3>
+
+<ul>
+<li>for Mac labtop:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install elasticsearch</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>start elasticsearch in the local environment:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>elasticsearch --config=/usr/local/opt/elasticsearch/config/elasticsearch.yml</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can visit <a href="http://localhost:9200">http://localhost:9200</a> url, if success, it&rsquo;s means you already install elacticsearch successful, just attention, you need to install jdk firstly, at the same time, the jdk version must > 1.8.</p>
+
+<h3>Build a rails application</h3>
+
+<p>This bolg just build a sample a single table application</p>
+
+<ul>
+<li>build application</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails new blog_elasticsearch</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>install gem package</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle instal</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>use scaffold build application</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails g scaffold article title:string text:text</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>generate db table</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Use elasticsearch to application</h3>
+
+<ul>
+<li>add below gem to your Gemfile</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'elasticsearch-model' gem 'elasticsearch-rails'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>when import elacticsearch, you want to search your db data, there ask you must add index to you table of you want to search. commond line is(if you want to run this command, you must run you elacticsearch in your local environment)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake environment elasticsearch:import:model CLASS='Article' BATCH=100 FORCE=y</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>add below code to your /lib/tasks/elasticsearch.rake file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'elasticsearch/rails/tasks/import'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>It is still available if you hope to, when you update your db data, you need to add below code your model that is you search</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>include Elasticsearch::Model
+</span><span class='line'>include Elasticsearch::Model::Callbacks</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Community</h3>
+
+<ul>
+<li><a href="http://makeiteasy.github.io/2015/05/19/use-elasticsearch-in-rails.html">http://makeiteasy.github.io/2015/05/19/use-elasticsearch-in-rails.html</a></li>
+<li><a href="http://blog.bringstudio.com/zheng-he-elasticsearchdao-xian-you-railsxiang-mu/">http://blog.bringstudio.com/zheng-he-elasticsearchdao-xian-you-railsxiang-mu/</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Heatmap]]></title>

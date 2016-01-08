@@ -9,8 +9,7 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="list all options we have investgated below options: 1 Visual Website Optimizer 2 inspectlet 3 luckyorange 4 heatmap.me 5 mouseflow
-why use heatmap. &hellip;">
+  <meta name="description" content="Elasticsearch introduce If you build a website, maybe you want to add search to your application, but it is different to run a search function, you &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +65,152 @@ why use heatmap. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-08T13:49:51+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:49 pm</span></time>
+        
+           | <a href="/blog/2016/01/08/use-elasticsearch-to-rails/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2016/01/08/use-elasticsearch-to-rails/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Elasticsearch introduce</h3>
+
+<p>If you build a website, maybe you want to add search to your application, but it is different to run a search function, you must solve a lot of questions, for example search speed, real-time. so elasticsearch is a cool tool, it can solve all questions of above, it have a advertise, let to search sample.</p>
+
+<p>This is a sample demo, it will build a rails application that will use elasticsearch</p>
+
+<h3>Install Elasticsearch</h3>
+
+<ul>
+<li>for Mac labtop:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install elasticsearch</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>start elasticsearch in the local environment:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>elasticsearch --config=/usr/local/opt/elasticsearch/config/elasticsearch.yml</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can visit <a href="http://localhost:9200">http://localhost:9200</a> url, if success, it&rsquo;s means you already install elacticsearch successful, just attention, you need to install jdk firstly, at the same time, the jdk version must > 1.8.</p>
+
+<h3>Build a rails application</h3>
+
+<p>This bolg just build a sample a single table application</p>
+
+<ul>
+<li>build application</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails new blog_elasticsearch</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>install gem package</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle instal</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>use scaffold build application</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails g scaffold article title:string text:text</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>generate db table</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Use elasticsearch to application</h3>
+
+<ul>
+<li>add below gem to your Gemfile</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'elasticsearch-model' gem 'elasticsearch-rails'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>when import elacticsearch, you want to search your db data, there ask you must add index to you table of you want to search. commond line is(if you want to run this command, you must run you elacticsearch in your local environment)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake environment elasticsearch:import:model CLASS='Article' BATCH=100 FORCE=y</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>add below code to your /lib/tasks/elasticsearch.rake file</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'elasticsearch/rails/tasks/import'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>It is still available if you hope to, when you update your db data, you need to add below code your model that is you search</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>include Elasticsearch::Model
+</span><span class='line'>include Elasticsearch::Model::Callbacks</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Community</h3>
+
+<ul>
+<li><a href="http://makeiteasy.github.io/2015/05/19/use-elasticsearch-in-rails.html">http://makeiteasy.github.io/2015/05/19/use-elasticsearch-in-rails.html</a></li>
+<li><a href="http://blog.bringstudio.com/zheng-he-elasticsearchdao-xian-you-railsxiang-mu/">http://blog.bringstudio.com/zheng-he-elasticsearchdao-xian-you-railsxiang-mu/</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2493,157 +2638,6 @@ end
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/06/rspec-yu-fa-jie-shao/">Rspec 语法介绍</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-06T23:08:16+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 pm</span></time>
-        
-           | <a href="/blog/2015/04/06/rspec-yu-fa-jie-shao/#disqus_thread"
-             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/06/rspec-yu-fa-jie-shao/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>关键字</h2>
-
-<ul>
-<li>describe 和 context</li>
-</ul>
-
-
-<p>以上两个关键字是帮助你组织分类的，都是可以任意套叠的.
-使用一个字符串作为他们的参数，以及使用一个block来定义其上下文的范围。
-写model的spec或者其他的unit test时，可以传一个Ruby的类作为describe的第一个参数，例如</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#测试类
-</span><span class='line'>describe Users do
-</span><span class='line'>  #测试方法
-</span><span class='line'>  context '#test' do
-</span><span class='line'>      it 'should ...' do
-</span><span class='line'>          ......
-</span><span class='line'>      end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>let</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let(:name) { expression }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>let方法简单地使用后面的block创建memoized attributes.换句话说就是为后边的测试准备数据，定义的属性可以在多个例子中使用，但是不能跨多个实例调用。跟before里地代码类似，但是比before里测代码效果更好。
-memozied的意思是let后面关联的block只执行一次，然后会缓存改变量，提高执行效率，有需要时才会加载，相较于before执行速度会更快。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>let(:github) { 'ucooling.github.io' }</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>before</li>
-</ul>
-
-
-<p>let和before(:each)的区别，let不会自动初始化变量，而before(:each)会自动初始化变量，如果我期中有些测试用例不需要初始化这些变量，建议使用let，这样会节省一些时间和资源。before(:all)同样</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Thing
-</span><span class='line'>  def tests
-</span><span class='line'>      @tests ||= []
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>describe Thing do
-</span><span class='line'>  before(:each) do
-</span><span class='line'>      @thing = Thing.new
-</span><span class='line'>  end
-</span><span class='line'>  describe "initialized in before(:each)" do
-</span><span class='line'>      it "has 0 tests" do
-</span><span class='line'>          @thing.should have(0).tests
-</span><span class='line'>      end
-</span><span class='line'>      it "can get accept new tests" do
-</span><span class='line'>          @thing.tests &lt;&lt; Object.new
-</span><span class='line'>      end
-</span><span class='line'>      it "does not share state across examples" do
-</span><span class='line'>          @thing.should have(0).tests
-</span><span class='line'>      end
-</span><span class='line'>      it "does not have 1 count" do
-</span><span class='line'>          @thing.shou*ld_not have(1).tests
-</span><span class='line'>      end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>expect</li>
-</ul>
-
-
-<p>expect用来改变一个值或者抛出一个异常。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>expect { 
-</span><span class='line'>BlogPost.create :title =&gt; “Hello” 
-</span><span class='line'>}.to change {BlogPost.count}.by(1) </span></code></pre></td></tr></table></div></figure>
-
-
-<p>希望在expect块里做完之后，BlogPost.count的值要改为1</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -2657,6 +2651,10 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/09/23/heatmap/">Heatmap</a>
@@ -2674,10 +2672,6 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
         <a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/">Ruby 中的钩子方法</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/05/19/oocss/">OOCSS</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -2691,7 +2685,7 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - MaLibin -
+  Copyright &copy; 2016 - MaLibin -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
