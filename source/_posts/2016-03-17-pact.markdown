@@ -1,0 +1,150 @@
+---
+layout: post
+title: "Pact 测试"
+date: 2016-03-17 17:39:01 +0800
+comments: true
+categories: 
+---
+
+###什么是Pact测试
+前几天一直在给我们的系统添加Pact测试，也就系统的去学习了一下什么是Pact测试，其实之前也知道一点，但是知道的不透彻，只是知道他是一个合约测试。以下是官方的解释：
+
+> Enables consumer driven contract testing, providing a mock service and DSL for the consumer project, and interaction playback and verification for the service provider project.
+
+其实简单的说：Consumer端通过mock一个provider服务，然后模仿自己调用API接口的请求，然后写一些测试API接口的case，在consumer端通过run pact测试，会生成一个json文件，这个文件就是生成的合约，
+这个时候你可以定义一个远程的服务，将这个json文件发布上去。然后在Consumer端，当run pact测试时，将会去从这个远程的服务上拿到这个json文件来测试自己的API接口。
+下面这幅图是从官网上拿到的：
+
+![Pact原理图](/images/pact_two_parts.png)
+
+
+###例子
+
+#### Consumer端
+* 引入Gem包
+
+```
+gem 'pact-mock_service'
+gem 'sass'
+
+group :development, :test do
+  gem 'rake'
+  gem 'pact'
+  gem 'pact_broker-client'
+end
+```
+* 引入Npm包
+
+```
+"pact-consumer-js-dsl": "^0.1.3"
+```
+* 写测试case
+
+```
+var pact = require('pact-consumer-js-dsl');
+
+describe('provider api', function () {
+
+  var provider;
+
+  beforeEach(() => {
+    provider = pact.mockService({
+      consumer: 'Pact frontend',
+      provider: 'Pact backend',
+      port: 9429,
+      done: (error) => {expect(error).toBeNull();}
+    });
+  });
+
+  it('post a request', function (done) {
+    provider
+      .uponReceiving("a Request a callback enquiry")
+      .withRequest({
+        method: "post",
+        path: "/provider/route1",
+        headers: {
+          "Origin": "http://localhost:9876"
+        },
+        body: 'name=nameTest&password=passwordTest'
+      })
+      .willRespondWith({
+        status: 201,
+        headers: {
+          'Access-Control-Allow-Origin': 'http://localhost:9876',
+          'Access-Control-Allow-Methods': 'POST'}
+      });
+
+    provider.run(done, function (runComplete) {
+      var stubProviderApi = {
+        'name': 'nameTest',
+        'password': 'passwordTest'
+      };
+      var providerSuccess = function () {
+        runComplete();
+      };
+      var providerError = function (data) {
+        runComplete();
+        expect(false).toBeTruthy();
+      };
+      # 在前端调用
+      Provider.save(stubProviderApi, providerSuccess, providerError);
+    });
+  });
+
+});
+```
+当跑上边的测试case将会生成一个json的文件，下面需要去配置pact来发布这个json文件到一个服务
+
+* 配置pact
+
+```
+require 'pact_broker/client/tasks'
+
+PactBroker::Client::PublicationTask.new do | task |
+  task.consumer_version = ENV['PactVersion']
+  task.pact_broker_base_url = "http://store_contracts_json_file_wed_site.com"
+end
+```
+
+* 发布这个json文件
+
+```
+bundle exec rake pact:publish
+```
+
+* 在provider端引入Gem包
+
+```
+gem 'pact'
+```
+
+* 配置pact json的地址在provider端
+
+```
+Pact.service_provider "Investor API" do
+   honours_pact_with "Investor APP" do
+   pact_server="http://store_contracts_json_file_wed_site.com"
+   pact_path="/pacts/provider/Pact backend/consumer/Pact frontend/latest"
+
+   pact_uri URI.encode("#{pact_server}#{pact_path}")
+   end
+ end 
+```
+
+* 取json文件并验证API接口
+
+```
+rake pact:verify
+```
+
+###参考
+[Github 地址](https://github.com/realestate-com-au/pact) 
+[博客地址](http://ucooling.github.io/blog/2016/03/17/pact/)
+
+
+
+
+
+
+
+
