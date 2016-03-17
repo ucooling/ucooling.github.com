@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2016-03-17T18:50:01+08:00</updated>
+  <updated>2016-03-17T18:58:12+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -28,7 +28,7 @@
 这个时候你可以定义一个远程的服务，将这个json文件发布上去。然后在Consumer端，当run pact测试时，将会去从这个远程的服务上拿到这个json文件来测试自己的API接口。
 下面这幅图是从官网上拿到的：</p>
 
-<p><img src="iamges/pact_two_parts.png" alt="Pact原理图" /></p>
+<p><img src="http://ucooling.github.io/images/pact_two_parts.png" alt="Pact原理图" /></p>
 
 <h3>例子</h3>
 
