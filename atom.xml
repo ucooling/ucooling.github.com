@@ -4,7 +4,7 @@
   <title><![CDATA[MaLibin Blog]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2016-01-09T17:25:38+08:00</updated>
+  <updated>2016-03-17T18:50:01+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[MaLibin]]></name>
@@ -12,6 +12,246 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Pact 测试]]></title>
+    <link href="http://ucooling.github.io/blog/2016/03/17/pact/"/>
+    <updated>2016-03-17T17:39:01+08:00</updated>
+    <id>http://ucooling.github.io/blog/2016/03/17/pact</id>
+    <content type="html"><![CDATA[<h3>什么是Pact测试</h3>
+
+<p>前几天一直在给我们的系统添加Pact测试，也就系统的去学习了一下什么是Pact测试，其实之前也知道一点，但是知道的不透彻，只是知道他是一个合约测试。以下是官方的解释：</p>
+
+<blockquote><p>Enables consumer driven contract testing, providing a mock service and DSL for the consumer project, and interaction playback and verification for the service provider project.</p></blockquote>
+
+<p>其实简单的说：Consumer端通过mock一个provider服务，然后模仿自己调用API接口的请求，然后写一些测试API接口的case，在consumer端通过run pact测试，会生成一个json文件，这个文件就是生成的合约，
+这个时候你可以定义一个远程的服务，将这个json文件发布上去。然后在Consumer端，当run pact测试时，将会去从这个远程的服务上拿到这个json文件来测试自己的API接口。
+下面这幅图是从官网上拿到的：</p>
+
+<p><img src="iamges/pact_two_parts.png" alt="Pact原理图" /></p>
+
+<h3>例子</h3>
+
+<h4>Consumer端</h4>
+
+<ul>
+<li>引入Gem包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'pact-mock_service'
+</span><span class='line'>gem 'sass'
+</span><span class='line'>
+</span><span class='line'>group :development, :test do
+</span><span class='line'>  gem 'rake'
+</span><span class='line'>  gem 'pact'
+</span><span class='line'>  gem 'pact_broker-client'
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>引入Npm包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"pact-consumer-js-dsl": "^0.1.3"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>写测试case</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var pact = require('pact-consumer-js-dsl');
+</span><span class='line'>
+</span><span class='line'>describe('provider api', function () {
+</span><span class='line'>
+</span><span class='line'>  var provider;
+</span><span class='line'>
+</span><span class='line'>  beforeEach(() =&gt; {
+</span><span class='line'>    provider = pact.mockService({
+</span><span class='line'>      consumer: 'Pact frontend',
+</span><span class='line'>      provider: 'Pact backend',
+</span><span class='line'>      port: 9429,
+</span><span class='line'>      done: (error) =&gt; {expect(error).toBeNull();}
+</span><span class='line'>    });
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>  it('post a request', function (done) {
+</span><span class='line'>    provider
+</span><span class='line'>      .uponReceiving("a Request a callback enquiry")
+</span><span class='line'>      .withRequest({
+</span><span class='line'>        method: "post",
+</span><span class='line'>        path: "/provider/route1",
+</span><span class='line'>        headers: {
+</span><span class='line'>          "Origin": "http://localhost:9876"
+</span><span class='line'>        },
+</span><span class='line'>        body: 'name=nameTest&password=passwordTest'
+</span><span class='line'>      })
+</span><span class='line'>      .willRespondWith({
+</span><span class='line'>        status: 201,
+</span><span class='line'>        headers: {
+</span><span class='line'>          'Access-Control-Allow-Origin': 'http://localhost:9876',
+</span><span class='line'>          'Access-Control-Allow-Methods': 'POST'}
+</span><span class='line'>      });
+</span><span class='line'>
+</span><span class='line'>    provider.run(done, function (runComplete) {
+</span><span class='line'>      var stubProviderApi = {
+</span><span class='line'>        'name': 'nameTest',
+</span><span class='line'>        'password': 'passwordTest'
+</span><span class='line'>      };
+</span><span class='line'>      var providerSuccess = function () {
+</span><span class='line'>        runComplete();
+</span><span class='line'>      };
+</span><span class='line'>      var providerError = function (data) {
+</span><span class='line'>        runComplete();
+</span><span class='line'>        expect(false).toBeTruthy();
+</span><span class='line'>      };
+</span><span class='line'>      # 在前端调用
+</span><span class='line'>      Provider.save(stubProviderApi, providerSuccess, providerError);
+</span><span class='line'>    });
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当跑上边的测试case将会生成一个json的文件，下面需要去配置pact来发布这个json文件到一个服务</p>
+
+<ul>
+<li>配置pact</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'pact_broker/client/tasks'
+</span><span class='line'>
+</span><span class='line'>PactBroker::Client::PublicationTask.new do | task |
+</span><span class='line'>  task.consumer_version = ENV['PactVersion']
+</span><span class='line'>  task.pact_broker_base_url = "http://store_contracts_json_file_wed_site.com"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>发布这个json文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake pact:publish</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在provider端引入Gem包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'pact'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置pact json的地址在provider端</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Pact.service_provider "Investor API" do
+</span><span class='line'>   honours_pact_with "Investor APP" do
+</span><span class='line'>   pact_server="http://store_contracts_json_file_wed_site.com"
+</span><span class='line'>   pact_path="/pacts/provider/Pact backend/consumer/Pact frontend/latest"
+</span><span class='line'>
+</span><span class='line'>   pact_uri URI.encode("#{pact_server}#{pact_path}")
+</span><span class='line'>   end
+</span><span class='line'> end </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>取json文件并验证API接口</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake pact:verify</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考</h3>
+
+<p><a href="https://github.com/realestate-com-au/pact">Github 地址</a>
+<a href="http://ucooling.github.io/blog/2016/03/17/pact/">博客地址</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[New Relic in Ruby Application]]></title>

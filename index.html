@@ -9,7 +9,7 @@
   <meta name="author" content="MaLibin">
 
   
-  <meta name="description" content="背景 随着互联网、以及移动互联领域的快速发展，可以说现在互联网已经无处不在，人们对于互联网的性能也越来越挑剔，如果网站速度太慢，发生错误的频率太高，这些因素都会使用户对网站失去信心，所以必须实时去检测网站的运行状况。New Relic就是一个对网站的性能进行检测的工具，它能够检测网站的响应速度， &hellip;">
+  <meta name="description" content="什么是Pact测试 前几天一直在给我们的系统添加Pact测试，也就系统的去学习了一下什么是Pact测试，其实之前也知道一点，但是知道的不透彻，只是知道他是一个合约测试。以下是官方的解释： Enables consumer driven contract testing, providing a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,269 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/17/pact/">Pact 测试</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-17T17:39:01+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:39 pm</span></time>
+        
+           | <a href="/blog/2016/03/17/pact/#disqus_thread"
+             data-disqus-identifier="http://ucooling.github.io/blog/2016/03/17/pact/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>什么是Pact测试</h3>
+
+<p>前几天一直在给我们的系统添加Pact测试，也就系统的去学习了一下什么是Pact测试，其实之前也知道一点，但是知道的不透彻，只是知道他是一个合约测试。以下是官方的解释：</p>
+
+<blockquote><p>Enables consumer driven contract testing, providing a mock service and DSL for the consumer project, and interaction playback and verification for the service provider project.</p></blockquote>
+
+<p>其实简单的说：Consumer端通过mock一个provider服务，然后模仿自己调用API接口的请求，然后写一些测试API接口的case，在consumer端通过run pact测试，会生成一个json文件，这个文件就是生成的合约，
+这个时候你可以定义一个远程的服务，将这个json文件发布上去。然后在Consumer端，当run pact测试时，将会去从这个远程的服务上拿到这个json文件来测试自己的API接口。
+下面这幅图是从官网上拿到的：</p>
+
+<p><img src="iamges/pact_two_parts.png" alt="Pact原理图" /></p>
+
+<h3>例子</h3>
+
+<h4>Consumer端</h4>
+
+<ul>
+<li>引入Gem包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'pact-mock_service'
+</span><span class='line'>gem 'sass'
+</span><span class='line'>
+</span><span class='line'>group :development, :test do
+</span><span class='line'>  gem 'rake'
+</span><span class='line'>  gem 'pact'
+</span><span class='line'>  gem 'pact_broker-client'
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>引入Npm包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"pact-consumer-js-dsl": "^0.1.3"</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>写测试case</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var pact = require('pact-consumer-js-dsl');
+</span><span class='line'>
+</span><span class='line'>describe('provider api', function () {
+</span><span class='line'>
+</span><span class='line'>  var provider;
+</span><span class='line'>
+</span><span class='line'>  beforeEach(() =&gt; {
+</span><span class='line'>    provider = pact.mockService({
+</span><span class='line'>      consumer: 'Pact frontend',
+</span><span class='line'>      provider: 'Pact backend',
+</span><span class='line'>      port: 9429,
+</span><span class='line'>      done: (error) =&gt; {expect(error).toBeNull();}
+</span><span class='line'>    });
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>  it('post a request', function (done) {
+</span><span class='line'>    provider
+</span><span class='line'>      .uponReceiving("a Request a callback enquiry")
+</span><span class='line'>      .withRequest({
+</span><span class='line'>        method: "post",
+</span><span class='line'>        path: "/provider/route1",
+</span><span class='line'>        headers: {
+</span><span class='line'>          "Origin": "http://localhost:9876"
+</span><span class='line'>        },
+</span><span class='line'>        body: 'name=nameTest&password=passwordTest'
+</span><span class='line'>      })
+</span><span class='line'>      .willRespondWith({
+</span><span class='line'>        status: 201,
+</span><span class='line'>        headers: {
+</span><span class='line'>          'Access-Control-Allow-Origin': 'http://localhost:9876',
+</span><span class='line'>          'Access-Control-Allow-Methods': 'POST'}
+</span><span class='line'>      });
+</span><span class='line'>
+</span><span class='line'>    provider.run(done, function (runComplete) {
+</span><span class='line'>      var stubProviderApi = {
+</span><span class='line'>        'name': 'nameTest',
+</span><span class='line'>        'password': 'passwordTest'
+</span><span class='line'>      };
+</span><span class='line'>      var providerSuccess = function () {
+</span><span class='line'>        runComplete();
+</span><span class='line'>      };
+</span><span class='line'>      var providerError = function (data) {
+</span><span class='line'>        runComplete();
+</span><span class='line'>        expect(false).toBeTruthy();
+</span><span class='line'>      };
+</span><span class='line'>      # 在前端调用
+</span><span class='line'>      Provider.save(stubProviderApi, providerSuccess, providerError);
+</span><span class='line'>    });
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当跑上边的测试case将会生成一个json的文件，下面需要去配置pact来发布这个json文件到一个服务</p>
+
+<ul>
+<li>配置pact</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'pact_broker/client/tasks'
+</span><span class='line'>
+</span><span class='line'>PactBroker::Client::PublicationTask.new do | task |
+</span><span class='line'>  task.consumer_version = ENV['PactVersion']
+</span><span class='line'>  task.pact_broker_base_url = "http://store_contracts_json_file_wed_site.com"
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>发布这个json文件</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake pact:publish</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在provider端引入Gem包</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'pact'</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>配置pact json的地址在provider端</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Pact.service_provider "Investor API" do
+</span><span class='line'>   honours_pact_with "Investor APP" do
+</span><span class='line'>   pact_server="http://store_contracts_json_file_wed_site.com"
+</span><span class='line'>   pact_path="/pacts/provider/Pact backend/consumer/Pact frontend/latest"
+</span><span class='line'>
+</span><span class='line'>   pact_uri URI.encode("#{pact_server}#{pact_path}")
+</span><span class='line'>   end
+</span><span class='line'> end </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>取json文件并验证API接口</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake pact:verify</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考</h3>
+
+<p><a href="https://github.com/realestate-com-au/pact">Github 地址</a>
+<a href="http://ucooling.github.io/blog/2016/03/17/pact/">博客地址</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2518,124 +2781,6 @@ function: 测试函数</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/04/21/active-job/">Active-job</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-21T23:11:02+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:11 pm</span></time>
-        
-           | <a href="/blog/2015/04/21/active-job/#disqus_thread"
-             data-disqus-identifier="http://ucooling.github.io/blog/2015/04/21/active-job/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>初探ActiveJob</h2>
-
-<p>ActiveJob 是 Rails 4.2 新加入的功能。这个东西在beta阶段rubyChina就已经有很多高手关注了</p>
-
-<h3>简介</h3>
-
-<p>ActiveJob 是Rails自己开发运行后台程序的模块，常用于执行运行时间可能很长的工作（比如发送注册邮件）。</p>
-
-<p>当然这种需求实际上非常普遍，所以rails 也有相应的第三方gem来解决这个需求，比如著名的Sidekiq和Resque等。<strong>ActiveJob的出现不是为了代替他们</strong>，而是统一了原来Resque、Sidekiq 等其他gem对后台运行程序的各种千奇百怪的写法。</p>
-
-<p>本文使用的后台程序gem包是‘delayed_job_active_record’</p>
-
-<ul>
-<li>使用以下的命令创建deplayed_job table</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails g delayed_job:active_record
-</span><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>要想使用ActiveJob官方文档给出了示例
-首先在命令行中执行如下的命令(add_lots_of_users是需要创建的job的名字)：</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails g job add_lots_of_users</span></code></pre></td></tr></table></div></figure>
-
-
-<p>打开app/jobs里边会多出一个ruby文件，该文件就是我们的active job 文件
-文件内容类似下边</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class AddLotsOfUsersJob &lt; ActiveJob::Base
-</span><span class='line'>  queue_as :default
-</span><span class='line'>
-</span><span class='line'>  def perform(*args)
-</span><span class='line'>    # Do something later
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们可以将需要跑的后台程序写到perform文件中，如：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def perform(*args)
-</span><span class='line'>    # Do something later
-</span><span class='line'>    sleep 10
-</span><span class='line'>    1000.times do |index|
-</span><span class='line'>      user = User.new
-</span><span class='line'>      user.name = "atpking#{index}"
-</span><span class='line'>      user.save
-</span><span class='line'>    end
-</span><span class='line'>  end  </span></code></pre></td></tr></table></div></figure>
-
-
-<p> 改后台程序可以在任何的地方调用，下面是一个简单的调用，在加载用户首页的时候去执行改后台程序</p>
-
-<pre><code class="`"> class UsersController &lt; ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-
-  # GET /users
-  # GET /users.json
-  def index
-    AddLotsOfUsersJob.perform_later
-    @users = User.all
-  end
-end
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -2656,6 +2801,10 @@ end
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/17/pact/">Pact 测试</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/09/new-relic-in-ruby-application/">New Relic in Ruby Application</a>
       </li>
     
@@ -2669,10 +2818,6 @@ end
     
       <li class="post">
         <a href="/blog/2015/09/23/brightcove/">Brightcove</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/05/21/how-to-use-sinatra/">How to Use Sinatra</a>
       </li>
     
   </ul>
