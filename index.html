@@ -1,15 +1,11 @@
-
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html class="no-js" lang="en">
 <head>
   <meta charset="utf-8">
   <title>马立斌技术博客</title>
   <meta name="author" content="Malrin">
 
   
-  <meta name="description" content="背景 通常我们为了提高网站的速度，会将站点的图片、css、以及一些库文件做CDN。对于页面中的图片的静态资源很简单，只需要修改资源的URL即可。但是对于scss文件中的图片或者svg资源怎么做CDN，很多人就不知道了，最近也是有这个需求所以自己就去探索了一下，其实也很简单。下面我们就一步一步实现 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,79 +15,98 @@
 
   
   <link rel="canonical" href="http://ucooling.github.io/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="马立斌技术博客" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  <!-- http://opengraphprotocol.org/ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://ucooling.github.io/">
+  <meta property="og:title" content="马立斌技术博客">
+  
+
+  <script src="/javascripts/libs/jquery/jquery-2.1.3.min.js"></script>
+
+<link href="/assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/assets/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
 
   
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">马立斌技术博客</a></h1>
-  
-    <h2>学会蹲下才能跳的更高.</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="https://www.google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="sitesearch" value="ucooling.github.io">
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">首页</a></li>
-  <li><a href="/blog/archives">归档</a></li>
-  <li><a href="/about">关于我</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
+  <body   >
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <div id="wrap">
       
-  <header>
+      <div id="banner-image">
+        <div class="layer">
+          <div id="banner-text">
+            <h1 class="page-title">马立斌技术博客</h1>
+            <p class="page-desc">
+              学会蹲下才能跳的更高.<br>
+            </p>
+            <br>
+            <br>
+            <div class="page-links center">
+              <ul class="index-nav">
+                  <li ><a href="/">项目</a></li>
+<li ><a href="/blog/archives">目录</a></li>
+<li ><a href="#">关于我</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="main" role="main" class="container">
+        <div id="content">
+          <div class="row">
+  <div class="page-content">
+    <div class="blog-index" itemscope itemtype="http://schema.org/Blog">
+    <meta itemprop="name" content="马立斌技术博客" />
     
-      <h1 class="entry-title"><a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/">如何给css文件中的图片做CDN</a></h1>
+    <meta itemprop="url" content="http://ucooling.github.io" />
+      
+      
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2017-02-09T11:14:52+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:14 am</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2017-02-09T11:14:52+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/#disqus_thread"
+           | <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2017/02/09/simple-asset-helper-function-for-cdn/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/" itemprop="url">如何给css文件中的图片做CDN</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><h2>背景</h2>
+  <div class="entry-content clearfix" itemprop="articleBody description"><h2>背景</h2>
 
 <p>通常我们为了提高网站的速度，会将站点的图片、css、以及一些库文件做CDN。对于页面中的图片的静态资源很简单，只需要修改资源的URL即可。但是对于scss文件中的图片或者svg资源怎么做CDN，很多人就不知道了，最近也是有这个需求所以自己就去探索了一下，其实也很简单。下面我们就一步一步实现。</p>
 
@@ -153,33 +168,41 @@
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2016/04/03/elk-log-analysis/">轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2016-04-03T09:53:55+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>9:53 am</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2016-04-03T09:53:55+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2016/04/03/elk-log-analysis/#disqus_thread"
+           | <a href="/blog/2016/04/03/elk-log-analysis/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2016/04/03/elk-log-analysis/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2016/04/03/elk-log-analysis/" itemprop="url">轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><p>随着互联网时代的快速发展，以及大数据时代的到来，对于大数据的收集分析处理，以及用户测试开始变的尤为重要，也是很多公司在探索的方向。
+  <div class="entry-content clearfix" itemprop="articleBody description"><p>随着互联网时代的快速发展，以及大数据时代的到来，对于大数据的收集分析处理，以及用户测试开始变的尤为重要，也是很多公司在探索的方向。
 所以在开始本博文之前我觉得很有必要解释依稀什么是ELK，只有有一个清晰的认识，这样在使用的时候才会更加的得心应手。</p>
 
 <h2>什么是Elasticsearch</h2>
@@ -209,33 +232,41 @@ Mapping是实际字段的映射关系，可以理解成Table的定义描述，�
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2016/03/17/pact/">Pact 测试</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2016-03-17T17:39:01+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:39 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2016-03-17T17:39:01+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2016/03/17/pact/#disqus_thread"
+           | <a href="/blog/2016/03/17/pact/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2016/03/17/pact/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2016/03/17/pact/" itemprop="url">Pact 测试</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><h3>什么是Pact测试</h3>
+  <div class="entry-content clearfix" itemprop="articleBody description"><h3>什么是Pact测试</h3>
 
 <p>前几天一直在给我们的系统添加Pact测试，也就系统的去学习了一下什么是Pact测试，其实之前也知道一点，但是知道的不透彻，只是知道他是一个合约测试。以下是官方的解释：</p>
 
@@ -472,33 +503,41 @@ Mapping是实际字段的映射关系，可以理解成Table的定义描述，�
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2016/01/09/new-relic-in-ruby-application/">New Relic in Ruby Application</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2016-01-09T16:49:56+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:49 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2016-01-09T16:49:56+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2016/01/09/new-relic-in-ruby-application/#disqus_thread"
+           | <a href="/blog/2016/01/09/new-relic-in-ruby-application/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2016/01/09/new-relic-in-ruby-application/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2016/01/09/new-relic-in-ruby-application/" itemprop="url">New Relic in Ruby Application</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><h2>背景</h2>
+  <div class="entry-content clearfix" itemprop="articleBody description"><h2>背景</h2>
 
 <p>随着互联网、以及移动互联领域的快速发展，可以说现在互联网已经无处不在，人们对于互联网的性能也越来越挑剔，如果网站速度太慢，发生错误的频率太高，这些因素都会使用户对网站失去信心，所以必须实时去检测网站的运行状况。New Relic就是一个对网站的性能进行检测的工具，它能够检测网站的响应速度，用户的满意度，错误发生的频率等。</p>
 
@@ -561,33 +600,41 @@ Mapping是实际字段的映射关系，可以理解成Table的定义描述，�
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2016-01-08T13:49:51+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:49 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2016-01-08T13:49:51+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2016/01/08/use-elasticsearch-to-rails/#disqus_thread"
+           | <a href="/blog/2016/01/08/use-elasticsearch-to-rails/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2016/01/08/use-elasticsearch-to-rails/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2016/01/08/use-elasticsearch-to-rails/" itemprop="url">Use Elasticsearch to Rails</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><h3>Elasticsearch introduce</h3>
+  <div class="entry-content clearfix" itemprop="articleBody description"><h3>Elasticsearch introduce</h3>
 
 <p>If you build a website, maybe you want to add search to your application, but it is different to run a search function, you must solve a lot of questions, for example search speed, real-time. so elasticsearch is a cool tool, it can solve all questions of above, it have a advertise, let to search sample.</p>
 
@@ -707,33 +754,41 @@ Mapping是实际字段的映射关系，可以理解成Table的定义描述，�
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2015/09/23/heatmap/">Heatmap</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2015-09-23T21:23:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2015-09-23T21:23:34+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2015/09/23/heatmap/#disqus_thread"
+           | <a href="/blog/2015/09/23/heatmap/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2015/09/23/heatmap/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2015/09/23/heatmap/" itemprop="url">Heatmap</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><ul>
+  <div class="entry-content clearfix" itemprop="articleBody description"><ul>
 <li><p>list all options</p>
 
 <p>we have investgated below options:</p>
@@ -817,33 +872,41 @@ This tool does not support for dynamic elements</li>
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2015/09/23/brightcove/">Brightcove</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2015-09-23T21:20:52+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2015-09-23T21:20:52+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2015/09/23/brightcove/#disqus_thread"
+           | <a href="/blog/2015/09/23/brightcove/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2015/09/23/brightcove/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2015/09/23/brightcove/" itemprop="url">Brightcove</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><h2>What is brightcove</h2>
+  <div class="entry-content clearfix" itemprop="articleBody description"><h2>What is brightcove</h2>
 
 <p>  Brightcove revolutionizes the way organizations deliver video experiences. it change the video transmission ways. It is different the YouTube video, YouTube focus on the video of users homemade. The brightcove hope build a chance, there is everyone can build the video, meantime share the video and get revenue. Brightcove is position itself as an online video paltform, the main work is to provide video and other digital media and publish paltform to manufacturers of video content, totally that is cloud video</p>
 
@@ -992,33 +1055,41 @@ you player</p></li>
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2015/05/21/how-to-use-sinatra/">How to Use Sinatra</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2015-05-21T22:16:31+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:16 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2015-05-21T22:16:31+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2015/05/21/how-to-use-sinatra/#disqus_thread"
+           | <a href="/blog/2015/05/21/how-to-use-sinatra/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2015/05/21/how-to-use-sinatra/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2015/05/21/how-to-use-sinatra/" itemprop="url">How to Use Sinatra</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><p>这两天是公司的Hack Day,非常有意义的活动，对于本次的idea不做赘述，这篇博客记录一下在整个的Hack过程中如何使用sinatra来搭建一个后台的服务。</p>
+  <div class="entry-content clearfix" itemprop="articleBody description"><p>这两天是公司的Hack Day,非常有意义的活动，对于本次的idea不做赘述，这篇博客记录一下在整个的Hack过程中如何使用sinatra来搭建一个后台的服务。</p>
 
 <h2>什么是sinatra</h2>
 
@@ -1168,33 +1239,41 @@ Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/">Ruby 中的钩子方法</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2015-05-20T21:56:59+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:56 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2015-05-20T21:56:59+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/#disqus_thread"
+           | <a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/" itemprop="url">Ruby 中的钩子方法</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><p>以前从未对Ruby中的钩子方法有一个很深刻的认识，只是知道在使用的时候该去怎么引用，从看到了<a href="http://www.sitepoint.com/rubys-important-hook-methods/">这篇</a>文章之后我开始有了一个新的认识，也意识到自己对Ruby中的钩子方法的认识只是停留在一个很片面的层次，今天正好抽空总结一下。</p>
+  <div class="entry-content clearfix" itemprop="articleBody description"><p>以前从未对Ruby中的钩子方法有一个很深刻的认识，只是知道在使用的时候该去怎么引用，从看到了<a href="http://www.sitepoint.com/rubys-important-hook-methods/">这篇</a>文章之后我开始有了一个新的认识，也意识到自己对Ruby中的钩子方法的认识只是停留在一个很片面的层次，今天正好抽空总结一下。</p>
 
 <h2>什么是钩子方法</h2>
 
@@ -1539,33 +1618,41 @@ Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行
   
 
 
-    </article>
-  
-  
-    <article>
+        </article>
       
-  <header>
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
     
-      <h1 class="entry-title"><a href="/blog/2015/05/19/oocss/">OOCSS</a></h1>
-    
-    
-      <p class="meta">
+      <p class="meta text-muted text-uppercase">
         
 
 
 
 
-<time class='entry-date' datetime='2015-05-19T16:18:35+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:18 pm</span></time>
+
+
+
+
+
+
+
+
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2015-05-19T16:18:35+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
-           | <a href="/blog/2015/05/19/oocss/#disqus_thread"
+           | <a href="/blog/2015/05/19/oocss/#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io/blog/2015/05/19/oocss/">Comments</a>
         
       </p>
     
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2015/05/19/oocss/" itemprop="url">OOCSS</a></h2>
+    
   </header>
 
 
-  <div class="entry-content"><p>近几天一直在看OOCSS,以前从没有对CSS有什么特殊的情怀，认为它就是一个样式表，就是为我们的网页内容服务的，一直认为内容才是王道，但是真的是这样吗，可能不然。
+  <div class="entry-content clearfix" itemprop="articleBody description"><p>近几天一直在看OOCSS,以前从没有对CSS有什么特殊的情怀，认为它就是一个样式表，就是为我们的网页内容服务的，一直认为内容才是王道，但是真的是这样吗，可能不然。
 到底是什么来吸引用户来到你的网站呢，在现在这个网络快速发展的今天，不能说内容不重要，但是速度和用户体验也是不能被我们忽视的，快速响应和一个漂亮的页面设计显得尤为重要。
 这篇博客是我对最近学习OOCSS的一些总结，一个方面是对自己近几天的学习做个总结，另一方面也是跟大家交流自己学习的一个机会。</p>
 
@@ -1744,62 +1831,36 @@ Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行
   
 
 
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/posts/2">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
+        </article>
+      
+    </div>
+
+    <ul class="pager">
+      
+        <li class="previous"><a href="/posts/2">&larr;&nbsp;Older</a></li>
+      
+      <li><a href="/blog/archives">Blog Archives</a></li>
+      
+        <li class="next disabled"><a href="#">Newer&nbsp;&rarr;</a></li>
+      
+    </ul>
   </div>
 </div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Categories</h1>
-  <ul id="categories">
-    
-  </ul>
-</section><section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/">如何给css文件中的图片做CDN</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/04/03/elk-log-analysis/">轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/03/17/pact/">Pact 测试</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/09/new-relic-in-ruby-application/">New Relic in Ruby Application</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a>
-      </li>
-    
-  </ul>
-</section>
 
-  
-</aside>
-
+        </div>
+      </div>
     </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Malrin -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+    <footer role="contentinfo"><div class="container">
+    <p class="text-muted credits" style="text-align: center;">
+  Copyright &copy; 2017 - Malrin
+  <small>
+      <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>,
+  </small>
 </p>
 
+</div>
 </footer>
-  
+    
 
 <script type="text/javascript">
       var disqus_shortname = 'ucooling';
@@ -1821,8 +1882,9 @@ Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行
 
 
 
+<script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/javascripts/modernizr.js"></script>
 
 
-
-</body>
+  </body>
 </html>
