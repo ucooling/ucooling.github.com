@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rspec 入门 - 马立斌技术博客</title>
+  <meta name="author" content="Malrin">
+
+  
+  <meta name="description" content="Rspec介绍 Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试 关于TDD 很多人对于写测试的第一印象可能是： 写测试很无聊
+写测试很浪费时间
+测试很难写
+测试对于开发的帮助不大 但是我现在想说， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="马立斌技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">马立斌技术博客</a></h1>
+  
+    <h2>学会蹲下才能跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rspec 入门</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Rspec介绍</h2>
+
+<p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p>
+
+<h2>关于TDD</h2>
+
+<p>很多人对于写测试的第一印象可能是：</p>
+
+<ul>
+<li>写测试很无聊</li>
+<li>写测试很浪费时间</li>
+<li>测试很难写</li>
+<li>测试对于开发的帮助不大</li>
+</ul>
+
+
+<p>但是我现在想说，其实一开始接触写测试的时候我也同样觉得这种方式很浪费时间，而且有的测试确实很难写，增加了学习的成本，且收效甚微，但是当我慢慢在工作中发现他的好处的时候，我的这种想法慢慢的发生了改变，写测试其实是有很多的好处的</p>
+
+<ul>
+<li>开发之前写测试可以保证你的代码的正确性，保证你做的事情是正确的。</li>
+<li>当之后再对代码进行重构或者添加新的功能的时候，测试可以保证你新加的代码不会影响以前的功能</li>
+<li>可以采用TDD的开发方式，在写测试的过程中可以提前对你的代码进行设计，在以后测试可以当成你代码的文档，不用再去写一些注释或者其他的一些文档。</li>
+</ul>
+
+
+<p>而且现在很多公司的开发也开始越来越重视测试，足以说明测试的重要性，也是作为一个码农必须去学习和研究的知识。</p>
+
+<h2>Rspec安装</h2>
+
+<p>在Gemfile配置文件中，按照下面的代码进行配置</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>group :development, :test do
+</span><span class='line'>  gem 'rspec'
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行一下命令来安装gem包</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>测试的目录结构</h2>
+
+<p>通过执行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rspec --init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它将会生成spec路径和spec_helper.rb文件，下图中的spec下的其他路劲均为手动添加。</p>
+
+<ul>
+<li>目录结构</li>
+</ul>
+
+
+<p><img src="/images/spec_1.png" alt="spec目录结构" /></p>
+
+<ul>
+<li>spec_helper.rb</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RSpec.configure do |config|
+</span><span class='line'>  config.expect_with :rspec do |expectations|
+</span><span class='line'>    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+</span><span class='line'>  end
+</span><span class='line'>  config.mock_with :rspec do |mocks|
+</span><span class='line'>    mocks.verify_partial_doubles = true
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>开始写测试</h2>
+
+<p>还是在spec目录下，你可以只是简单地定义一个XX.rb的测试文件，如果项目比较大，你也可以用目录的结构进行组织。</p>
+
+<ul>
+<li>测试的简单结构如下：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'spec_helper'
+</span><span class='line'>
+</span><span class='line'>before do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>after do
+</span><span class='line'>  ......
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe XXX do
+</span><span class='line'>  it XXX do
+</span><span class='line'>      ......
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>下一节我会开始介绍如何编写自己的测试。</p></blockquote>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Malrin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/" data-via="" data-counturl="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/02/ruby-aws-sqs/" title="Previous Post: ruby-aws-sqs(send_message)">&laquo; ruby-aws-sqs(send_message)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/04/06/rspec-yu-fa-jie-shao/" title="Next Post: Rspec 语法介绍">Rspec 语法介绍 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/">Simple Asset Helper Function for CDN</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/03/elk-log-analysis/">轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/17/pact/">Pact 测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/new-relic-in-ruby-application/">New Relic in Ruby Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Malrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

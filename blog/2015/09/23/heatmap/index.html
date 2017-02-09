@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Heatmap - 马立斌技术博客</title>
+  <meta name="author" content="Malrin">
+
+  
+  <meta name="description" content="list all options we have investgated below options: 1 Visual Website Optimizer 2 inspectlet 3 luckyorange 4 heatmap.me 5 mouseflow
+why use heatmap. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/09/23/heatmap/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="马立斌技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">马立斌技术博客</a></h1>
+  
+    <h2>学会蹲下才能跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Heatmap</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-23T21:23:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ul>
+<li><p>list all options</p>
+
+<p>we have investgated below options:</p>
+
+<p>1 Visual Website Optimizer</p>
+
+<p>2 inspectlet</p>
+
+<p>3 luckyorange</p>
+
+<p>4 heatmap.me</p>
+
+<p>5 mouseflow</p></li>
+<li><p>why use heatmap.me</p>
+
+<p>For the Visual Website Optimizer, it use canvas draw a page and record user heatmap. For inspectlet and luckyorange, they use a static image record user heatmap, but need record user&rsquo;s operations in our widget. So Thvm</p></li>
+<li><p>how to use</p></li>
+<li>disadvantaged</li>
+</ul>
+
+
+<h2>Heat Map Spike</h2>
+
+<h3>Problem:</h3>
+
+<p> Most of the heatmap tool is a url based tool, that means it will provide us a snapshot of the page and show the heatmap on the snapshot. They all have less support to dynamic elements such as our HLT, none of them can show the HLT on the snapshot and the click events is shown as a PDP click.</p>
+
+<p> We&rsquo;ve tried vwo, openheatmap, inspectlet, mouseflow, luckyorange, crazyegg, none of them can be used for our HLT.</p>
+
+<h3>Options:</h3>
+
+<ol>
+<li><p>Heatmap.me</p>
+
+<ul>
+<li><p>This tool provide good support for dynamic elements, also provide a way to prevent count in the events on PDP page.</p></li>
+<li><p>The feature is less than other tools, it only collect click events.</p></li>
+<li>Don&rsquo;t have a dashboard show results.</li>
+</ul>
+</li>
+<li><p>vwo</p>
+
+<ul>
+<li>This tool does not support for dynamic elements</li>
+<li>Just apply click events.</li>
+<li>Have a good dashboard show results.</li>
+<li>use canvas draw result page.</li>
+</ul>
+</li>
+<li><p>inspectlet</p>
+
+<ul>
+<li>This tool provide a lot of features, such as Eye-tracking Heatmap/Click Heatmap/scroll Heatmap.</li>
+<li>Have a good dashboard show results.</li>
+<li>use static image record results.
+This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>luckyorange</p>
+
+<ul>
+<li>This tool support move/click/scroll/precise heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>use static image record results</li>
+<li>This tool does not support for dynamic elements</li>
+</ul>
+</li>
+<li><p>mouseflow</p>
+
+<ul>
+<li>This tool support move/click/scroll heatmap.</li>
+<li>Have a good dashboard show results</li>
+<li>support dynamic elements</li>
+<li>Can&rsquo;t load our widget</li>
+</ul>
+</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Malrin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-23T21:23:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ucooling.github.io/blog/2015/09/23/heatmap/" data-via="" data-counturl="http://ucooling.github.io/blog/2015/09/23/heatmap/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/23/brightcove/" title="Previous Post: brightcove">&laquo; brightcove</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/08/use-elasticsearch-to-rails/" title="Next Post: use elasticsearch to rails">use elasticsearch to rails &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/">Simple Asset Helper Function for CDN</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/03/elk-log-analysis/">轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/17/pact/">Pact 测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/new-relic-in-ruby-application/">New Relic in Ruby Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Malrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

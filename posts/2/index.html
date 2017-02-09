@@ -1,1417 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[马立斌技术博客]]></title>
-  <link href="http://ucooling.github.io/atom.xml" rel="self"/>
-  <link href="http://ucooling.github.io/"/>
-  <updated>2017-02-09T11:15:03+08:00</updated>
-  <id>http://ucooling.github.io/</id>
-  <author>
-    <name><![CDATA[Malrin]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
-
-  
-  <entry>
-    <title type="html"><![CDATA[Simple Asset Helper Function for CDN]]></title>
-    <link href="http://ucooling.github.io/blog/2017/02/09/simple-asset-helper-function-for-cdn/"/>
-    <updated>2017-02-09T11:14:52+08:00</updated>
-    <id>http://ucooling.github.io/blog/2017/02/09/simple-asset-helper-function-for-cdn</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)]]></title>
-    <link href="http://ucooling.github.io/blog/2016/04/03/elk-log-analysis/"/>
-    <updated>2016-04-03T09:53:55+08:00</updated>
-    <id>http://ucooling.github.io/blog/2016/04/03/elk-log-analysis</id>
-    <content type="html"><![CDATA[<p>随着互联网时代的快速发展，以及大数据时代的到来，对于大数据的收集分析处理，以及用户测试开始变的尤为重要，也是很多公司在探索的方向。
-所以在开始本博文之前我觉得很有必要解释依稀什么是ELK，只有有一个清晰的认识，这样在使用的时候才会更加的得心应手。</p>
-
-<h2>什么是Elasticsearch</h2>
-
-<p>Elasticsearch是一个基于Apacha Lucene&trade;的开源搜索引擎，在开源搜索领域它一直被认为是迄今为止最先进、性能最好、功能最全的搜索引擎。Elasticsearch是使用Java语言开发并且使用Lucene作为核心来实现的以及使用简单的RESTful来隐藏Lucene的复杂性，让全文搜索变的很简单。
-其实通俗的我们可以用关系型数据库来和Elasticsearch作比较。他提供的很多功能都和关系型数据库比较类似。</p>
-
-<ul>
-<li><p>索引(Index)
-ES用来存储数据的逻辑区域，类似于关系型数据库中的Database.</p></li>
-<li><p>类型(Type)
-面向查询是，一个Index钟可能会有若干个Type，这个Type可以跟关系型数据库中的Table类似.</p></li>
-<li><p>文档(Document)
-Document是具体的存储实体，存储形式为JSON，类似于关系数据库中的某一条记录。它可以被存放在Index中或者Type中，不过当存放在Index中时必须保证它被存放在某个Type类型中，即组成一个Document Type.</p></li>
-<li><p>映射(Mapping)
-Mapping是实际字段的映射关系，可以理解成Table的定义描述，可以理解成Table的定义描述，即Table Schema</p></li>
-</ul>
-
-
-<p>综上所述： 三者的关系就是 index > type > document</p>
-
-<p>ES最主要的最主要的功效就是检索查询，所以能否挖掘ES的强大之处就在于能否用好其自带的Query DSL, 这里的Query也可以类比到关系型数据库中的SQL语句，在某种意义上他们都是属于DSL的范畴，前者Query DSL是为了解决ES的检索问题而设立的，后者SQL则是为了处理关系型数据库的查询。</p>
-
-<p>ES的官网提供了很详细的<a href="http://es.xiaoleilu.com/index.html">文档</a>供我们学习</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Pact 测试]]></title>
-    <link href="http://ucooling.github.io/blog/2016/03/17/pact/"/>
-    <updated>2016-03-17T17:39:01+08:00</updated>
-    <id>http://ucooling.github.io/blog/2016/03/17/pact</id>
-    <content type="html"><![CDATA[<h3>什么是Pact测试</h3>
-
-<p>前几天一直在给我们的系统添加Pact测试，也就系统的去学习了一下什么是Pact测试，其实之前也知道一点，但是知道的不透彻，只是知道他是一个合约测试。以下是官方的解释：</p>
-
-<blockquote><p>Enables consumer driven contract testing, providing a mock service and DSL for the consumer project, and interaction playback and verification for the service provider project.</p></blockquote>
-
-<p>其实简单的说：Consumer端通过mock一个provider服务，然后模仿自己调用API接口的请求，然后写一些测试API接口的case，在consumer端通过run pact测试，会生成一个json文件，这个文件就是生成的合约，
-这个时候你可以定义一个远程的服务，将这个json文件发布上去。然后在Consumer端，当run pact测试时，将会去从这个远程的服务上拿到这个json文件来测试自己的API接口。
-下面这幅图是从官网上拿到的：</p>
-
-<p><img src="http://ucooling.github.io/images/pact_two_parts.png" alt="Pact原理图" /></p>
-
-<h3>例子</h3>
-
-<h4>Consumer端</h4>
-
-<ul>
-<li>引入Gem包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'pact-mock_service'
-</span><span class='line'>gem 'sass'
-</span><span class='line'>
-</span><span class='line'>group :development, :test do
-</span><span class='line'>  gem 'rake'
-</span><span class='line'>  gem 'pact'
-</span><span class='line'>  gem 'pact_broker-client'
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>引入Npm包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"pact-consumer-js-dsl": "^0.1.3"</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>写测试case</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var pact = require('pact-consumer-js-dsl');
-</span><span class='line'>
-</span><span class='line'>describe('provider api', function () {
-</span><span class='line'>
-</span><span class='line'>  var provider;
-</span><span class='line'>
-</span><span class='line'>  beforeEach(() =&gt; {
-</span><span class='line'>    provider = pact.mockService({
-</span><span class='line'>      consumer: 'Pact frontend',
-</span><span class='line'>      provider: 'Pact backend',
-</span><span class='line'>      port: 9429,
-</span><span class='line'>      done: (error) =&gt; {expect(error).toBeNull();}
-</span><span class='line'>    });
-</span><span class='line'>  });
-</span><span class='line'>
-</span><span class='line'>  it('post a request', function (done) {
-</span><span class='line'>    provider
-</span><span class='line'>      .uponReceiving("a Request a callback enquiry")
-</span><span class='line'>      .withRequest({
-</span><span class='line'>        method: "post",
-</span><span class='line'>        path: "/provider/route1",
-</span><span class='line'>        headers: {
-</span><span class='line'>          "Origin": "http://localhost:9876"
-</span><span class='line'>        },
-</span><span class='line'>        body: 'name=nameTest&password=passwordTest'
-</span><span class='line'>      })
-</span><span class='line'>      .willRespondWith({
-</span><span class='line'>        status: 201,
-</span><span class='line'>        headers: {
-</span><span class='line'>          'Access-Control-Allow-Origin': 'http://localhost:9876',
-</span><span class='line'>          'Access-Control-Allow-Methods': 'POST'}
-</span><span class='line'>      });
-</span><span class='line'>
-</span><span class='line'>    provider.run(done, function (runComplete) {
-</span><span class='line'>      var stubProviderApi = {
-</span><span class='line'>        'name': 'nameTest',
-</span><span class='line'>        'password': 'passwordTest'
-</span><span class='line'>      };
-</span><span class='line'>      var providerSuccess = function () {
-</span><span class='line'>        runComplete();
-</span><span class='line'>      };
-</span><span class='line'>      var providerError = function (data) {
-</span><span class='line'>        runComplete();
-</span><span class='line'>        expect(false).toBeTruthy();
-</span><span class='line'>      };
-</span><span class='line'>      # 在前端调用
-</span><span class='line'>      Provider.save(stubProviderApi, providerSuccess, providerError);
-</span><span class='line'>    });
-</span><span class='line'>  });
-</span><span class='line'>
-</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当跑上边的测试case将会生成一个json的文件，下面需要去配置pact来发布这个json文件到一个服务</p>
-
-<ul>
-<li>配置pact</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'pact_broker/client/tasks'
-</span><span class='line'>
-</span><span class='line'>PactBroker::Client::PublicationTask.new do | task |
-</span><span class='line'>  task.consumer_version = ENV['PactVersion']
-</span><span class='line'>  task.pact_broker_base_url = "http://store_contracts_json_file_wed_site.com"
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>发布这个json文件</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle exec rake pact:publish</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>在provider端引入Gem包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'pact'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>配置pact json的地址在provider端</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Pact.service_provider "Investor API" do
-</span><span class='line'>   honours_pact_with "Investor APP" do
-</span><span class='line'>   pact_server="http://store_contracts_json_file_wed_site.com"
-</span><span class='line'>   pact_path="/pacts/provider/Pact backend/consumer/Pact frontend/latest"
-</span><span class='line'>
-</span><span class='line'>   pact_uri URI.encode("#{pact_server}#{pact_path}")
-</span><span class='line'>   end
-</span><span class='line'> end </span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>取json文件并验证API接口</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake pact:verify</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>参考</h3>
-
-<p><a href="https://github.com/realestate-com-au/pact">Github 地址</a>
-<a href="http://ucooling.github.io/blog/2016/03/17/pact/">博客地址</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[New Relic in Ruby Application]]></title>
-    <link href="http://ucooling.github.io/blog/2016/01/09/new-relic-in-ruby-application/"/>
-    <updated>2016-01-09T16:49:56+08:00</updated>
-    <id>http://ucooling.github.io/blog/2016/01/09/new-relic-in-ruby-application</id>
-    <content type="html"><![CDATA[<h2>背景</h2>
-
-<p>随着互联网、以及移动互联领域的快速发展，可以说现在互联网已经无处不在，人们对于互联网的性能也越来越挑剔，如果网站速度太慢，发生错误的频率太高，这些因素都会使用户对网站失去信心，所以必须实时去检测网站的运行状况。New Relic就是一个对网站的性能进行检测的工具，它能够检测网站的响应速度，用户的满意度，错误发生的频率等。</p>
-
-<h2>介绍</h2>
-
-<p><a href="https://ruby-china.org/topics/22379">这里</a>有一篇很好的介绍，我就不再复述了。</p>
-
-<h2>如何使用</h2>
-
-<p>本文主要是针对在Ruby项目上的使用</p>
-
-<ul>
-<li><p>引入New Relic到你的应用</p>
-
-<pre><code>gem 'newrelic_rpm'
-</code></pre></li>
-<li><p><a href="http://newrelic.com/">注册</a>一个New Relic账号</p></li>
-<li>下载newrelic.yml文件</li>
-<li>在本地环境使用New Relic工具</li>
-</ul>
-
-
-<p> 1 在boot.rb文件中引入下面的代码：</p>
-
-<pre><code class="```">   require 'newrelic_rpm'
-</code></pre>
-
-<p> 2 配置newrelic.yml文件</p>
-
-<pre><code class="```">   development:
-         &lt;&lt;: *default_settings
-         monitor_mode: true
-         developer_mode: true
-</code></pre>
-
-<p> 3 配置要检测的网站
-   这里后台框架使用的是Web machine, 所以它的配置是这样的。如果使用的是其它的框架，应该根据框架的不同去进行不同的设置。</p>
-
-<pre><code class="```">   use NewRelic::Rack::DeveloperMode
-     use Rack::HalBrowser::Redirect, :exclude =&gt; ['/trace', '/products/diagnostic',         '/service-info', '/newrelic'] # /trace is for Webmachine
-</code></pre>
-
-<p> 4 当错误发生是如何发生报警
- 这里可以用两种选择，因为New Relic 他只能对于程序的所有错发发生频率报警，只有当测序发生的错误频率高于配置测报警率的时候就会报警，报警的方式可以使发邮件或者slack或者PageDuty等。他不会对某一个特殊的错误进行报警，也不会对HTTP请求进行报警。
- 告诉New Relic程序发生错误的方式有两种：</p>
-
-<ul>
-<li>显式的在程序中抛出异常。</li>
-<li>调用New Relic 的API</li>
-</ul>
-
-
-<pre><code class="`"> require 'new_relic/agent/transaction’
- NewRelic::Agent.notice_error(msg)
-</code></pre>
-
-<p> 总之，New Relic是一个非常有用的工具。这里只是简单地介绍了一下New Relic的基本功能和用法，更多高级的功能还需要大家去发掘。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Use Elasticsearch to Rails]]></title>
-    <link href="http://ucooling.github.io/blog/2016/01/08/use-elasticsearch-to-rails/"/>
-    <updated>2016-01-08T13:49:51+08:00</updated>
-    <id>http://ucooling.github.io/blog/2016/01/08/use-elasticsearch-to-rails</id>
-    <content type="html"><![CDATA[<h3>Elasticsearch introduce</h3>
-
-<p>If you build a website, maybe you want to add search to your application, but it is different to run a search function, you must solve a lot of questions, for example search speed, real-time. so elasticsearch is a cool tool, it can solve all questions of above, it have a advertise, let to search sample.</p>
-
-<p>This is a sample demo, it will build a rails application that will use elasticsearch</p>
-
-<h3>Install Elasticsearch</h3>
-
-<ul>
-<li>for Mac labtop:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>brew install elasticsearch</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>start elasticsearch in the local environment:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>elasticsearch --config=/usr/local/opt/elasticsearch/config/elasticsearch.yml</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you can visit <a href="http://localhost:9200">http://localhost:9200</a> url, if success, it&rsquo;s means you already install elacticsearch successful, just attention, you need to install jdk firstly, at the same time, the jdk version must > 1.8.</p>
-
-<h3>Build a rails application</h3>
-
-<p>This bolg just build a sample a single table application</p>
-
-<ul>
-<li>build application</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails new blog_elasticsearch</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>install gem package</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bundle instal</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>use scaffold build application</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rails g scaffold article title:string text:text</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>generate db table</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake db:migrate</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Use elasticsearch to application</h3>
-
-<ul>
-<li>add below gem to your Gemfile</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'elasticsearch-model' gem 'elasticsearch-rails'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>when import elacticsearch, you want to search your db data, there ask you must add index to you table of you want to search. commond line is(if you want to run this command, you must run you elacticsearch in your local environment)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake environment elasticsearch:import:model CLASS='Article' BATCH=100 FORCE=y</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>add below code to your /lib/tasks/elasticsearch.rake file</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'elasticsearch/rails/tasks/import'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>It is still available if you hope to, when you update your db data, you need to add below code your model that is you search</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>include Elasticsearch::Model
-</span><span class='line'>include Elasticsearch::Model::Callbacks</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Community</h3>
-
-<ul>
-<li><a href="http://makeiteasy.github.io/2015/05/19/use-elasticsearch-in-rails.html">http://makeiteasy.github.io/2015/05/19/use-elasticsearch-in-rails.html</a></li>
-<li><a href="http://blog.bringstudio.com/zheng-he-elasticsearchdao-xian-you-railsxiang-mu/">http://blog.bringstudio.com/zheng-he-elasticsearchdao-xian-you-railsxiang-mu/</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Heatmap]]></title>
-    <link href="http://ucooling.github.io/blog/2015/09/23/heatmap/"/>
-    <updated>2015-09-23T21:23:34+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/09/23/heatmap</id>
-    <content type="html"><![CDATA[<ul>
-<li><p>list all options</p>
-
-<p>we have investgated below options:</p>
-
-<p>1 Visual Website Optimizer</p>
-
-<p>2 inspectlet</p>
-
-<p>3 luckyorange</p>
-
-<p>4 heatmap.me</p>
-
-<p>5 mouseflow</p></li>
-<li><p>why use heatmap.me</p>
-
-<p>For the Visual Website Optimizer, it use canvas draw a page and record user heatmap. For inspectlet and luckyorange, they use a static image record user heatmap, but need record user&rsquo;s operations in our widget. So Thvm</p></li>
-<li><p>how to use</p></li>
-<li>disadvantaged</li>
-</ul>
-
-
-<h2>Heat Map Spike</h2>
-
-<h3>Problem:</h3>
-
-<p> Most of the heatmap tool is a url based tool, that means it will provide us a snapshot of the page and show the heatmap on the snapshot. They all have less support to dynamic elements such as our HLT, none of them can show the HLT on the snapshot and the click events is shown as a PDP click.</p>
-
-<p> We&rsquo;ve tried vwo, openheatmap, inspectlet, mouseflow, luckyorange, crazyegg, none of them can be used for our HLT.</p>
-
-<h3>Options:</h3>
-
-<ol>
-<li><p>Heatmap.me</p>
-
-<ul>
-<li><p>This tool provide good support for dynamic elements, also provide a way to prevent count in the events on PDP page.</p></li>
-<li><p>The feature is less than other tools, it only collect click events.</p></li>
-<li>Don&rsquo;t have a dashboard show results.</li>
-</ul>
-</li>
-<li><p>vwo</p>
-
-<ul>
-<li>This tool does not support for dynamic elements</li>
-<li>Just apply click events.</li>
-<li>Have a good dashboard show results.</li>
-<li>use canvas draw result page.</li>
-</ul>
-</li>
-<li><p>inspectlet</p>
-
-<ul>
-<li>This tool provide a lot of features, such as Eye-tracking Heatmap/Click Heatmap/scroll Heatmap.</li>
-<li>Have a good dashboard show results.</li>
-<li>use static image record results.
-This tool does not support for dynamic elements</li>
-</ul>
-</li>
-<li><p>luckyorange</p>
-
-<ul>
-<li>This tool support move/click/scroll/precise heatmap.</li>
-<li>Have a good dashboard show results</li>
-<li>use static image record results</li>
-<li>This tool does not support for dynamic elements</li>
-</ul>
-</li>
-<li><p>mouseflow</p>
-
-<ul>
-<li>This tool support move/click/scroll heatmap.</li>
-<li>Have a good dashboard show results</li>
-<li>support dynamic elements</li>
-<li>Can&rsquo;t load our widget</li>
-</ul>
-</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Brightcove]]></title>
-    <link href="http://ucooling.github.io/blog/2015/09/23/brightcove/"/>
-    <updated>2015-09-23T21:20:52+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/09/23/brightcove</id>
-    <content type="html"><![CDATA[<h2>What is brightcove</h2>
-
-<p>  Brightcove revolutionizes the way organizations deliver video experiences. it change the video transmission ways. It is different the YouTube video, YouTube focus on the video of users homemade. The brightcove hope build a chance, there is everyone can build the video, meantime share the video and get revenue. Brightcove is position itself as an online video paltform, the main work is to provide video and other digital media and publish paltform to manufacturers of video content, totally that is cloud video</p>
-
-<p> ## How to use brightcove</p>
-
-<p> you need to sign up a account of brightcove
- * you can upload a video to media, chose the video that is updated, and click publish button and publish your video</p>
-
-<ul>
-<li><p>you also can create a player, when you pushlish your video, you can chose <br/>
-you player</p></li>
-<li><p>you also create a playlist, and add some video to the playlist, besides you can publish the playlist.</p></li>
-</ul>
-
-
-<p> ## Demo</p>
-
-<ul>
-<li>publish a video</li>
-</ul>
-
-
-<p> Use iframe tag</p>
-
-<pre><code class="```">&lt;!doctype html&gt;
-&lt;html&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;Dynamically Load Player&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;iframe src='http://players.brightcove.net/4446402108001/ee7a42d1-6d38-46f1-a79e-738e08b6ef36_default/index.html?videoId=4446806003001' allowfullscreen webkitallowfullscreen mozallowfullscreen&gt;&lt;/iframe&gt;
-&lt;/body&gt;
-&lt;/html&gt;  
-</code></pre>
-
-<p>  Use video tag</p>
-
-<p>  ```
-&lt;!doctype html>
-<html>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
-  <meta charset="UTF-8">
-  <title>Dynamically Load Player</title>
+  <meta charset="utf-8">
+  <title>马立斌技术博客</title>
+  <meta name="author" content="Malrin">
+
+  
+  <meta name="description" content="背景介绍 参加工作的两年时间里，刚开始工作的时候是一家日企，使用的版本管理工具是SVN，对于一个初涉职场的新手来说学习这个不是很困难，并且有很多的工具可以使用，但是这种工具有很多的局限性，而且很不方便，对于公司层面来讲确实是一个很好的选择， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/posts/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="马立斌技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
 </head>
-<body>
-  <video
-  data-video-id="4448133659001"
-  data-account="4446402108001"
-  data-player="default"
-  data-embed="default"
-  class="video-js" controls></video></p>
 
-<script src="http://players.brightcove.net/1719543778001/vttjs/dist/vtt.min.js"></script>
-
-
-<script src="http://players.brightcove.net/4446402108001/default_default/index.min.js"></script>
-
-
-<p></body>
-</html>
-```</p>
-
-<ul>
-<li>publish a playlist</li>
-</ul>
-
-
-<pre><code class="`"> &lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Media API Sample&lt;/title&gt;
-        &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
-    &lt;!-- Javascript Media API wrapper from http://docs.brightcove.com/en/video-cloud/open-source/index.html --&gt;
-    &lt;script type="text/javascript" src="http://files.brightcove.com/bc-mapi.js"&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1&gt;Media API Sample&lt;/h1&gt;
-    &lt;!-- Start of Brightcove Player --&gt;
-    &lt;script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"&gt;&lt;/script&gt;
-    &lt;object id="myExperience" class="BrightcoveExperience"&gt;
-      &lt;param name="bgcolor" value="#FFFFFF" /&gt;
-      &lt;param name="width" value="480" /&gt;
-      &lt;param name="height" value="270" /&gt;
-      &lt;param name="playerID" value="921267190001" /&gt;
-      &lt;param name="playerKey" value="AQ~~,AAAA1oy1bvE~,ALl2ezBj3WG3MLvDx9F9zkV06cNK00ey" /&gt;
-      &lt;param name="isVid" value="true" /&gt;
-      &lt;param name="isUI" value="true" /&gt;
-      &lt;param name="dynamicStreaming" value="true" /&gt;
-      &lt;!-- params for Universal Player API --&gt;
-      &lt;param name="includeAPI" value="true" /&gt;
-      &lt;param name="templateReadyHandler" value="BCL.onTemplateReady" /&gt;
-    &lt;/object&gt;
-    &lt;script type="text/javascript"&gt;brightcove.createExperiences();&lt;/script&gt;
-    &lt;!-- End of Brightcove Player --&gt;
-    &lt;fieldset&gt;
-      &lt;legend&gt;Videos&lt;/legend&gt;
-      &lt;div id="results"&gt;&lt;/div&gt;
-    &lt;/fieldset&gt;&lt;br&gt;
-    &lt;!-- This is the script to modify for the exercise --&gt;
-    &lt;script type="text/javascript"&gt;
-      // BCL Media API search maker -- adapted from JS-MAPI on http://docs.brightcove.com/en/video-cloud/open-source/index.html
-      // namespace to keep all the "global" vars together
-      var BCL = {};
-      // placeholder - params for API call
-      BCL.params = {};
-      // Media API read token
-      BCMAPI.token = "WDGO_XdKqXVJRVGtrNuGLxCYDNoR-SvA5yUqX2eE6KjgefOxRzQilw..";
-      // set the callback for Media API calls
-      BCMAPI.callback = "BCL.onSearchResponse";
-      // set the filter
-      BCL.params.any = "tag:nature";
-      BCMAPI.search(BCL.params);
-      BCL.onSearchResponse = function(jsonData) {
-        var str = "";
-        for (var index in jsonData.items) {
-          str += "&lt;a onclick=\"BCL.playVideo(" + jsonData.items[index].id + ")\" style=\"cursor:pointer\"&gt;&lt;img src=\"" + jsonData.items[index].thumbnailURL + "\"/&gt;&lt;br/&gt;&lt;small&gt;" + jsonData.items[index].name + "&lt;/&lt;small&gt;&lt;/a&gt;&lt;hr/&gt;";
-        }
-        document.getElementById("results").innerHTML = str;
-      }
-      // Player API scripting
-      // event listener for the player being ready
-      BCL.onTemplateReady = function (event) {
-        BCL.player = brightcove.api.getExperience("myExperience");
-        // get a reference to the video player
-        BCL.videoPlayer = BCL.player.getModule(brightcove.api.modules.APIModules.VIDEO_PLAYER);
-      }
-      // play video function
-      BCL.playVideo = function(videoID) {
-        BCL.videoPlayer.loadVideoByID(videoID);
-      }
-    &lt;/script&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-<p> ## reference material</p>
-
-<ul>
-<li><a href="http://docs.brightcove.com/en/index.html">http://docs.brightcove.com/en/index.html</a></li>
-<li><a href="https://studio.brightcove.com/products/videocloud/home">https://studio.brightcove.com/products/videocloud/home</a></li>
-<li><a href="https://docs.brightcove.com/en/video-cloud/cms-api/getting-started/overview-cms.html#generalInfo">https://docs.brightcove.com/en/video-cloud/cms-api/getting-started/overview-cms.html#generalInfo</a></li>
-</ul>
-
-]]></content>
-  </entry>
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">马立斌技术博客</a></h1>
   
-  <entry>
-    <title type="html"><![CDATA[How to Use Sinatra]]></title>
-    <link href="http://ucooling.github.io/blog/2015/05/21/how-to-use-sinatra/"/>
-    <updated>2015-05-21T22:16:31+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/05/21/how-to-use-sinatra</id>
-    <content type="html"><![CDATA[<p>这两天是公司的Hack Day,非常有意义的活动，对于本次的idea不做赘述，这篇博客记录一下在整个的Hack过程中如何使用sinatra来搭建一个后台的服务。</p>
-
-<h2>什么是sinatra</h2>
-
-<p>Sinatra是一款非常轻量的Web框架，基于Ruby语言来开发的，其目的是以最小的精力为代价快速创建Web应用为目的的DSL（领域专属语言）。
-Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行稍微多点。</p>
-
-<h2>How to use Sinatra</h2>
-
-<ul>
-<li>首先需要保证你的系统已经安装了Ruby，至于怎么搭建Ruby环境，其实很简单，如果你使用的是Mac的话，首先你需要安装RVM，使用Rvm来管理你的Ruby，然后再安装Ruby，具体不做细说。</li>
-<li>创建项目的的目录结构</li>
-</ul>
-
-
-<p><img src="http://ucooling.github.io/images/sinatra_1.png" alt="目录结构" /></p>
-
-<ul>
-<li>在Gemfile文件中引入需要使用的Gem包</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake'
-</span><span class='line'>gem 'rack', '~&gt;1.5.2'
-</span><span class='line'>gem 'json'
-</span><span class='line'>gem 'rack-hal_browser'
-</span><span class='line'>gem 'mysql2' # STENCIL_OPTIONAL: Database
-</span><span class='line'>gem 'sinatra'
-</span><span class='line'>gem 'sinatra-activerecord'
-</span><span class='line'>gem 'sinatra-contrib'</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>运行bundle install</li>
-<li>创建Rakefile文件
-里边引入下面这段代码：</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require "sinatra/activerecord/rake"
-</span><span class='line'>
-</span><span class='line'>namespace :db do
-</span><span class='line'>  task :load_config do
-</span><span class='line'>    require "./app"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>task :default =&gt; ['migrate']</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上边这段代码的目的是引入sinatra自己的rake任务，方便我们去做数据库迁移，如果还想自己去定义其他的rake任务可以继续往改文件里边添加
-* 连接数据库，创建config/database.yml文件
-在该文件中做如下的配置：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>development:
-</span><span class='line'>  adapter: mysql2
-</span><span class='line'>  host: 127.0.0.1
-</span><span class='line'>  username: root
-</span><span class='line'>  password:
-</span><span class='line'>  database: developer-SEC-server</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本设置比较简单，只是创建了一个开发的数据库，你也可以创建你自己的test环境和产品环境
-* 创建db/migrate目录结构
-* 创建自己models目录结构
-在该文件中你可以新建models，可以跟数据库表一一对应，看自己的需求
-* 新建app.rb文件
-这个文件是sinatra中的关键文件，在该文件中你可以定义自己对外提供的接口。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require 'sinatra'
-</span><span class='line'>require 'sinatra/json'
-</span><span class='line'>require "sinatra/activerecord"
-</span><span class='line'>require "./models/user"
-</span><span class='line'>
-</span><span class='line'>class DeveloperSECApp &lt; Sinatra::Base
-</span><span class='line'>
-</span><span class='line'>  register Sinatra::ActiveRecordExtension
-</span><span class='line'>
-</span><span class='line'>  post '/:login' do
-</span><span class='line'>      response.headers['Access-Control-Allow-Origin'] = '*'
-</span><span class='line'>      response.headers['Access-Control-Allow-Methods'] = 'POST'
-</span><span class='line'>      user = User.find_by("developer_key=?", params['developer_key'])
-</span><span class='line'>      @developer_key = params['developer_key']
-</span><span class='line'>      if user.password == params['password']
-</span><span class='line'>          puts params['password']
-</span><span class='line'>          status 200
-</span><span class='line'>
-</span><span class='line'>      else
-</span><span class='line'>          puts params['password']
-</span><span class='line'>          status 400
-</span><span class='line'>      end
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上边的这段代码实现了一个简单地登录认证。</p>
-
-<p>整个上边的过程，只是对sinatra的一个简单地demo，如果要在实际的项目中使用的话可以写出很复杂的应用，跟使用rails没有太大的区别，只是这个gem包更加的轻量，开发更快。</p>
-]]></content>
-  </entry>
+    <h2>学会蹲下才能跳的更高.</h2>
   
-  <entry>
-    <title type="html"><![CDATA[Ruby 中的钩子方法]]></title>
-    <link href="http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/"/>
-    <updated>2015-05-20T21:56:59+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa</id>
-    <content type="html"><![CDATA[<p>以前从未对Ruby中的钩子方法有一个很深刻的认识，只是知道在使用的时候该去怎么引用，从看到了<a href="http://www.sitepoint.com/rubys-important-hook-methods/">这篇</a>文章之后我开始有了一个新的认识，也意识到自己对Ruby中的钩子方法的认识只是停留在一个很片面的层次，今天正好抽空总结一下。</p>
+</hgroup>
 
-<h2>什么是钩子方法</h2>
-
-<p>下面这段是对原文的翻译：
-钩子方法提供当应用程序在运行时扩展应用程序的行为，假设有这样一种场景，当子类继承父类时父类能够接受到通知，或者是优雅地处理一个对象上的不可调用的方法而不是让编译器抛出异常。所有这些情况都是引用钩子方法的实例，但是他们的引用又不仅限于此，不同的框架或者库使用不同的钩子方法来实现他们的功能。</p>
-
-<p>这篇文章中我们将讨论下面列表中的钩子方法：</p>
-
-<ul>
-<li>included</li>
-<li>extended</li>
-<li>prepended</li>
-<li>inherited</li>
-<li>method_missing</li>
-</ul>
-
-
-<h2>included</h2>
-
-<p>Ruby提供了一种方法来使用定义在模块中的方法（模块在其他语言中被称作mixins）,模块的概念非常的简单，它是一种可以在其它地方使用的代码的集合。
-例如我想写一个方法，当它被调用时能够返回一个静态的字符串，我们现在将这个方法叫做name,你可能在其它的地方同样也想使用这个那么方法，对于这样的场景，我们最后新建一个moudle,所以我们有了下面的代码：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>moudle Person
-</span><span class='line'>  def name 
-</span><span class='line'>    puts "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>同时我们还有这样的一个类想要使用上面的moudle，我们可能会这样做</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class User
-</span><span class='line'>  include Person
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在我们来执行上边的代码，看看我们会得到什么</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User.new.name
-</span><span class='line'>=&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但是现在我们对moudle稍微做些修改，看看这其中的included钩子方法是如何被调用的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>moudle Person
-</span><span class='line'>  def self.included(base)
-</span><span class='line'>    puts "#{base} included #{self}"
-</span><span class='line'>  end
-</span><span class='line'>  
-</span><span class='line'>  def name 
-</span><span class='line'>    puts "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在我们再来执行上边的代码，看看我们会得到什么</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User.new.name
-</span><span class='line'>=&gt; User included Person
-</span><span class='line'>=&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>是的，正如我们所见，当我们在调用moudle中的方法的时候base返回的时包含改moudle得类名，当我们在调用moudle中的方法的时候会触发这里的included钩子方法。</p>
-
-<h2>extended</h2>
-
-<p>如果你经常写Ruby程序的话，有时候你可能会使用extend来引用一个moudle，使用这种方式跟使用include有很大的不同，当使用extend来引用moudle的时候，其实是将moudle中的方法作为类方法类引入，而使用include是作为实例方法来引入，这也就是为什么我们看到上边会使用User.new.name来调用name方法
-下面同样是来自于原文的一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class User
-</span><span class='line'>  extend Person
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>puts User.name # =&gt; My name is Person
-</span><span class='line'>
-</span><span class='line'>u1 = User.new
-</span><span class='line'>u2 = User.new
-</span><span class='line'>
-</span><span class='line'>u1.extend Person
-</span><span class='line'>
-</span><span class='line'>puts u1.name # =&gt; My name is Person
-</span><span class='line'>puts u2.name # =&gt; undefined method `name' for #&lt;User:0x007fb8aaa2ab38&gt; (NoMethodError)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>跟included类似，和extend对应的也有一个钩子方法extended.
-当一个模块被其他模块或者类执行了extend操作的时候，就会触发该方法的调用。</p>
-
-<h2>prepended</h2>
-
-<p>另一种使用moudle内部方法的方式是prepend.这种方式被定义在ruby2.0中，它跟include和extend有很大的不同，使用include或者extend引入的方法可以在base类中重新覆盖，但是如果使用的是prepend方法引入moudle中的方法，那么它会覆盖base类中的同名方法，这样正好和include、extend相反。
-下面是原文中的一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class User
-</span><span class='line'>  include Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to User"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>puts User.new.name 
-</span><span class='line'>=&gt; My name belongs to User</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再来看一下使用prepend的方式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class User
-</span><span class='line'>  prepend Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to User"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>puts User.new.name 
-</span><span class='line'>=&gt; My name belongs to Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>于prepend对应的也有一个钩子方法prepended方法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def self.prepended(base)
-</span><span class='line'>    puts "#{self} prepended to #{base}"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to Person"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当上边一段代码执行时，会看到下面的结果</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person prepended to User
-</span><span class='line'>My name belongs to Person</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>inherited</h2>
-
-<p>继承是面向对象中一个非常重要的概念，Ruby是一个面向对象的编程语言，提供了从base/parent继承一个子类的方法，下面是一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
-</span><span class='line'>  def name
-</span><span class='line'>     "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>class User &lt; Person
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>puts User.new.name # =&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上边是一个非常简单地继承，你可能会很好奇，是什么时候会得到通知，当一个类继承另外一个类时，Ruby提供了一个叫做inherited的钩子方法，下面是一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
-</span><span class='line'>  def self.inherited(child_class)
-</span><span class='line'>    puts "#{child_class} inherits #{self}"
-</span><span class='line'>  end
-</span><span class='line'> 
-</span><span class='line'>  def name
-</span><span class='line'>    "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>class User &lt; Person
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>puts User.new.name</span></code></pre></td></tr></table></div></figure>
-
-
-<p>执行上边这段代码会得到下面的输出</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User inherits Person
-</span><span class='line'>My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>method_missing</h2>
-
-<p>method_missing 可能是Ruby中使用最广的钩子。当我们试图去访问一个对象上不存在的方法时则会调用这个钩子方法。下面是一个简单地例子</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
-</span><span class='line'>  def method_missing(sym, *args)
-</span><span class='line'>     "#{sym} not defined on #{self}"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def name
-</span><span class='line'>    "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p = Person.new
-</span><span class='line'>
-</span><span class='line'>puts p.name     # =&gt; My name is Person
-</span><span class='line'>puts p.address  # =&gt; address not defined on #&lt;Person:0x007fb2bb022fe0&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>method_missing 接收两个参数：被调用的方法名和传递给该方法的参数。
-首先Ruby会寻找我们试图调用的方法，如果方法没找到则会寻找 method_missing 方法。</p>
-
-<p><em>声明：本文只是对原文做了部分的翻译，想看访问原文请看文章开始的链接。</em></p>
-]]></content>
-  </entry>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
-  <entry>
-    <title type="html"><![CDATA[OOCSS]]></title>
-    <link href="http://ucooling.github.io/blog/2015/05/19/oocss/"/>
-    <updated>2015-05-19T16:18:35+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/05/19/oocss</id>
-    <content type="html"><![CDATA[<p>近几天一直在看OOCSS,以前从没有对CSS有什么特殊的情怀，认为它就是一个样式表，就是为我们的网页内容服务的，一直认为内容才是王道，但是真的是这样吗，可能不然。
-到底是什么来吸引用户来到你的网站呢，在现在这个网络快速发展的今天，不能说内容不重要，但是速度和用户体验也是不能被我们忽视的，快速响应和一个漂亮的页面设计显得尤为重要。
-这篇博客是我对最近学习OOCSS的一些总结，一个方面是对自己近几天的学习做个总结，另一方面也是跟大家交流自己学习的一个机会。</p>
-
-<h2>OOCSS的的原则</h2>
-
-<p>OOCSS显然已经不是一个简单地设计理念了，它更是一种思考方式，带着这种思考来写自己项目中的CSS结构，它会为我们带来很多的好处</p>
-
-<ul>
-<li>他可以让你写更快的、更具有可维护性的，标准的前端代码</li>
-<li>它使你的代码结构更加的可读性，便于后期的维护</li>
-<li>它是你的程序更具有可扩展性</li>
 </ul>
-
-
-<p>OOCSS主要用两大原则：</p>
-
-<ul>
-<li>结构和样式分离</li>
-<li>容器和内容分离</li>
-</ul>
-
-
-<h2>结构和样式分类</h2>
-
-<p>我是这样来理解这句话的，对于页面上的每个DOM元素，或许只是简单地用来布局，或许会添加一些特效。
-但是对于很多源总是会有很多的相似之处，这些相似之处一般都会表现在结构和样式上，如果我们能够做到将结构和样式分离，这样我们就能够在其他的更多地页面来使用这些结构和样式，不用再去重复你自己（DRY），这样是软件开发的一个基本的原则。
-对于常见的定义DOM结构的CSS，比如：width、height、border、position、top、left、right、bottom、margin、padding等。
-还有一些常见的定义样式的CSS，比如：background、font、color、link、visited、hover、active等
-下面是一个例子
-在使用OOCSS之前的代码的结构：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.div1 {
-</span><span class='line'>  width: 100%;
-</span><span class='line'>  height:100px;
-</span><span class='line'>  border:1px solid #CCC;
-</span><span class='line'>  background:green;
-</span><span class='line'>  border-radius:25px;
-</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
-</span><span class='line'>}
-</span><span class='line'>.div2 {
-</span><span class='line'>  width: 49%;
-</span><span class='line'>  height:500px;
-</span><span class='line'>  border:1px solid #CCC;
-</span><span class='line'>  background:green;
-</span><span class='line'>  border-radius:25px;
-</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
-</span><span class='line'>}
-</span><span class='line'>.div3 {
-</span><span class='line'>  width: 49%;
-</span><span class='line'>  height:500px;
-</span><span class='line'>  border:1px solid #CCC;
-</span><span class='line'>  background:green;
-</span><span class='line'>  border-radius:25px;
-</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用OOCSS思想之后的代码结构</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.div1 {
-</span><span class='line'>  width: 100%;
-</span><span class='line'>  height:100px;
-</span><span class='line'>  border:1px solid #CCC;
-</span><span class='line'>}
-</span><span class='line'>.div2 {
-</span><span class='line'>  width: 49%;
-</span><span class='line'>  height:500px;
-</span><span class='line'>  border:1px solid #CCC;
-</span><span class='line'>}
-</span><span class='line'>.div3 {
-</span><span class='line'>  width: 49%;
-</span><span class='line'>  height:500px;
-</span><span class='line'>  border:1px solid #CCC;
-</span><span class='line'>}
-</span><span class='line'>.box {
-</span><span class='line'>  background:green;
-</span><span class='line'>  border-radius:25px;
-</span><span class='line'>  box-shadow: 10px 10px 5px #888888;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样写的好处是显而易见的，一方面是代码更加的简洁，另一方面代码的可用性更高。</p>
-
-<h2>容器和内容分离</h2>
-
-<p>我们来举一个简单地例子，比如像下面的这段代码：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#container .div1{
-</span><span class='line'>  width:100px;
-</span><span class='line'>  height:100px;
-</span><span class='line'>  border:1px solid #CCC;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在来解释上面这段代码，我们将class为div1的样式定义在container的容器里边，这样当我们想复用这段代码的时候就会意识到这么写是多么的傻，自己给自己找不痛快。div1依赖于一个单一的容器。这个错误可能很多人都犯过，包括我自己以前也经常犯，但是犯错误没什么，关键是犯了以后我们需要思考，方式以后不再犯同样的错误。</p>
-
-<h2>CSS目录结构组织</h2>
-
-<p>其实对于CSS文件结构的组织也是非常重要的一件事情，一个好的文件组织形式有很多的好处：</p>
-
-<ul>
-<li>可以防止其中的某个文件过大</li>
-<li>是代码的结构更加的清晰</li>
-<li>便于查找</li>
-<li>便于和他人协作开发</li>
-</ul>
-
-
-<p>下面说一个我最近项目中的例子，我们项目在开始的时候是只有一个CSS文件的，当大家写CSS样式的时候都往这个文件里边去添加，这样过了两个月之后发现这个文件已经快超过1000行了，为后来的开发带来很大的不便，而且现在拆起来也很困难，因为是不同的人添加的，而且又同时有好几个平台的代码。后来没办法只能用单独的story做这个事情，我记得当时是我和一个同事一起去拆的，我们用了好几天时间才理出了一个大概的结构。
-我们后来组织CSS的一个结构是，我们先创建一个base文件，这个里边放的是一些公共的css文件，然后按照不同的页面进行划分，每个页面对应不同的CSS文件，然后这里的每个CSS文件都是继承自base文件，然后将其中的变量还有mixin也拆出来存在单独的文件，这样代码的结构就非常的清晰。</p>
-
-<p>总之在开始使用OOCSS肯定需要一定时间和实践，我现在也在慢慢地学习中，但是在写CSS的时候必须遵循一些基本的思想，养成一个好的习惯：</p>
-
-<ul>
-<li>避免使用id选择器</li>
-<li>避免使用!important</li>
-<li>避免给类名附属一个元素名(div.title/div.header)</li>
-<li>使用css网格（可以借鉴bootstrap的网格）</li>
-<li>嵌套一般不要超过三层</li>
-<li>在定义一个CSS时先定义结构css再定义样式css</li>
-<li>尽量能够做到代码复用，不要做太多的重复工作</li>
-<li>一个CSS文件不要过大</li>
-</ul>
-
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[Git Introduction]]></title>
-    <link href="http://ucooling.github.io/blog/2015/05/10/git-introduction/"/>
-    <updated>2015-05-10T11:51:44+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/05/10/git-introduction</id>
-    <content type="html"><![CDATA[<h2>背景介绍</h2>
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/10/git-introduction/">Git Introduction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-10T11:51:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:51 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>背景介绍</h2>
 
 <p>参加工作的两年时间里，刚开始工作的时候是一家日企，使用的版本管理工具是SVN，对于一个初涉职场的新手来说学习这个不是很困难，并且有很多的工具可以使用，但是这种工具有很多的局限性，而且很不方便，对于公司层面来讲确实是一个很好的选择，但是对于个人来讲使用SVN来管理自己的代码确实不是一个很好的选择，而且很不方面。从我准备开始换工作的时候我开始注意到了Git，开始的时候对它有一种敬畏的心态，总觉的这个东西很难学会，事实上确实很难学会，他的学习曲线是比较长，但是当你真正的掌握他的精髓的时候你就会开始觉得这会是一个很好的工具，下面的内容我会介绍一些我自己对于Git的一些使用的理解。</p>
 
@@ -1797,15 +474,35 @@ Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行
 
 
 
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[Jasmine]]></title>
-    <link href="http://ucooling.github.io/blog/2015/04/22/jasmine/"/>
-    <updated>2015-04-22T21:53:43+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/04/22/jasmine</id>
-    <content type="html"><![CDATA[<h2>简介</h2>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/22/jasmine/">Jasmine</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-22T21:53:43+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>简介</h2>
 
 <p>页面前端逻辑复杂度与日俱增，前端工程师写出来的javascript变得庞大甚至臃肿，维护的难度不断加大，你需要一个javascript单元测试框架，用于降低维护javascript代码时的出错风险，保证重构后的代码的兼容性，最重要的是减少人肉测试的过程，降低js代码维护成本。jasmine无疑是目前最优秀的javascript单元测试框架之一，目前淘宝UED正在使用，在易用性和质量上都非常不错。</p>
 
@@ -2536,15 +1233,35 @@ function: 测试函数</p>
 <p>toThrow: 测试一个函数执行是否会异常；</p>
 
 <p>toThrowError:</p>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[Active-job]]></title>
-    <link href="http://ucooling.github.io/blog/2015/04/21/active-job/"/>
-    <updated>2015-04-21T23:11:02+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/04/21/active-job</id>
-    <content type="html"><![CDATA[<h2>初探ActiveJob</h2>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/21/active-job/">Active-job</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-21T23:11:02+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:11 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>初探ActiveJob</h2>
 
 <p>ActiveJob 是 Rails 4.2 新加入的功能。这个东西在beta阶段rubyChina就已经有很多高手关注了</p>
 
@@ -2631,15 +1348,35 @@ function: 测试函数</p>
   end
 end
 </code></pre>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[Ruby-aws-sqs(received Message)]]></title>
-    <link href="http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message/"/>
-    <updated>2015-04-08T00:05:51+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/04/08/ruby-aws-sqs-received-message</id>
-    <content type="html"><![CDATA[<p>读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。</p>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/08/ruby-aws-sqs-received-message/">Ruby-aws-sqs(received Message)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-08T00:05:51+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:05 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>读取消息其实也是非常的简单，以下将从两个方面来介绍如何从AWS的SQS获取消息。</p>
 
 <h2>Received message</h2>
 
@@ -2700,15 +1437,35 @@ end
 <h2>参考文档</h2>
 
 <p><a href="http://docs.aws.amazon.com/sdkforruby/api/Aws/SQS/Client.html">aws-sdk docs</a></p>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[Rspec 语法介绍]]></title>
-    <link href="http://ucooling.github.io/blog/2015/04/06/rspec-yu-fa-jie-shao/"/>
-    <updated>2015-04-06T23:08:16+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/04/06/rspec-yu-fa-jie-shao</id>
-    <content type="html"><![CDATA[<h2>关键字</h2>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/06/rspec-yu-fa-jie-shao/">Rspec 语法介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T23:08:16+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>关键字</h2>
 
 <ul>
 <li>describe 和 context</li>
@@ -2828,15 +1585,35 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
 
 
 <p>希望在expect块里做完之后，BlogPost.count的值要改为1</p>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[Rspec 入门]]></title>
-    <link href="http://ucooling.github.io/blog/2015/04/06/rspec-ru-men/"/>
-    <updated>2015-04-06T21:49:27+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/04/06/rspec-ru-men</id>
-    <content type="html"><![CDATA[<h2>Rspec介绍</h2>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/06/rspec-ru-men/">Rspec 入门</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T21:49:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Rspec介绍</h2>
 
 <p>Rspec工具是一个Ruby软件包，可以用它构建有关您的软件规范，该规范实际上是一个描述系统行为的测试</p>
 
@@ -2896,7 +1673,7 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
 </ul>
 
 
-<p><img src="http://ucooling.github.io/images/spec_1.png" alt="spec目录结构" /></p>
+<p><img src="/images/spec_1.png" alt="spec目录结构" /></p>
 
 <ul>
 <li>spec_helper.rb</li>
@@ -2963,15 +1740,35 @@ memozied的意思是let后面关联的block只执行一次，然后会缓存改�
 
 
 <blockquote><p>下一节我会开始介绍如何编写自己的测试。</p></blockquote>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[Ruby-aws-sqs(send_message)]]></title>
-    <link href="http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs/"/>
-    <updated>2015-04-02T21:11:27+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/04/02/ruby-aws-sqs</id>
-    <content type="html"><![CDATA[<h2>如何在Ruby中使用AWS的SQS</h2>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/02/ruby-aws-sqs/">Ruby-aws-sqs(send_message)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-02T21:11:27+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:11 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>如何在Ruby中使用AWS的SQS</h2>
 
 <blockquote><p>SQS(Simple Queue Service)是一个伸缩且可靠的消息传递框架，可以使用SQS简单地创建、存储和获取信息，可以使用它构建基于AWS的应用程序。使用SQS是构建松耦合的Web应用程序的好方法，只需要根据使用量付费，整个队列框架在Amazon数据中心的安全环境中运行。</p></blockquote>
 
@@ -3098,26 +1895,66 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
 <h2>参考资料</h2>
 
 <p> <a href="http://blog.csdn.net/menxu_work/article/details/38296043">AWS Ruby Demo</a></p>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[认识Node(一)]]></title>
-    <link href="http://ucooling.github.io/blog/2015/03/31/ren-shi-node-%5B%3F%5D/"/>
-    <updated>2015-03-31T17:46:32+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/03/31/ren-shi-node-[?]</id>
-    <content type="html"><![CDATA[<h2>为啥学习Node</h2>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/31/ren-shi-node-%5B%3F%5D/">认识Node(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-31T17:46:32+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>5:46 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>为啥学习Node</h2>
 
 <blockquote></blockquote>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[SOAP Jian Jie]]></title>
-    <link href="http://ucooling.github.io/blog/2015/03/30/soapjian-jie/"/>
-    <updated>2015-03-30T00:00:00+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/03/30/soapjian-jie</id>
-    <content type="html"><![CDATA[<h1>SOAP简介</h1>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/30/soapjian-jie/">SOAP Jian Jie</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-30T00:00:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>SOAP简介</h1>
 
 <blockquote><p>SOAP是基于XML的简单协议，可使应用程序在HTTP之上进行信息交换。
 对于应用程序开发来说，不同程序之间通过英特网通信非常重要。
@@ -3258,15 +2095,35 @@ Content-Length: 250</code></p>
 <p><a href="http://download.csdn.net/detail/oponent1/4819108">SOAP接口中文版</a></p>
 
 <p><a href="http://andot.iteye.com/blog/662787">SOAP和Web service哪些事</a></p>
-]]></content>
-  </entry>
+</div>
   
-  <entry>
-    <title type="html"><![CDATA[Markdown Sync]]></title>
-    <link href="http://ucooling.github.io/blog/2015/03/29/markdown-sync/"/>
-    <updated>2015-03-29T23:56:46+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/03/29/markdown-sync</id>
-    <content type="html"><![CDATA[<hr />
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/29/markdown-sync/">Markdown Sync</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-29T23:56:46+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:56 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
 
 <blockquote><p>Markdown是一种轻量的标记语言，它的优势是使用方便，而且学习的成本非常低，常用的标签就10种左右，语法非常简单，一旦熟悉这种Mackdown的语法，会有一种一劳永逸的赶脚。</p></blockquote>
 
@@ -3288,7 +2145,86 @@ Content-Length: 250</code></p>
 <h4>简记表</h4>
 
 <p>  <img src="http://www.onethink.cn/Uploads/Editor/2013-12-13/52aaabb4e7486.png" alt="速记表" /></p>
-]]></content>
-  </entry>
+</div>
   
-</feed>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/index.html">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/">Simple Asset Helper Function for CDN</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/03/elk-log-analysis/">轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/17/pact/">Pact 测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/new-relic-in-ruby-application/">New Relic in Ruby Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Malrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

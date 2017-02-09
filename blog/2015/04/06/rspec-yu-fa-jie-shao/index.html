@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rspec 语法介绍 - 马立斌技术博客</title>
+  <meta name="author" content="Malrin">
+
+  
+  <meta name="description" content="关键字 describe 和 context 以上两个关键字是帮助你组织分类的，都是可以任意套叠的.
+使用一个字符串作为他们的参数，以及使用一个block来定义其上下文的范围。
+写model的spec或者其他的unit test时，可以传一个Ruby的类作为describe的第一个参数，例如 1 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ucooling.github.io/blog/2015/04/06/rspec-yu-fa-jie-shao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="马立斌技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">马立斌技术博客</a></h1>
+  
+    <h2>学会蹲下才能跳的更高.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="ucooling.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rspec 语法介绍</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T23:08:16+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>关键字</h2>
+
+<ul>
+<li>describe 和 context</li>
+</ul>
+
+
+<p>以上两个关键字是帮助你组织分类的，都是可以任意套叠的.
+使用一个字符串作为他们的参数，以及使用一个block来定义其上下文的范围。
+写model的spec或者其他的unit test时，可以传一个Ruby的类作为describe的第一个参数，例如</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#测试类
+</span><span class='line'>describe Users do
+</span><span class='line'>  #测试方法
+</span><span class='line'>  context '#test' do
+</span><span class='line'>      it 'should ...' do
+</span><span class='line'>          ......
+</span><span class='line'>      end
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>let</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let(:name) { expression }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>let方法简单地使用后面的block创建memoized attributes.换句话说就是为后边的测试准备数据，定义的属性可以在多个例子中使用，但是不能跨多个实例调用。跟before里地代码类似，但是比before里测代码效果更好。
+memozied的意思是let后面关联的block只执行一次，然后会缓存改变量，提高执行效率，有需要时才会加载，相较于before执行速度会更快。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let(:github) { 'ucooling.github.io' }</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>before</li>
+</ul>
+
+
+<p>let和before(:each)的区别，let不会自动初始化变量，而before(:each)会自动初始化变量，如果我期中有些测试用例不需要初始化这些变量，建议使用let，这样会节省一些时间和资源。before(:all)同样</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Thing
+</span><span class='line'>  def tests
+</span><span class='line'>      @tests ||= []
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>describe Thing do
+</span><span class='line'>  before(:each) do
+</span><span class='line'>      @thing = Thing.new
+</span><span class='line'>  end
+</span><span class='line'>  describe "initialized in before(:each)" do
+</span><span class='line'>      it "has 0 tests" do
+</span><span class='line'>          @thing.should have(0).tests
+</span><span class='line'>      end
+</span><span class='line'>      it "can get accept new tests" do
+</span><span class='line'>          @thing.tests &lt;&lt; Object.new
+</span><span class='line'>      end
+</span><span class='line'>      it "does not share state across examples" do
+</span><span class='line'>          @thing.should have(0).tests
+</span><span class='line'>      end
+</span><span class='line'>      it "does not have 1 count" do
+</span><span class='line'>          @thing.shou*ld_not have(1).tests
+</span><span class='line'>      end
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>expect</li>
+</ul>
+
+
+<p>expect用来改变一个值或者抛出一个异常。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>expect { 
+</span><span class='line'>BlogPost.create :title =&gt; “Hello” 
+</span><span class='line'>}.to change {BlogPost.count}.by(1) </span></code></pre></td></tr></table></div></figure>
+
+
+<p>希望在expect块里做完之后，BlogPost.count的值要改为1</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Malrin</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-04-06T23:08:16+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ucooling.github.io/blog/2015/04/06/rspec-yu-fa-jie-shao/" data-via="" data-counturl="http://ucooling.github.io/blog/2015/04/06/rspec-yu-fa-jie-shao/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/06/rspec-ru-men/" title="Previous Post: Rspec 入门">&laquo; Rspec 入门</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/04/08/ruby-aws-sqs-received-message/" title="Next Post: ruby-aws-sqs(received message)">ruby-aws-sqs(received message) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/">Simple Asset Helper Function for CDN</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/03/elk-log-analysis/">轻量 高效 日志分析架构ELK(elasticsearh+logstash+Kibana)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/17/pact/">Pact 测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/09/new-relic-in-ruby-application/">New Relic in Ruby Application</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/08/use-elasticsearch-to-rails/">Use Elasticsearch to Rails</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Malrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
