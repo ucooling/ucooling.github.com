@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[马立斌技术博客]]></title>
+  <link href="http://ucooling.github.io/atom.xml" rel="self"/>
+  <link href="http://ucooling.github.io/"/>
+  <updated>2017-02-09T11:00:31+08:00</updated>
+  <id>http://ucooling.github.io/</id>
+  <author>
+    <name><![CDATA[Malrin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
