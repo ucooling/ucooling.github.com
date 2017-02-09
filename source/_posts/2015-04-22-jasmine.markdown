@@ -1,0 +1,425 @@
+---
+layout: post
+title: "Jasmine"
+date: 2015-04-22 21:53:43 +0800
+comments: true
+categories: 
+---
+##简介
+页面前端逻辑复杂度与日俱增，前端工程师写出来的javascript变得庞大甚至臃肿，维护的难度不断加大，你需要一个javascript单元测试框架，用于降低维护javascript代码时的出错风险，保证重构后的代码的兼容性，最重要的是减少人肉测试的过程，降低js代码维护成本。jasmine无疑是目前最优秀的javascript单元测试框架之一，目前淘宝UED正在使用，在易用性和质量上都非常不错。
+
+##BDD
+BDD是一种敏捷软件开发技术，它鼓励软件项目开发中的开发者、测试人员和非技术参与者之间的协作，BDD最初是由Dan North在2003年命名的，它包括验收和客户驱动等得极限编程时间，作为一种软件开发的实践方式，在这几年当中得到了极大的发展。
+BDD的重点是通过与利益相关者的讨论取得对预期的软件行为的清醒认识。它通过用自然语言书写非程序员可读的测试用例扩展了测试驱动开发方法。行为驱动开发人员使用混合了领域中统一的语言的母语语言来描述他们的代码的目的。这让开发者得以把精力集中在代码应该怎么写，而不是技术细节上，而且也最大程度的减少了将代码编写者的技术语言与商业客户、用户、利益相关者、项目管理者等的领域语言之间来回翻译的代价。
+##常见API
+* describe
+
+一个测试开始于全局函数describe, 一个describe是一个it的集合，当然它也可以包含describe.
+
+语法格式：
+```
+describe(string, function)
+```
+
+string: 测试组名称(测试描述)
+function: 测试组函数
+
+* it
+
+它是对一个具体测试的描述
+
+语法格式：
+```
+it(string function)
+```
+
+string: 测试逻辑函数（具体干活的主)
+function: 测试函数
+
+* spyOn
+
+存储函数被调用情况和参数（函数监视器，记录被调用情况，但是被监视的函数并不会真正的执行）。
+
+```
+describe('spy sync', function() {
+  var foo, bar = null;
+  
+  beforeEach(function() {
+    foo={
+     setValue: function(value) {
+       bar = value;
+     }
+    };
+    spyOn(foo, 'setValue');
+    foo.setValue(123);
+  });
+  it("tracks all the spy was called", function() {
+    expect(foo.setValue).toHaveBeenCalledWithed();
+  });
+  it("tracks all the arguments of its calls", function() {
+    expect(foo.setBar).toHaveBeenCalledWith(123);
+  });
+  it("stops all execution on a function", function() {
+    expect(bar).toBeNull();
+  });  
+});
+```
+
+* createSpy
+
+有这样一种需求，就是说你想监视一个对象，但是又没有办法获得这个对象，这个时候该怎么办呢，createSpy就为我们提供了这样的功能，可以自己create一个被监视的函数。
+
+```
+describe("CloseButton", function () {
+  "use strict";
+
+  var component;
+  beforeEach(function () {
+    var CloseIcon = require('components/close_button.jsx');
+    component = fixture.renderComponent(CloseButton, {
+      closeWindow: jasmine.createSpy('closeWindow')
+    });
+  });
+
+  describe("clicking on close button", function () {
+    it("closes the window", function () {
+      $j(component.getDOMNode()).simulateClick();
+      expect(component.props.closeWindow).toHaveBeenCalled();
+    });
+  });
+});
+```
+
+* createSpyObj
+
+有时监视一个对象的很多方法，这个时候用createSpyObi添加方法数组，来完成
+比如说现在有这样的一个需求：想要监视一个输入框的获得鼠标焦点和失去鼠标焦点这个一个需求。我们可以按照以下的方法来写这个测试。
+
+```
+describe("test input stuff", function() {
+  var input;
+  
+  beforeeEach(function() {
+    input = jasmine.createSpyObj('input', ['GainFocus', 'LostFocus']);
+    input.GainFocus();
+    input.LostFocus();
+  });
+  it('input methods have been defined', function() {
+    expect(input.GainFocus).toBeDefined();
+    expect(input.LostFocus).toBeDefined();
+  });
+  it('input methods have been called', function() {
+    expect(input.GainFocus).toHaveBeenCalled();
+    expect(input.LostFocus).toHaveBeenCalled();
+  })
+});
+```
+
+* and.returnValue
+
+给被监视的函数定义一个返回值。
+比如说现在有这样一个场景，前端通过js给某个组件添加一个toggle, 如果isOn函数返回是true就显示component，否则不显示。
+```
+describe('Component body', function() {
+  var component;
+  
+  beforeEach(function() {
+    component = {
+      isOn: function() {
+        return false;
+      };
+    };
+  });
+  spyOn(component, "isOn").and.returnValue(true);
+  
+  it("isOn return true", function() {
+    expect(component.getDOMNode().getAttribute('class')).toContain('xxx');
+  })
+})
+```
+
+* and.callFake
+
+add.callFake替代被监视的函数，原函数并不执行。
+比如说现在的Ajax的测试，我们在测试它的时候并不需要真正的去请求一个Ajax，这个时候我们就可以使用改测试方法。
+下面是一个项目中的测试：
+
+```
+describe('callFake example', function() {
+  var stubPriceResults = [{"priceResult": 10000}];
+  
+  beforeEach(function () {
+    spyOn($, 'ajax').and.callFake(function (o) {
+      o.success(stubPriceResults);
+    });
+    PriceCallback = jasmine.createSpy("my-function");
+  });
+  
+  it("triggers ajax request with correct url", () => {
+      Project.ExecAjax.Price("VIC", "6010", "someplace", "house", 2, PriceCallback);
+      expect($.ajax).toHaveBeenCalledWith({
+        type: 'get',
+        dataType: 'json',
+        url: 'http:xxx.xx.xxx.json',
+        success: jasmine.any(Function),
+        error: jasmine.any(Function)
+      });
+})
+```
+
+* and.callThrough
+
+add.CallThrough同样也是一个函数监视器，但函数真的执行
+
+```
+describe("对spy函数的测试，函数真的执行", function() {
+    var foo, bar, fetchedBar;
+ 
+    beforeEach(function() {
+        foo = {
+            setBar: function(value) {
+                bar = value;
+            },
+            getBar: function() {
+                return bar;
+            }
+        };
+ 
+        //spyOn(foo, "setBar");    //如果加上这句，setBar不真的执行，后两个spec不通过
+        spyOn(foo, 'getBar').andCallThrough();
+ 
+        foo.setBar(123);
+        fetchedBar = foo.getBar();
+    });
+ 
+    it("测试foo中getBar函数是否被调用过", function() {
+        expect(foo.getBar).toHaveBeenCalled();
+    });
+ 
+    it("foo中setBar函数真的执行了", function() {
+        expect(bar).toEqual(123);
+    });
+ 
+    it("foo中getBar函数真的执行了", function() {
+        expect(fetchedBar).toEqual(123);
+    });
+});
+```
+
+* and.throwError
+
+定义当调用一个函数的时候，返回一个异常
+
+```
+describe("throwError, when configured to throw an error", function() {
+  var foo, bar;
+  
+  deforeEach(function(){
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+    spyOn(foo, "setBar").and.throwError("exception");
+  });
+  it("throws the value", function() {
+    except(function(){
+      foo.setBar(123)
+    }).toThrowError("exception");
+  });
+});
+```
+
+
+* and.stub
+
+我是这样来理解stub函数的，我们可能需要同时需要测试一个函数被执行和不被执行时某个参数的值.这个时候可以先测试被执行是某个参数的值，然后将函数stub起来，再将需要测试的参数设置为原来的值，然后再执行该函数，来测试需要测试的参数。
+
+```
+describe("A spy", function() {
+  var foo, bar = null;
+
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+
+    spyOn(foo, 'setBar').and.callThrough();
+  });
+
+  it("can call through and then stub in the same spec", function() {
+    foo.setBar(123);
+    expect(bar).toEqual(123);
+
+    foo.setBar.and.stub();
+    bar = null;
+
+    foo.setBar(123);
+    expect(bar).toBe(null);
+  });
+});
+```
+
+* calls
+
+calls.any():测试函数是否被调用过。
+
+calls.count():测试函数被调用的次数。
+
+calls.argsFor(n):测试函数第n次调用时候所使用的参数。
+
+calls.allArgs():测试函数所有被调用过得参数
+
+calls.all():测试调用函数的对象，被调用时的参数，调用函数后的返回值。
+
+calls.mostRecent():函数最近一次被调用的情况，包括调用函数的对象，调用函数时的参数，以及调用函数后的返回值。
+
+calls.first():类似于上边，只是他反应的是第一次调用的情况。
+下边的例子来自于官网：
+
+```
+describe("A spy", function() {
+  var foo, bar = null;
+
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+
+    spyOn(foo, 'setBar');
+  });
+
+.calls.any(): returns false if the spy has not been called at all, and then true once at least one call happens.
+
+  it("tracks if it was called at all", function() {
+    expect(foo.setBar.calls.any()).toEqual(false);
+
+    foo.setBar();
+
+    expect(foo.setBar.calls.any()).toEqual(true);
+  });
+
+.calls.count(): returns the number of times the spy was called
+
+  it("tracks the number of times it was called", function() {
+    expect(foo.setBar.calls.count()).toEqual(0);
+
+    foo.setBar();
+    foo.setBar();
+
+    expect(foo.setBar.calls.count()).toEqual(2);
+  });
+
+.calls.argsFor(index): returns the arguments passed to call number index
+
+  it("tracks the arguments of each call", function() {
+    foo.setBar(123);
+    foo.setBar(456, "baz");
+
+    expect(foo.setBar.calls.argsFor(0)).toEqual([123]);
+    expect(foo.setBar.calls.argsFor(1)).toEqual([456, "baz"]);
+  });
+
+.calls.allArgs(): returns the arguments to all calls
+
+  it("tracks the arguments of all calls", function() {
+    foo.setBar(123);
+    foo.setBar(456, "baz");
+
+    expect(foo.setBar.calls.allArgs()).toEqual([[123],[456, "baz"]]);
+  });
+
+.calls.all(): returns the context (the this) and arguments passed all calls
+
+  it("can provide the context and arguments to all calls", function() {
+    foo.setBar(123);
+
+    expect(foo.setBar.calls.all()).toEqual([{object: foo, args: [123], returnValue: undefined}]);
+  });
+
+.calls.mostRecent(): returns the context (the this) and arguments for the most recent call
+
+  it("has a shortcut to the most recent call", function() {
+    foo.setBar(123);
+    foo.setBar(456, "baz");
+
+    expect(foo.setBar.calls.mostRecent()).toEqual({object: foo, args: [456, "baz"], returnValue: undefined});
+  });
+
+.calls.first(): returns the context (the this) and arguments for the first call
+
+  it("has a shortcut to the first call", function() {
+    foo.setBar(123);
+    foo.setBar(456, "baz");
+
+    expect(foo.setBar.calls.first()).toEqual({object: foo, args: [123], returnValue: undefined});
+  });
+
+When inspecting the return from all(), mostRecent() and first(), the object property is set to the value of this when the spy was called.
+
+  it("tracks the context", function() {
+    var spy = jasmine.createSpy('spy');
+    var baz = {
+      fn: spy
+    };
+    var quux = {
+      fn: spy
+    };
+    baz.fn(123);
+    quux.fn(456);
+
+    expect(spy.calls.first().object).toBe(baz);
+    expect(spy.calls.mostRecent().object).toBe(quux);
+  });
+
+.calls.reset(): clears all tracking for a spy
+
+  it("can be reset", function() {
+    foo.setBar(123);
+    foo.setBar(456, "baz");
+
+    expect(foo.setBar.calls.any()).toBe(true);
+
+    foo.setBar.calls.reset();
+
+    expect(foo.setBar.calls.any()).toBe(false);
+  });
+});
+```
+
+* toHaveBeenCalled
+
+测试函数是否被调用
+
+* toHaveBeenCalledWith
+
+测试函数被固定的参数调用
+
+* matcher
+
+toBeDefined: 是否被定义；
+
+toBeUndefined: 是否没有被定义；
+
+toBeNull: 值是否为Null;
+
+toBeTruthy: 是否被赋值；
+
+toBeFalsy: 是否没有被赋值；
+
+toContain: 是否包含某个字符串；
+
+toBeLessThan: 是否小于某个值；
+
+toBeGreaterThan:是否打印某个值；
+
+toBeCloseTo:
+
+toThrow: 测试一个函数执行是否会异常；
+
+toThrowError:
+

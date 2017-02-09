@@ -1,0 +1,76 @@
+---
+layout: post
+title: "heatmap"
+date: 2015-09-23 21:23:34 +0800
+comments: true
+categories: 
+---
+
+* list all options
+
+  we have investgated below options:
+  
+  1 Visual Website Optimizer
+  
+  2 inspectlet
+  
+  3 luckyorange
+  
+  4 heatmap.me
+  
+  5 mouseflow
+
+* why use heatmap.me
+  
+  For the Visual Website Optimizer, it use canvas draw a page and record user heatmap. For inspectlet and luckyorange, they use a static image record user heatmap, but need record user's operations in our widget. So Thvm
+  
+  
+
+* how to use
+* disadvantaged
+
+## Heat Map Spike
+
+### Problem:
+
+ Most of the heatmap tool is a url based tool, that means it will provide us a snapshot of the page and show the heatmap on the snapshot. They all have less support to dynamic elements such as our HLT, none of them can show the HLT on the snapshot and the click events is shown as a PDP click.
+ 
+ We've tried vwo, openheatmap, inspectlet, mouseflow, luckyorange, crazyegg, none of them can be used for our HLT.
+
+### Options:
+
+1. Heatmap.me
+ 
+   * This tool provide good support for dynamic elements, also provide a way to prevent count in the events on PDP page.
+   
+   * The feature is less than other tools, it only collect click events.
+   * Don't have a dashboard show results.  
+2. vwo
+
+   * This tool does not support for dynamic elements
+   * Just apply click events.
+   * Have a good dashboard show results.
+   * use canvas draw result page.   
+3. inspectlet
+
+   * This tool provide a lot of features, such as Eye-tracking Heatmap/Click Heatmap/scroll Heatmap.
+   * Have a good dashboard show results.
+   * use static image record results.
+   This tool does not support for dynamic elements
+4. luckyorange
+ 
+   * This tool support move/click/scroll/precise heatmap.
+   * Have a good dashboard show results
+   * use static image record results
+   * This tool does not support for dynamic elements
+
+5. mouseflow
+
+   * This tool support move/click/scroll heatmap.
+   * Have a good dashboard show results
+   * support dynamic elements
+   * Can't load our widget
+   
+  
+
+
