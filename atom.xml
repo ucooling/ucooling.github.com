@@ -4,7 +4,7 @@
   <title><![CDATA[马立斌技术博客]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2017-02-09T11:21:11+08:00</updated>
+  <updated>2017-02-09T11:49:23+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[Malrin]]></name>
@@ -14,11 +14,67 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Simple Asset Helper Function for CDN]]></title>
+    <title type="html"><![CDATA[如何给css文件中的图片做CDN]]></title>
     <link href="http://ucooling.github.io/blog/2017/02/09/simple-asset-helper-function-for-cdn/"/>
     <updated>2017-02-09T11:14:52+08:00</updated>
     <id>http://ucooling.github.io/blog/2017/02/09/simple-asset-helper-function-for-cdn</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<h2>背景</h2>
+
+<p>通常我们为了提高网站的速度，会将站点的图片、css、以及一些库文件做CDN。对于页面中的图片的静态资源很简单，只需要修改资源的URL即可。但是对于scss文件中的图片或者svg资源怎么做CDN，很多人就不知道了，最近也是有这个需求所以自己就去探索了一下，其实也很简单。下面我们就一步一步实现。</p>
+
+<ul>
+<li>定义变量</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$asset-base-path: '../assets' !default;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以将这个变量提到一个config文件中。这里是定义了一个资源的基地址。</p>
+
+<ul>
+<li>实现方法</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@function asset($type, $file) {
+</span><span class='line'>  @return url($asset-base-path + '/' + $type + '/' + $file);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>调用</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@function image($file) {
+</span><span class='line'>  @return asset('images', $file);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>在scss中调用</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.foo {
+</span><span class='line'>  background-image: image('kittens.png');
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>备注</h4>
+
+<p>改博客只做备忘。<a href="https://css-tricks.com/snippets/sass/simple-asset-helper-functions/">参考</a></p>
 ]]></content>
   </entry>
   
