@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/</loc>
+<lastmod>2017-02-15T16:24:42+08:00</lastmod>
+</url>
+<url>
 <loc>http://ucooling.github.io/blog/2017/02/09/simple-asset-helper-function-for-cdn/</loc>
 <lastmod>2017-02-09T11:14:52+08:00</lastmod>
 </url>
@@ -91,5 +95,8 @@
 </url>
 <url>
 <loc>http://ucooling.github.io/posts/2/</loc>
+</url>
+<url>
+<loc>http://ucooling.github.io/posts/3/</loc>
 </url>
 </urlset>

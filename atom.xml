@@ -4,7 +4,7 @@
   <title><![CDATA[马立斌技术博客]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2017-02-10T09:23:04+08:00</updated>
+  <updated>2017-02-15T17:23:40+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[Malrin]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ES6中的Promise]]></title>
+    <link href="http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/"/>
+    <updated>2017-02-15T16:24:42+08:00</updated>
+    <id>http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise</id>
+    <content type="html"><![CDATA[<p>去年ES6正式发布，这次发布将Promise也正式列入了规范，虽然很多的库或者框架已经对Promise做了很好的封装，但是还是很有必要深入的理解它的概念和使用方法。</p>
+
+<h2>什么是Promise</h2>
+
+<p>很多人在开始学习一个新知识之前都会问自己这个问题，对于很多的新手也许就会掉进这个魔咒，因为网上有很多文章在讲Promise是什么，但是讲的都似是而非，读起来似乎明白了又好像没太理解。其实很简单Promise也是一个JavaScript对象，你只需要console出来不就知道是什么了，就是这么粗暴。</p>
+
+<p><img src="http://ucooling.github.io/images/Promise.png" alt="console.log(Promise)" /></p>
+
+<p>这样一看就很简单，Promise就是一个JavaScript对象，自己有all、resolve、reject等这几个方法，原型链上有then、catch等方法。</p>
+
+<h2>小试Promise</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>var promise = new Promise(resolve, reject) {
+</span><span class='line'>  //这里可以实现一个异步操作
+</span><span class='line'>  //resolve是异步操作成功时的回调
+</span><span class='line'>  //reject是异步操作失败时的回调
+</span><span class='line'>  setTimeout(function(){
+</span><span class='line'>      console.log("执行完成");
+</span><span class='line'>      resolve('异步执行成功的回调');
+</span><span class='line'>  }, 1000);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上边这段代码实现了一个Promise，对于Promise对象接受一个参数，是一个函数，并且这个函数需要传入两个参数resolve(成功时的回调)、reject(失败时的回调)。这段代码执行一个异步操作。1秒后输出“执行完成”，并且调用resolve方法。</p>
+
+<p>看到这里可能有的人问了这样跟普通的回调有什么区别，不要着急，接下来就讲。
+对于传统的回调函数，如果只是简单的一次回调，ok那没有任何问题，但是对于一个很大的系统，代码库非常的复杂，回调会很深，如果你遇到这样的问题肯定深有体会。看这样的代码真是想死的心都有。但是如果通过Promise来实现的话，就可以通过调用then方法链式调用。下边是一个例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function tryAsync() {
+</span><span class='line'>  var promise = new Promise(resolve, reject) {
+</span><span class='line'>      //这里可以实现一个异步操作
+</span><span class='line'>      //resolve是异步操作成功时的回调
+</span><span class='line'>      //reject是异步操作失败时的回调
+</span><span class='line'>      setTimeout(function(){
+</span><span class='line'>          console.log("执行完成");
+</span><span class='line'>          resolve('异步执行成功的回调');
+</span><span class='line'>      }, 1000);
+</span><span class='line'>  }
+</span><span class='line'>  return promise;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>tryAsync().then(function(data){console.log(data)}).then().then()...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>resolve、reject用法</h2>
+
+<p>到这里应该对Promise有了一个基本的认识，那么现在我们来看看resolve和reject的用法，其实他们就是成功时的回调，和失败时的回调。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function getNumber() {
+</span><span class='line'>  var promise = new Promise(resolve, reject) {
+</span><span class='line'>      setTimeout(function(){
+</span><span class='line'>          var num = Math.ceil(Math.random()*10);
+</span><span class='line'>          if(num &gt; 5){
+</span><span class='line'>              resolve();
+</span><span class='line'>          }else {
+</span><span class='line'>              reject()
+</span><span class='line'>          }
+</span><span class='line'>      }, 1000)
+</span><span class='line'>  };
+</span><span class='line'>  
+</span><span class='line'>  return promise;
+</span><span class='line'>}
+</span><span class='line'>getNumber().then(
+</span><span class='line'>  function(data){
+</span><span class='line'>      console.log('resolved');
+</span><span class='line'>      console.log(data);
+</span><span class='line'>  },
+</span><span class='line'>  function(reason, data){
+</span><span class='line'>      console.log('reject');
+</span><span class='line'>      console.log(reason);
+</span><span class='line'>  }
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>getNumber函数用来异步获取一个数字，1秒后执行完成，如果数字小于5，就代表我们执行了resolve函数，修改Promise的状态。否则就是失败了，调用reject方法。</p>
+
+<h2>总结</h2>
+
+<p>其实Promise还提供了类似all、race、catch等方法，用法基本类似，网上也有很多的参考资料，不再赘述。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何给css文件中的图片做CDN]]></title>
@@ -3314,36 +3449,6 @@ Content-Length: 250</code></p>
 <p><a href="http://download.csdn.net/detail/oponent1/4819108">SOAP接口中文版</a></p>
 
 <p><a href="http://andot.iteye.com/blog/662787">SOAP和Web service哪些事</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Markdown Sync]]></title>
-    <link href="http://ucooling.github.io/blog/2015/03/29/markdown-sync/"/>
-    <updated>2015-03-29T23:56:46+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/03/29/markdown-sync</id>
-    <content type="html"><![CDATA[<hr />
-
-<blockquote><p>Markdown是一种轻量的标记语言，它的优势是使用方便，而且学习的成本非常低，常用的标签就10种左右，语法非常简单，一旦熟悉这种Mackdown的语法，会有一种一劳永逸的赶脚。</p></blockquote>
-
-<h2>对Markdown的简单认识</h2>
-
-<blockquote><p>刚才提到，Makdown是一种用来写作的轻量级【标记语言】，它使用简单地语法代替排版，不像我们平常使用的Word等文字处理的软件，需要做大量的排版工作，他让我们在写文章是可以专注于内容，甚至对插图，使用键盘都可以搞定，现在支持Markdown编辑的网站很多，例如像<a href="http://jianshu.io">简书</a>等。</p></blockquote>
-
-<h2>使用Markdown的优点</h2>
-
-<ul>
-<li>专注于内容，不用太关注格式。</li>
-<li>可以轻松的导出HTML、PDF、或者本身的.md文件。</li>
-<li>可读性好，直观。适合几乎所有人得写作语言。</li>
-</ul>
-
-
-<h2>Markdown语法的规则</h2>
-
-<h4>简记表</h4>
-
-<p>  <img src="http://www.onethink.cn/Uploads/Editor/2013-12-13/52aaabb4e7486.png" alt="速记表" /></p>
 ]]></content>
   </entry>
   
