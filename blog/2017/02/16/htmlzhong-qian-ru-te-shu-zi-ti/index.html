@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 <head>
   <meta charset="utf-8">
-  <title>ES6中的Promise - 马立斌技术博客</title>
+  <title>HTML中嵌入特殊字体 - 马立斌技术博客</title>
   <meta name="author" content="Malrin">
 
   
@@ -14,15 +14,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/">
+  <link rel="canonical" href="http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/">
   <link href="/favicon.png" type="image/png" rel="icon">
   <link href="/atom.xml" rel="alternate" title="马立斌技术博客" type="application/atom+xml">
 
   <!-- http://opengraphprotocol.org/ -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/">
-  <meta property="og:title" content="ES6中的Promise - 马立斌技术博客">
+  <meta property="og:url" content="http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/">
+  <meta property="og:title" content="HTML中嵌入特殊字体 - 马立斌技术博客">
   
 
   <script src="/javascripts/libs/jquery/jquery-2.1.3.min.js"></script>
@@ -111,7 +111,7 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2017-02-15T16:24:42+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2017-02-16T11:01:41+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
            | <a href="#disqus_thread" itemprop="discussionUrl"
              data-disqus-identifier="http://ucooling.github.io">Comments</a>
@@ -120,84 +120,33 @@
     
     
     <h1 class="entry-title" itemprop="name headline">
-        ES6中的Promise
+        HTML中嵌入特殊字体
         
     </h1>
     
   </header>
 
 
-<div class="entry-content clearfix" itemprop="articleBody description"><p>去年ES6正式发布，这次发布将Promise也正式列入了规范，虽然很多的库或者框架已经对Promise做了很好的封装，但是还是很有必要深入的理解它的概念和使用方法。</p>
+<div class="entry-content clearfix" itemprop="articleBody description"><p>通常情况下，网页是不能使用一些特殊字体的，而且设计上也不推荐。但是有时为了满足某种效果又不得不引入新的字体，虽然我们可以通过图片、Flash等技术使用特殊字体，但是这样不利于SEO搜索。最近我们也遇到了类似的问题，所以也就去研究了一下。</p>
 
-<h2>什么是Promise</h2>
+<h2>@font-face</h2>
 
-<p>很多人在开始学习一个新知识之前都会问自己这个问题，对于很多的新手也许就会掉进这个魔咒，因为网上有很多文章在讲Promise是什么，但是讲的都似是而非，读起来似乎明白了又好像没太理解。其实很简单Promise也是一个JavaScript对象，你只需要console出来不就知道是什么了，就是这么粗暴。</p>
+<p>这是一个css2的属性，在css中可以通过@font-face属性来实现网页中嵌入特殊的字体。</p>
 
-<p><img src="/images/Promise.png" alt="console.log(Promise)" /></p>
+<p>通过情况下，为了满足所有主流浏览器的支持，我们需要获取3中字体格式的文件，但是正常我们只有一种文件比如.ttf,这个时候我们需要借助工具生成其他类型的文件。<a href="https://onlinefontconverter.com/">这里</a>有一个工具可以帮助我们生成其他类型的文件，亲测可以。</p>
 
-<p>这样一看就很简单，Promise就是一个JavaScript对象，自己有all、resolve、reject等这几个方法，原型链上有then、catch等方法。</p>
+<p>@Font-face目前浏览器的兼容性：</p>
 
-<h2>小试Promise</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>var promise = new Promise(resolve, reject) {
-</span><span class='line'>  //这里可以实现一个异步操作
-</span><span class='line'>  //resolve是异步操作成功时的回调
-</span><span class='line'>  //reject是异步操作失败时的回调
-</span><span class='line'>  setTimeout(function(){
-</span><span class='line'>      console.log("执行完成");
-</span><span class='line'>      resolve('异步执行成功的回调');
-</span><span class='line'>  }, 1000);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>Webkit/Safari(3.2+)：TrueType/OpenType TT (.ttf) 、OpenType PS (.otf)；</li>
+<li>Opera (10+)： TrueType/OpenType TT (.ttf) 、 OpenType PS (.otf) 、 SVG (.svg)；</li>
+<li>Internet Explorer： 自ie4开始，支持EOT格式的字体文件；ie9支持WOFF；</li>
+<li>Firefox(3.5+)： TrueType/OpenType TT (.ttf)、 OpenType PS (.otf)、 WOFF (since Firefox 3.6)</li>
+<li>Google Chrome：TrueType/OpenType TT (.ttf)、OpenType PS (.otf)、WOFF since version 6</li>
+</ul>
 
 
-<p>上边这段代码实现了一个Promise，对于Promise对象接受一个参数，是一个函数，并且这个函数需要传入两个参数resolve(成功时的回调)、reject(失败时的回调)。这段代码执行一个异步操作。1秒后输出“执行完成”，并且调用resolve方法。</p>
-
-<p>看到这里可能有的人问了这样跟普通的回调有什么区别，不要着急，接下来就讲。
-对于传统的回调函数，如果只是简单的一次回调，ok那没有任何问题，但是对于一个很大的系统，代码库非常的复杂，回调会很深，如果你遇到这样的问题肯定深有体会。看这样的代码真是想死的心都有。但是如果通过Promise来实现的话，就可以通过调用then方法链式调用。下边是一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function tryAsync() {
-</span><span class='line'>  var promise = new Promise(resolve, reject) {
-</span><span class='line'>      //这里可以实现一个异步操作
-</span><span class='line'>      //resolve是异步操作成功时的回调
-</span><span class='line'>      //reject是异步操作失败时的回调
-</span><span class='line'>      setTimeout(function(){
-</span><span class='line'>          console.log("执行完成");
-</span><span class='line'>          resolve('异步执行成功的回调');
-</span><span class='line'>      }, 1000);
-</span><span class='line'>  }
-</span><span class='line'>  return promise;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>tryAsync().then(function(data){console.log(data)}).then().then()...
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>resolve、reject用法</h2>
-
-<p>到这里应该对Promise有了一个基本的认识，那么现在我们来看看resolve和reject的用法，其实他们就是成功时的回调，和失败时的回调。</p>
+<h2>使用@font-face</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -218,42 +167,68 @@
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>function getNumber() {
-</span><span class='line'>  var promise = new Promise(resolve, reject) {
-</span><span class='line'>      setTimeout(function(){
-</span><span class='line'>          var num = Math.ceil(Math.random()*10);
-</span><span class='line'>          if(num &gt; 5){
-</span><span class='line'>              resolve();
-</span><span class='line'>          }else {
-</span><span class='line'>              reject()
-</span><span class='line'>          }
-</span><span class='line'>      }, 1000)
-</span><span class='line'>  };
-</span><span class='line'>  
-</span><span class='line'>  return promise;
+</pre></td><td class='code'><pre><code class=''><span class='line'>/*
+</span><span class='line'>  1 font-family: 自定义字体的名字;
+</span><span class='line'>  2 src: 自定义字体的存放路径;
+</span><span class='line'>  3 font-weight: 定义字体是否加粗;
+</span><span class='line'>  4 font-style: 定义字体的其他样式;
+</span><span class='line'>*/
+</span><span class='line'>@font-face {
+</span><span class='line'>    font-family: 'SourceHanSansSC';
+</span><span class='line'>    src: url('/assets/fonts/SourceHanSansSC.eot');
+</span><span class='line'>    src: url('/assets/fonts/SourceHanSansSC.ttf') format('truetype');
+</span><span class='line'>    font-weight: normal;
+</span><span class='line'>    font-style: normal;
 </span><span class='line'>}
-</span><span class='line'>getNumber().then(
-</span><span class='line'>  function(data){
-</span><span class='line'>      console.log('resolved');
-</span><span class='line'>      console.log(data);
-</span><span class='line'>  },
-</span><span class='line'>  function(reason, data){
-</span><span class='line'>      console.log('reject');
-</span><span class='line'>      console.log(reason);
-</span><span class='line'>  }
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>
+</span><span class='line'>.container {
+</span><span class='line'>    text-align: center;
+</span><span class='line'>    font-size: 25px;
+</span><span class='line'>    font-family: SourceHanSansSC;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>getNumber函数用来异步获取一个数字，1秒后执行完成，如果数字小于5，就代表我们执行了resolve函数，修改Promise的状态。否则就是失败了，调用reject方法。</p>
+<h2>webpack配置</h2>
 
-<h2>总结</h2>
+<p>如果我们的项目使用webpack进行打包，这里就需要配置字体文件的loader</p>
 
-<p>其实Promise还提供了类似all、race、catch等方法，用法基本类似，网上也有很多的参考资料，不再赘述。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    test   : /\.woff/,
+</span><span class='line'>    loader : 'url?prefix=font/&limit=10000&mimetype=application/font-woff'
+</span><span class='line'>},
+</span><span class='line'>{
+</span><span class='line'>    test   : /\.ttf/,
+</span><span class='line'>    loader : 'file?prefix=font/'
+</span><span class='line'>},
+</span><span class='line'>{
+</span><span class='line'>    test   : /\.eot/,
+</span><span class='line'>    loader : 'file?prefix=font/'
+</span><span class='line'>},
+</span><span class='line'>{
+</span><span class='line'>    test   : /\.svg/,
+</span><span class='line'>    loader : 'file?prefix=font/'
+</span><span class='line'>},</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>备注</h3>
+
+<p><a href="https://github.com/ucooling/es6-webpack-env/tree/load-special-font">demo源码</a></p>
 </div>
 
 
@@ -282,14 +257,14 @@
     
     <h4>Share this post</h4>
     
-    <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?url=http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/;" 
+    <a class="fa fa-twitter" href="https://twitter.com/intent/tweet?url=http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/;" 
         onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
         <span class="hidden">Twitter</span>
     </a>
-    <a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+    <a class="fa fa-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
         <span class="hidden">Facebook</span>
     </a>
-    <a class="fa fa-google-plus" href="https://plus.google.com/share?url=http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+    <a class="fa fa-google-plus" href="https://plus.google.com/share?url=http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
         <span class="hidden">Google+</span>
     </a>
     
@@ -333,7 +308,7 @@
 
 
 
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2017-02-15T16:24:42+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2017-02-16T11:01:41+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
           <br>
 
 
@@ -343,28 +318,16 @@
             
             
               
-                <a href="/blog/2017/02/09/simple-asset-helper-function-for-cdn/" class="col-xs-12 col-md-4 btn btn-default" title="Previous Post: 如何给css文件中的图片做CDN"> 
+                <a href="/blog/2017/02/15/es6zhong-de-promise/" class="col-xs-12 col-md-4 btn btn-default" title="Previous Post: ES6中的Promise"> 
                   <div class="text-muted">
                     <small>Previous Post</small>
                   </div>
                   <div class="pager-title">
-                    <h4>如何给css文件中的图片做CDN</h4>
+                    <h4>ES6中的Promise</h4>
                   </div>
                 </a>
               
             
-            
-            
-              
-              <a href="/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/" class="col-xs-12 col-md-4 btn btn-default pull-right" title="Next Post: HTML中嵌入特殊字体">
-                <div class="text-muted">
-                  <small>Next Post</small>
-                </div>
-                <div class="pager-title">
-                  <h4>HTML中嵌入特殊字体</h4>
-                </div>
-              </a>
-              
             
             
           </div>
@@ -401,8 +364,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/';
-        var disqus_url = 'http://ucooling.github.io/blog/2017/02/15/es6zhong-de-promise/';
+        var disqus_identifier = 'http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/';
+        var disqus_url = 'http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -93,6 +93,147 @@
 
 
 
+<span class="glyphicon glyphicon-calendar"></span> <time datetime="2017-02-16T11:01:41+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
+        
+           | <a href="/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/#disqus_thread" itemprop="discussionUrl"
+             data-disqus-identifier="http://ucooling.github.io/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/">Comments</a>
+        
+      </p>
+    
+    
+      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2017/02/16/htmlzhong-qian-ru-te-shu-zi-ti/" itemprop="url">HTML中嵌入特殊字体</a></h2>
+    
+  </header>
+
+
+  <div class="entry-content clearfix" itemprop="articleBody description"><p>通常情况下，网页是不能使用一些特殊字体的，而且设计上也不推荐。但是有时为了满足某种效果又不得不引入新的字体，虽然我们可以通过图片、Flash等技术使用特殊字体，但是这样不利于SEO搜索。最近我们也遇到了类似的问题，所以也就去研究了一下。</p>
+
+<h2>@font-face</h2>
+
+<p>这是一个css2的属性，在css中可以通过@font-face属性来实现网页中嵌入特殊的字体。</p>
+
+<p>通过情况下，为了满足所有主流浏览器的支持，我们需要获取3中字体格式的文件，但是正常我们只有一种文件比如.ttf,这个时候我们需要借助工具生成其他类型的文件。<a href="https://onlinefontconverter.com/">这里</a>有一个工具可以帮助我们生成其他类型的文件，亲测可以。</p>
+
+<p>@Font-face目前浏览器的兼容性：</p>
+
+<ul>
+<li>Webkit/Safari(3.2+)：TrueType/OpenType TT (.ttf) 、OpenType PS (.otf)；</li>
+<li>Opera (10+)： TrueType/OpenType TT (.ttf) 、 OpenType PS (.otf) 、 SVG (.svg)；</li>
+<li>Internet Explorer： 自ie4开始，支持EOT格式的字体文件；ie9支持WOFF；</li>
+<li>Firefox(3.5+)： TrueType/OpenType TT (.ttf)、 OpenType PS (.otf)、 WOFF (since Firefox 3.6)</li>
+<li>Google Chrome：TrueType/OpenType TT (.ttf)、OpenType PS (.otf)、WOFF since version 6</li>
+</ul>
+
+
+<h2>使用@font-face</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/*
+</span><span class='line'>  1 font-family: 自定义字体的名字;
+</span><span class='line'>  2 src: 自定义字体的存放路径;
+</span><span class='line'>  3 font-weight: 定义字体是否加粗;
+</span><span class='line'>  4 font-style: 定义字体的其他样式;
+</span><span class='line'>*/
+</span><span class='line'>@font-face {
+</span><span class='line'>    font-family: 'SourceHanSansSC';
+</span><span class='line'>    src: url('/assets/fonts/SourceHanSansSC.eot');
+</span><span class='line'>    src: url('/assets/fonts/SourceHanSansSC.ttf') format('truetype');
+</span><span class='line'>    font-weight: normal;
+</span><span class='line'>    font-style: normal;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>.container {
+</span><span class='line'>    text-align: center;
+</span><span class='line'>    font-size: 25px;
+</span><span class='line'>    font-family: SourceHanSansSC;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>webpack配置</h2>
+
+<p>如果我们的项目使用webpack进行打包，这里就需要配置字体文件的loader</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>    test   : /\.woff/,
+</span><span class='line'>    loader : 'url?prefix=font/&limit=10000&mimetype=application/font-woff'
+</span><span class='line'>},
+</span><span class='line'>{
+</span><span class='line'>    test   : /\.ttf/,
+</span><span class='line'>    loader : 'file?prefix=font/'
+</span><span class='line'>},
+</span><span class='line'>{
+</span><span class='line'>    test   : /\.eot/,
+</span><span class='line'>    loader : 'file?prefix=font/'
+</span><span class='line'>},
+</span><span class='line'>{
+</span><span class='line'>    test   : /\.svg/,
+</span><span class='line'>    loader : 'file?prefix=font/'
+</span><span class='line'>},</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>备注</h3>
+
+<p><a href="https://github.com/ucooling/es6-webpack-env/tree/load-special-font">demo源码</a></p>
+</div>
+  
+  
+
+
+        </article>
+      
+      
+        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+          
+  <header class="page-header">
+    
+      <p class="meta text-muted text-uppercase">
+        
+
+
+
+
+
+
+
+
+
+
+
+
 <span class="glyphicon glyphicon-calendar"></span> <time datetime="2017-02-15T16:24:42+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
         
            | <a href="/blog/2017/02/15/es6zhong-de-promise/#disqus_thread" itemprop="discussionUrl"
@@ -1400,385 +1541,6 @@ Sinatra最大的特点就是非常轻量、快速。整个源码也只有1000行
 <p>上边的这段代码实现了一个简单地登录认证。</p>
 
 <p>整个上边的过程，只是对sinatra的一个简单地demo，如果要在实际的项目中使用的话可以写出很复杂的应用，跟使用rails没有太大的区别，只是这个gem包更加的轻量，开发更快。</p>
-</div>
-  
-  
-
-
-        </article>
-      
-      
-        <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-          
-  <header class="page-header">
-    
-      <p class="meta text-muted text-uppercase">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-<span class="glyphicon glyphicon-calendar"></span> <time datetime="2015-05-20T21:56:59+08:00"  data-updated="true" itemprop="datePublished dateCreated">ordinal</time>
-        
-           | <a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/#disqus_thread" itemprop="discussionUrl"
-             data-disqus-identifier="http://ucooling.github.io/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/">Comments</a>
-        
-      </p>
-    
-    
-      <h2 class="entry-title" itemprop="name headline"><a href="/blog/2015/05/20/ruby-zhong-de-gou-zi-fang-fa/" itemprop="url">Ruby 中的钩子方法</a></h2>
-    
-  </header>
-
-
-  <div class="entry-content clearfix" itemprop="articleBody description"><p>以前从未对Ruby中的钩子方法有一个很深刻的认识，只是知道在使用的时候该去怎么引用，从看到了<a href="http://www.sitepoint.com/rubys-important-hook-methods/">这篇</a>文章之后我开始有了一个新的认识，也意识到自己对Ruby中的钩子方法的认识只是停留在一个很片面的层次，今天正好抽空总结一下。</p>
-
-<h2>什么是钩子方法</h2>
-
-<p>下面这段是对原文的翻译：
-钩子方法提供当应用程序在运行时扩展应用程序的行为，假设有这样一种场景，当子类继承父类时父类能够接受到通知，或者是优雅地处理一个对象上的不可调用的方法而不是让编译器抛出异常。所有这些情况都是引用钩子方法的实例，但是他们的引用又不仅限于此，不同的框架或者库使用不同的钩子方法来实现他们的功能。</p>
-
-<p>这篇文章中我们将讨论下面列表中的钩子方法：</p>
-
-<ul>
-<li>included</li>
-<li>extended</li>
-<li>prepended</li>
-<li>inherited</li>
-<li>method_missing</li>
-</ul>
-
-
-<h2>included</h2>
-
-<p>Ruby提供了一种方法来使用定义在模块中的方法（模块在其他语言中被称作mixins）,模块的概念非常的简单，它是一种可以在其它地方使用的代码的集合。
-例如我想写一个方法，当它被调用时能够返回一个静态的字符串，我们现在将这个方法叫做name,你可能在其它的地方同样也想使用这个那么方法，对于这样的场景，我们最后新建一个moudle,所以我们有了下面的代码：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>moudle Person
-</span><span class='line'>  def name 
-</span><span class='line'>    puts "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>同时我们还有这样的一个类想要使用上面的moudle，我们可能会这样做</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class User
-</span><span class='line'>  include Person
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在我们来执行上边的代码，看看我们会得到什么</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User.new.name
-</span><span class='line'>=&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但是现在我们对moudle稍微做些修改，看看这其中的included钩子方法是如何被调用的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>moudle Person
-</span><span class='line'>  def self.included(base)
-</span><span class='line'>    puts "#{base} included #{self}"
-</span><span class='line'>  end
-</span><span class='line'>  
-</span><span class='line'>  def name 
-</span><span class='line'>    puts "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在我们再来执行上边的代码，看看我们会得到什么</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User.new.name
-</span><span class='line'>=&gt; User included Person
-</span><span class='line'>=&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>是的，正如我们所见，当我们在调用moudle中的方法的时候base返回的时包含改moudle得类名，当我们在调用moudle中的方法的时候会触发这里的included钩子方法。</p>
-
-<h2>extended</h2>
-
-<p>如果你经常写Ruby程序的话，有时候你可能会使用extend来引用一个moudle，使用这种方式跟使用include有很大的不同，当使用extend来引用moudle的时候，其实是将moudle中的方法作为类方法类引入，而使用include是作为实例方法来引入，这也就是为什么我们看到上边会使用User.new.name来调用name方法
-下面同样是来自于原文的一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class User
-</span><span class='line'>  extend Person
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>puts User.name # =&gt; My name is Person
-</span><span class='line'>
-</span><span class='line'>u1 = User.new
-</span><span class='line'>u2 = User.new
-</span><span class='line'>
-</span><span class='line'>u1.extend Person
-</span><span class='line'>
-</span><span class='line'>puts u1.name # =&gt; My name is Person
-</span><span class='line'>puts u2.name # =&gt; undefined method `name' for #&lt;User:0x007fb8aaa2ab38&gt; (NoMethodError)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>跟included类似，和extend对应的也有一个钩子方法extended.
-当一个模块被其他模块或者类执行了extend操作的时候，就会触发该方法的调用。</p>
-
-<h2>prepended</h2>
-
-<p>另一种使用moudle内部方法的方式是prepend.这种方式被定义在ruby2.0中，它跟include和extend有很大的不同，使用include或者extend引入的方法可以在base类中重新覆盖，但是如果使用的是prepend方法引入moudle中的方法，那么它会覆盖base类中的同名方法，这样正好和include、extend相反。
-下面是原文中的一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class User
-</span><span class='line'>  include Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to User"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>puts User.new.name 
-</span><span class='line'>=&gt; My name belongs to User</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再来看一下使用prepend的方式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class User
-</span><span class='line'>  prepend Person
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to User"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>puts User.new.name 
-</span><span class='line'>=&gt; My name belongs to Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>于prepend对应的也有一个钩子方法prepended方法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Person
-</span><span class='line'>  def self.prepended(base)
-</span><span class='line'>    puts "#{self} prepended to #{base}"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def name
-</span><span class='line'>    "My name belongs to Person"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当上边一段代码执行时，会看到下面的结果</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person prepended to User
-</span><span class='line'>My name belongs to Person</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>inherited</h2>
-
-<p>继承是面向对象中一个非常重要的概念，Ruby是一个面向对象的编程语言，提供了从base/parent继承一个子类的方法，下面是一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
-</span><span class='line'>  def name
-</span><span class='line'>     "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>class User &lt; Person
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>puts User.new.name # =&gt; My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上边是一个非常简单地继承，你可能会很好奇，是什么时候会得到通知，当一个类继承另外一个类时，Ruby提供了一个叫做inherited的钩子方法，下面是一个例子：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
-</span><span class='line'>  def self.inherited(child_class)
-</span><span class='line'>    puts "#{child_class} inherits #{self}"
-</span><span class='line'>  end
-</span><span class='line'> 
-</span><span class='line'>  def name
-</span><span class='line'>    "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>class User &lt; Person
-</span><span class='line'>end
-</span><span class='line'> 
-</span><span class='line'>puts User.new.name</span></code></pre></td></tr></table></div></figure>
-
-
-<p>执行上边这段代码会得到下面的输出</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>User inherits Person
-</span><span class='line'>My name is Person</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>method_missing</h2>
-
-<p>method_missing 可能是Ruby中使用最广的钩子。当我们试图去访问一个对象上不存在的方法时则会调用这个钩子方法。下面是一个简单地例子</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Person
-</span><span class='line'>  def method_missing(sym, *args)
-</span><span class='line'>     "#{sym} not defined on #{self}"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def name
-</span><span class='line'>    "My name is Person"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p = Person.new
-</span><span class='line'>
-</span><span class='line'>puts p.name     # =&gt; My name is Person
-</span><span class='line'>puts p.address  # =&gt; address not defined on #&lt;Person:0x007fb2bb022fe0&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>method_missing 接收两个参数：被调用的方法名和传递给该方法的参数。
-首先Ruby会寻找我们试图调用的方法，如果方法没找到则会寻找 method_missing 方法。</p>
-
-<p><em>声明：本文只是对原文做了部分的翻译，想看访问原文请看文章开始的链接。</em></p>
 </div>
   
   
