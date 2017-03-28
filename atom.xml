@@ -4,7 +4,7 @@
   <title><![CDATA[马立斌技术博客]]></title>
   <link href="http://ucooling.github.io/atom.xml" rel="self"/>
   <link href="http://ucooling.github.io/"/>
-  <updated>2017-02-16T11:25:19+08:00</updated>
+  <updated>2017-03-28T15:34:32+08:00</updated>
   <id>http://ucooling.github.io/</id>
   <author>
     <name><![CDATA[Malrin]]></name>
@@ -12,6 +12,259 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Aframe初体验]]></title>
+    <link href="http://ucooling.github.io/blog/2017/03/28/aframechu-ti-yan/"/>
+    <updated>2017-03-28T14:29:33+08:00</updated>
+    <id>http://ucooling.github.io/blog/2017/03/28/aframechu-ti-yan</id>
+    <content type="html"><![CDATA[<h3>为什么会有这篇博文</h3>
+
+<p>最近一直在研究图片的全景展示，看了很多实现，基本上都是基于Three.js实现的，Aframe也不例外。但是Aframe相对于其他的框架有一个好的地方是它对WebVR做了一个很好的封装。以及对于熟悉HTML的web开发人员来说，入门成本基本上可以小到忽略不计，本片文章，会介绍如何从零到一的来实现一个全景看房的实例，在开篇之前稍微再对Aframe做一个简单的介绍。</p>
+
+<h3>什么是Aframe</h3>
+
+<p><a href="https://aframe.io/">Aframe</a>是一个开源框架，用于使用自定义的HTML元素创建WebVR体验，可用于在PC浏览器，只能手机，以及头戴式VR设备上建立虚拟场景。Aframe可以让你轻松的实现一个WebVR场景。</p>
+
+<h3>实例介绍</h3>
+
+<p>本文将实现一个全景开放的例子，用户可以看不同的房间。可以使用VR设备进行体验，如果你们发现有什么不对的地方欢迎留言，或者有更好的方法欢迎交流。</p>
+
+<h3>实现</h3>
+
+<ul>
+<li>基本结构，引入aframe.js</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!DOCTYPE html&gt;
+</span><span class='line'>&lt;html&gt;
+</span><span class='line'>  &lt;head&gt;
+</span><span class='line'>    &lt;meta charset="UTF-8"&gt;
+</span><span class='line'>    &lt;title&gt;VR全景看房&lt;/title&gt;
+</span><span class='line'>    &lt;meta name="description" content="VR全景看房"&gt;
+</span><span class='line'>    &lt;script src="https://aframe.io/releases/0.3.2/aframe.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>  &lt;/head&gt;
+</span><span class='line'>  &lt;body id="main"&gt;&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>初始化场景(下面的代码都是写在body体中)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a-scene&gt;
+</span><span class='line'>  &lt;a-assets&gt;
+</span><span class='line'>    &lt;img id="quanjing1" src="pic/quanjing1.jpg"&gt;
+</span><span class='line'>  &lt;img id="arrow" src="pic/arrow.png"&gt;
+</span><span class='line'>  &lt;img id="quanjing2" src="pic/quanjing2.jpg"&gt;
+</span><span class='line'>  &lt;/a-assets&gt;
+</span><span class='line'>&lt;/a-scene&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>对于Aframe所有的元素必须加入到场景中，类似于Three.js，在渲染一个场景时，必须实例化三个实例（Scene、Camera、Renderer）。<code>&lt;a-assets&gt;&lt;/a-assets&gt;</code>元素根据我的理解是预加载场景中会用到的实例，这个和Phaser.js比较相似。这里定义了两个图片和一个箭头</p>
+
+<ul>
+<li>初始化背景</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a-scene&gt;
+</span><span class='line'>  &lt;a-assets&gt;
+</span><span class='line'>    &lt;img id="quanjing1" src="pic/quanjing1.jpg"&gt;
+</span><span class='line'>  &lt;img id="arrow" src="pic/arrow.png"&gt;
+</span><span class='line'>  &lt;img id="quanjing2" src="pic/quanjing2.jpg"&gt;
+</span><span class='line'>  &lt;/a-assets&gt;
+</span><span class='line'>  &lt;a-sky id="room1" src="#quanjing1"&gt;&lt;/a-sky&gt;
+</span><span class='line'>  &lt;a-sky id="room2" src="#quanjing2"&gt;&lt;/a-sky&gt;
+</span><span class='line'>&lt;/a-scene&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的背景其实就是我们要展示的全景，我们把两个全景图都定义了，这样会在JS中来切换两个背景，下文会说，背景可以是颜色，一副全景图像，或者也可以使一个360度的视频。</p>
+
+<ul>
+<li>添加箭头</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a-scene&gt;
+</span><span class='line'>  &lt;a-assets&gt;
+</span><span class='line'>    &lt;img id="quanjing1" src="pic/quanjing1.jpg"&gt;
+</span><span class='line'>  &lt;img id="arrow" src="pic/arrow.png"&gt;
+</span><span class='line'>  &lt;img id="quanjing2" src="pic/quanjing2.jpg"&gt;
+</span><span class='line'>  &lt;/a-assets&gt;
+</span><span class='line'>  &lt;a-sky id="room1" src="#quanjing1"&gt;&lt;/a-sky&gt;
+</span><span class='line'>  &lt;a-sky id="room2" src="#quanjing2"&gt;&lt;/a-sky&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;a-curvedimage id="arrow1" src="#arrow" theta-length="8" height=".18" rotation="0 180 0" scale="0.5 0.5 0.5"&gt;
+</span><span class='line'>      &lt;a-animation attribute="position"  to=".2 0 0" repeat="indefinite" dur="3000" direction="alternate"&gt;&lt;/a-animation&gt;
+</span><span class='line'>  &lt;/a-curvedimage&gt;
+</span><span class='line'>&lt;/a-scene&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里为箭头添加了一个动画，在Aframe中，如果要为一个实例添加动画，需要使用<code>&lt;a-animation&gt;&lt;/a-animation&gt;</code>元素</p>
+
+<ul>
+<li>添加光标</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a-scene&gt;
+</span><span class='line'>  &lt;a-assets&gt;
+</span><span class='line'>    &lt;img id="quanjing1" src="pic/quanjing1.jpg"&gt;
+</span><span class='line'>  &lt;img id="arrow" src="pic/arrow.png"&gt;
+</span><span class='line'>  &lt;img id="quanjing2" src="pic/quanjing2.jpg"&gt;
+</span><span class='line'>  &lt;/a-assets&gt;
+</span><span class='line'>  &lt;a-sky id="room1" src="#quanjing1"&gt;&lt;/a-sky&gt;
+</span><span class='line'>  &lt;a-sky id="room2" src="#quanjing2"&gt;&lt;/a-sky&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;a-curvedimage id="arrow1" src="#arrow" theta-length="8" height=".18" rotation="0 180 0" scale="0.5 0.5 0.5"&gt;
+</span><span class='line'>      &lt;a-animation attribute="position"  to=".2 0 0" repeat="indefinite" dur="3000" direction="alternate"&gt;&lt;/a-animation&gt;
+</span><span class='line'>  &lt;/a-curvedimage&gt;
+</span><span class='line'>  &lt;a-entity&gt;
+</span><span class='line'>      &lt;a-entity camera look-controls wasd-controls&gt;
+</span><span class='line'>          &lt;a-entity cursor id="cursor"
+</span><span class='line'>                    geometry="primitive: ring; radiusOuter: 0.015;
+</span><span class='line'>                              radiusInner: 0.01; segmentsTheta: 32"
+</span><span class='line'>                    material="color: white; shader: flat"
+</span><span class='line'>                    position="0 0 -0.75"&gt;
+</span><span class='line'>          &lt;/a-entity&gt;
+</span><span class='line'>      &lt;/a-entity&gt;
+</span><span class='line'>  &lt;/a-entity&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;/a-scene&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在场景中定义一个鼠标，鼠标必须用<code>&lt;a-entity&gt;&lt;/a-entity&gt;</code>包起来才能生效。</p>
+
+<ul>
+<li>切换场景</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script&gt;
+</span><span class='line'>var room1 = document.querySelector('#room1');
+</span><span class='line'>var room2 = document.querySelector('#room2');
+</span><span class='line'>var arrow = document.querySelector('#arrow1');
+</span><span class='line'>var cursor = document.querySelector('#cursor');
+</span><span class='line'>
+</span><span class='line'>arrow.addEventListener('click', function (evt) {
+</span><span class='line'>  var time=300;
+</span><span class='line'>  var i = time;
+</span><span class='line'>  var j = 0;
+</span><span class='line'>  function fadeOut(picTarget)
+</span><span class='line'>  {   
+</span><span class='line'>      room1.setAttribute('src',picTarget);
+</span><span class='line'>      room2.setAttribute('opacity',(1/time)*i);
+</span><span class='line'>      room1.setAttribute('opacity',(1/time)*j);
+</span><span class='line'>      j++;i--;
+</span><span class='line'>      if(i&gt;0) setTimeout(function(){fadeOut(picTarget)},1);
+</span><span class='line'>      else setTimeout(skyFront.setAttribute('src',picTarget),time);
+</span><span class='line'>  }
+</span><span class='line'>  if(room2.getAttribute('src')=='#floor'){
+</span><span class='line'>      setTimeout(fadeOut('#room2'),1000);
+</span><span class='line'>  }else{
+</span><span class='line'>      setTimeout(fadeOut('#room1'),1000);
+</span><span class='line'>  }   
+</span><span class='line'>});
+</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>最后</h3>
+
+<p>这样一个VR看房的简单Demo就已经完成了，这个实现我没有传到github上，其实这里基本已经实现了，感兴趣可以自己实际试一下。如果想了解更多的关于Aframe的知识，以及自定义标签，可以去官网查询。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[HTML中嵌入特殊字体]]></title>
@@ -3399,17 +3652,6 @@ SQS以非常低廉的费率满足您的消息传递需求。</p></li>
 <h2>参考资料</h2>
 
 <p> <a href="http://blog.csdn.net/menxu_work/article/details/38296043">AWS Ruby Demo</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[认识Node(一)]]></title>
-    <link href="http://ucooling.github.io/blog/2015/03/31/ren-shi-node-%5B%3F%5D/"/>
-    <updated>2015-03-31T17:46:32+08:00</updated>
-    <id>http://ucooling.github.io/blog/2015/03/31/ren-shi-node-[?]</id>
-    <content type="html"><![CDATA[<h2>为啥学习Node</h2>
-
-<blockquote></blockquote>
 ]]></content>
   </entry>
   
