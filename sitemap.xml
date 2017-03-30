@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://ucooling.github.io/blog/2017/03/29/photo-sphere-viewerchu-ti-yan/</loc>
+<lastmod>2017-03-29T10:16:50+08:00</lastmod>
+</url>
+<url>
 <loc>http://ucooling.github.io/blog/2017/03/28/aframechu-ti-yan/</loc>
 <lastmod>2017-03-28T14:29:33+08:00</lastmod>
 </url>
@@ -102,6 +106,9 @@
 <loc>http://ucooling.github.io/about/</loc>
 </url>
 <url>
-<loc>http://ucooling.github.io/aframechu-ti-yan/</loc>
+<loc>http://ucooling.github.io/posts/2/</loc>
+</url>
+<url>
+<loc>http://ucooling.github.io/posts/3/</loc>
 </url>
 </urlset>
